@@ -9,6 +9,21 @@ spring:
       username: ${novel.spring.datasource.username}
       password: ${novel.spring.datasource.password}
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${novel.spring.oauth.google.client}
+            client-secret: ${novel.spring.oauth.google.secret}
+            scope:
+              - email
+              - profile
+
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
