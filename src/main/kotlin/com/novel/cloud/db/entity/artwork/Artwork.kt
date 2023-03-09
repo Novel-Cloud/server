@@ -37,8 +37,8 @@ open class Artwork(
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
-        name = "board_tag_assoc",
-        joinColumns = [JoinColumn(name = "article_id")],
+        name = "artwork_tag_assoc",
+        joinColumns = [JoinColumn(name = "artwork_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")],
     )
     protected val mutableTags: MutableSet<Tag> = tags.toMutableSet();
@@ -49,6 +49,21 @@ open class Artwork(
     private val mutableComments: MutableList<Comment> = mutableListOf();
     val comments: List<Comment> get() = mutableComments.toList();
 
+    fun addTag(tag: Tag) {
+        mutableTags.add(tag);
+    }
 
+    fun removeTag(tagId: Long) {
+        mutableTags.removeIf { it.id == tagId };
+    }
+
+    fun addComment(comment: Comment) {
+        mutableComments.add(comment);
+    }
+
+    // artwork 생성시 작가의 작품 목록에 추가
+    init {
+        writer.writeArtwork(this);
+    }
 
 }

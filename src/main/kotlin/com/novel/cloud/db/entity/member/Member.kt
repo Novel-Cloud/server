@@ -4,7 +4,7 @@ import com.novel.cloud.db.entity.artwork.Artwork
 import javax.persistence.*
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "`member`")
 open class Member (
     email: String,
     nickname: String,
@@ -24,6 +24,10 @@ open class Member (
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
     protected val mutableArtworks: MutableList<Artwork> = mutableListOf();
-    val boards: List<Artwork> get() = mutableArtworks.toList();
+    val artworks: List<Artwork> get() = mutableArtworks.toList();
+
+    fun writeArtwork(artwork: Artwork) {
+        mutableArtworks.add(artwork);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.novel.cloud.db.entity.comment
 
+import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
 import lombok.AccessLevel
@@ -11,7 +12,8 @@ import javax.persistence.*
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 open class Comment(
     content: String,
-    writer: Member
+    writer: Member,
+    artwork: Artwork
 ): BaseTimeEntity() {
 
     @Id
@@ -26,6 +28,15 @@ open class Comment(
     @JoinColumn(nullable = false)
     var writer: Member = writer
         protected set;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    var artwork: Artwork = artwork
+        protected set;
+
+    init {
+        artwork.addComment(this);
+    }
 
 }
 
