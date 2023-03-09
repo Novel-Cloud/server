@@ -8,3 +8,7 @@ spring:
       jdbc-url: ${novel.spring.datasource.url}
       username: ${novel.spring.datasource.username}
       password: ${novel.spring.datasource.password}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
