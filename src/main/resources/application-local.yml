@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    hikari:
+      jdbc-url: ${novel.spring.datasource.url}
+      username: ${novel.spring.datasource.username}
+      password: ${novel.spring.datasource.password}
