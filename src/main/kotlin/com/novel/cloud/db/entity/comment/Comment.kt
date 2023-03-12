@@ -10,7 +10,7 @@ import javax.persistence.*
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-open class Comment(
+class Comment(
     content: String,
     writer: Member,
     artwork: Artwork

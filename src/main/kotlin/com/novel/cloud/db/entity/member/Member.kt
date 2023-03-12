@@ -5,10 +5,10 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "`member`")
-open class Member (
+class Member (
     email: String,
     nickname: String,
-
+    picture: String
 ) {
 
     @Id
@@ -18,8 +18,12 @@ open class Member (
     var email: String = email
         protected set;
 
-    @Column()
+    @Column(nullable = false)
     var nickname: String = nickname
+        protected set;
+
+    @Column(nullable = false)
+    var picture: String = picture
         protected set;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
@@ -28,6 +32,12 @@ open class Member (
 
     fun writeArtwork(artwork: Artwork) {
         mutableArtworks.add(artwork);
+    }
+
+    fun copy(email: String = this.email,
+             nickname: String = this.nickname,
+             picture: String = this.picture): Member {
+        return Member(email, nickname, picture);
     }
 
 }

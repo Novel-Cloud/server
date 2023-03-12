@@ -1,11 +1,14 @@
 package com.novel.cloud.web.config.security
 
+import com.novel.cloud.web.config.security.detail.CustomMemberOauth2Service
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 
+@EnableWebSecurity
 class SecurityConfig(
-//   private val customUserDeatailService: CustomUserDetailService
+   private val customMemberOauth2Service: CustomMemberOauth2Service
 ): WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -23,6 +26,7 @@ class SecurityConfig(
 //                it.userInfoEndpoint().userService(customUserDetailService);
                 it.defaultSuccessUrl("api/oauth/login");
                 it.failureUrl("api/error");
+                it.userInfoEndpoint().userService(customMemberOauth2Service);
             }
 
     }

@@ -3,7 +3,7 @@ package com.novel.cloud.db.entity.artwork
 import javax.persistence.*
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(name = "tag_key_value_uk", columnNames = ["`key`", "`value`"])])
-open class Tag (
+class Tag (
     key: String,
     value: String
 ) {

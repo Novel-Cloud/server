@@ -11,7 +11,7 @@ import javax.persistence.*
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-open class Artwork(
+class Artwork(
     title: String,
     content: String,
     writer: Member,
