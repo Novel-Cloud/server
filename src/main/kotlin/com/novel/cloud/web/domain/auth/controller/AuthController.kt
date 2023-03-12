@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 class AuthController {
 
-
     @PostMapping(ApiPath.LOGIN_OAUTH2)
     fun loginOAuth2(@Validated @RequestBody rq: OAuthRq?): JwtTokenDto? {
         return oAuth2Service.loginOAuth2(rq)
