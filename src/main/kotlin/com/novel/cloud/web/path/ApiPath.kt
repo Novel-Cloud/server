@@ -8,4 +8,8 @@ object ApiPath {
     // 멤버
     const val MEMBER = "/api/member";
 
+    const val LOGIN_OAUTH2 = "/api/oauth"
+
+    const val REFRESH_TOKEN = "/api/oauth/token"
+
 }
