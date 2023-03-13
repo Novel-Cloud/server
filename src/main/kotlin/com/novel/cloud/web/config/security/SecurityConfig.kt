@@ -1,5 +1,6 @@
 package com.novel.cloud.web.config.security
 
+import com.novel.cloud.web.config.security.jwt.JwtOncePerRequestFilter
 import com.novel.cloud.web.path.ApiPath
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
@@ -10,12 +11,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-class SecurityConfig(
-) {
+class SecurityConfig(private val jwtOncePerRequestFilter: JwtOncePerRequestFilter) {
 
     @Bean
     @Throws(Exception::class)
@@ -31,10 +32,10 @@ class SecurityConfig(
             .antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
             .antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
             .anyRequest().authenticated()
-//        http.addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
-//            .exceptionHandling()
-//            .authenticationEntryPoint(customAuthenticationEntryPoint)
-//            .accessDeniedHandler(customAccessDeniedHandler)
+        http.addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling()
+            .authenticationEntryPoint(customAuthenticationEntryPoint)
+            .accessDeniedHandler(customAccessDeniedHandler)
         http.oauth2Login()
 //            .successHandler(customOauth2SuccessHandler)
 //            .userInfoEndpoint()

@@ -5,6 +5,7 @@ import com.novel.cloud.web.config.security.jwt.JwtProperty.JWT_ISSUER
 import com.novel.cloud.web.config.security.jwt.JwtProperty.MEMBER_EMAIL
 import com.novel.cloud.web.domain.dto.JwtTokenDto
 import com.novel.cloud.web.utils.DateUtils
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import lombok.RequiredArgsConstructor
@@ -44,6 +45,14 @@ class JwtTokenFactory {
         val claims: MutableMap<String, Any> = HashMap()
         claims[MEMBER_EMAIL] = member.email
         return claims
+    }
+
+    fun parseClaims(token: String): Claims {
+        return Jwts
+            .parser()
+            .setSigningKey(JwtProperty.SIGN_KEY)
+            .parseClaimsJws(token)
+            .body
     }
 
 
