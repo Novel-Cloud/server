@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import java.io.IOException
+import java.util.Objects
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
@@ -30,7 +31,7 @@ class JwtOncePerRequestFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token: String = request.getHeader(TOKEN_KEY)
+        val token: String? = request.getHeader(TOKEN_KEY)
         try {
             authenticate(token)
         } catch (e: ExpiredJwtException) {
@@ -47,8 +48,9 @@ class JwtOncePerRequestFilter(
         filterChain.doFilter(request, response)
     }
 
-    private fun authenticate(token: String) {
-        if (Strings.isNotBlank(token)) {
+    private fun authenticate(token: String?) {
+        // TODO::token!=null 리팩토링
+        if (Strings.isNotBlank(token) && token != null) {
             val auth: Authentication = jwtProvider.authenticate(token)
             SecurityContextHolder.getContext().authentication = auth
         }

@@ -23,9 +23,9 @@ class CustomAuthenticationEntryPoint : AuthenticationEntryPoint {
         authException: AuthenticationException
     ) {
 
-        val exceptionCode: JwtExceptionCode = request.getAttribute(JWT_EXCEPTION) as JwtExceptionCode
+        val exceptionCode: JwtExceptionCode? = request.getAttribute(JWT_EXCEPTION) as JwtExceptionCode?
         var encode: String = URLEncoder.encode("비정상적인 접근입니다.", "UTF-8")
-        if (Objects.nonNull(exceptionCode)) {
+        if (exceptionCode != null) {
             encode = URLEncoder.encode(exceptionCode.message, "UTF-8")
         }
         response.sendRedirect(ApiPath.ERROR_AUTH + "?message=" + encode)
