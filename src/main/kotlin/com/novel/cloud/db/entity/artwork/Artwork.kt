@@ -3,14 +3,9 @@ package com.novel.cloud.db.entity.artwork
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
-import lombok.AccessLevel
-import lombok.Getter
-import lombok.NoArgsConstructor
 import javax.persistence.*
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Artwork(
     title: String,
     content: String,

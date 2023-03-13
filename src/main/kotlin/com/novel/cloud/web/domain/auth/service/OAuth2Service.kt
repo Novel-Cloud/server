@@ -15,7 +15,7 @@ class OAuth2Service(
 ) {
 
     fun loginOAuth2(rq: OAuthRq): JwtTokenDto {
-        val code: String? = rq.code;
+        val code: String = rq.code;
         try {
             return oAuth2GoogleService.getToken(code)
         } catch (e: Exception) {

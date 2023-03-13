@@ -5,7 +5,6 @@ import com.novel.cloud.web.domain.auth.service.OAuth2Service
 import com.novel.cloud.web.domain.dto.JwtTokenDto
 import com.novel.cloud.web.path.ApiPath
 import lombok.RequiredArgsConstructor
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
