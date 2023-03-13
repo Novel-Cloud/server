@@ -24,7 +24,7 @@ class FindMemberService(
 
     fun findMemberSelf(memberContext: MemberContext?): FindMemberSelfRs? {
         val member: Member? = this.findLoginMember(memberContext)
-        return FindMemberSelfRs(member?.id, member?.nickname, member?.picture, member?.email)
+        return FindMemberSelfRs.create(member)
     }
     fun findLoginMember(memberContext: MemberContext?): Member? {
         if (memberContext == null) {
