@@ -16,7 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-class SecurityConfig(private val jwtOncePerRequestFilter: JwtOncePerRequestFilter) {
+class SecurityConfig(private val jwtOncePerRequestFilter: JwtOncePerRequestFilter,
+                     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint) {
 
     @Bean
     @Throws(Exception::class)
