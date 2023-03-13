@@ -99,6 +99,7 @@ class OAuth2GoogleService(
         } catch (e: HttpClientErrorException) {
             val statusCode = e.statusCode
             val responseBody = e.responseBodyAsString
+            // TODO::println삭제후 custom exception으로 수정
             println("HTTP Request Failed with status code: $statusCode and response body: $responseBody")
             throw AuthenticationException()
         }

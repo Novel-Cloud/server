@@ -1,6 +1,5 @@
 package com.novel.cloud.web.config.security
 
-import com.novel.cloud.web.config.security.detail.CustomMemberOauth2Service
 import com.novel.cloud.web.path.ApiPath
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
@@ -16,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableWebSecurity
 @RequiredArgsConstructor
 class SecurityConfig(
-   private val customMemberOauth2Service: CustomMemberOauth2Service
 ) {
 
     @Bean

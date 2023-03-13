@@ -16,8 +16,7 @@ data class OAuthAttributes(
                 name = attributes["name"] as String,
                 email = attributes["email"] as String,
                 picture = attributes["picture"] as String,
-                attributes = attributes,
-            )
+                attributes = attributes,            )
         }
 
     }
