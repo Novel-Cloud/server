@@ -40,4 +40,8 @@ class Member (
         return Member(email, nickname, picture);
     }
 
+    fun update(picture: String = this.picture) {
+        this.picture = picture;
+    }
+
 }

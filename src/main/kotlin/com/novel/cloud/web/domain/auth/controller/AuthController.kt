@@ -23,9 +23,9 @@ class AuthController(
         return oAuth2Service.loginOAuth2(rq)
     }
 
-    @PostMapping(ApiPath.REFRESH_TOKEN)
-    fun refreshToken(@AuthenticationPrincipal memberContext: MemberContext?): JwtTokenDto? {
-        return authService.refreshToken(memberContext)
-    }
+//    @PostMapping(ApiPath.REFRESH_TOKEN)
+//    fun refreshToken(@AuthenticationPrincipal memberContext: MemberContext?): JwtTokenDto? {
+//        return authService.refreshToken(memberContext)
+//    }
 
 }

@@ -5,10 +5,5 @@ import lombok.Getter
 
 @Getter
 @Builder
-class JwtTokenDto {
-
-    val token: String? = null;
-
-    val validity: String? = null;
-
+class JwtTokenDto(val token: String, val validity: String) {
 }

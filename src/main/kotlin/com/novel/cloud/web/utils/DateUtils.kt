@@ -4,12 +4,16 @@ import lombok.experimental.UtilityClass
 import java.util.*
 @UtilityClass
 class DateUtils {
-    fun now(): Date? {
-        return Date()
-    }
 
-    fun addTime(date: Date, millisecond: Long): Date? {
-        return Date(date.getTime() + millisecond)
+    companion object {
+        fun now(): Date {
+            return Date()
+        }
+
+        fun addTime(date: Date, millisecond: Long): Date {
+            return Date(date.time + millisecond)
+        }
+
     }
 
 }

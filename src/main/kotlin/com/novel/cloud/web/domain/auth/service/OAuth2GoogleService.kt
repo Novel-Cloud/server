@@ -1,6 +1,8 @@
 package com.novel.cloud.web.domain.auth.service
 
+import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.detail.OAuthAttributes
+import com.novel.cloud.web.config.security.jwt.JwtTokenFactory
 import com.novel.cloud.web.domain.auth.constants.AuthConstants
 import com.novel.cloud.web.domain.auth.constants.AuthConstants.AUTHORIZATION
 import com.novel.cloud.web.domain.auth.constants.AuthConstants.AUTHORIZATION_CODE
@@ -15,17 +17,21 @@ import org.json.simple.parser.JSONParser
 import org.json.simple.parser.ParseException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
+import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
-import java.lang.reflect.Member
 import javax.transaction.Transactional
 
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-class OAuth2GoogleService {
+class OAuth2GoogleService(
+    private val jwtTokenFactory: JwtTokenFactory,
+    private val oAuth2LoginService: OAuth2LoginService
+) {
 
     @Value("\${spring.security.oauth2.client.registration.google.client-id}")
     private val googleClientId: String? = null
@@ -45,12 +51,12 @@ class OAuth2GoogleService {
     private fun getMemberByGoogleToken(token: String): Member {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
+
         headers.add(AUTHORIZATION, BEARER + token)
         val httpEntity: HttpEntity<LinkedMultiValueMap<String, String>> = HttpEntity(headers)
-        val attributes = getResponse(httpEntity, GOOGLE_PROFILE_URL, HttpMethod.GET) as Map<*, *>
-        val oAuthAttributes: OAuthAttributes = OAuthAttributes.create(GOOGLE.getClientId(), attributes)
+        val attributes = getResponse(httpEntity, GOOGLE_PROFILE_URL, HttpMethod.GET) as Map<String, Any>
+        val oAuthAttributes: OAuthAttributes = OAuthAttributes.create("google", attributes)
         val member: Member = oAuth2LoginService.saveOrUpdate(oAuthAttributes)
-//        oAuth2LoginService.saveLoginLog(member)
         return member
     }
 
@@ -79,13 +85,23 @@ class OAuth2GoogleService {
                 httpEntity,
                 String::class.java
             )
+            println(response)
+            if (response == null) {
+                // TODO::나중에 custom exception으로 수정
+                throw HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "HTTP Response is null")
+            }
             val body: String? = response.body;
+
             val jsonParser = JSONParser()
             (jsonParser.parse(body) as JSONObject)
         } catch (e: ParseException) {
             throw AuthenticationException()
+        } catch (e: HttpClientErrorException) {
+            val statusCode = e.statusCode
+            val responseBody = e.responseBodyAsString
+            println("HTTP Request Failed with status code: $statusCode and response body: $responseBody")
+            throw AuthenticationException()
         }
     }
-
 
 }
