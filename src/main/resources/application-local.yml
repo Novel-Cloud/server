@@ -16,6 +16,7 @@ spring:
           google:
             client-id: ${novel.spring.oauth.google.client}
             client-secret: ${novel.spring.oauth.google.secret}
+            redirect-uri: ${novel.spring.oauth.google.redirect-uri}
             scope:
               - email
               - profile
@@ -26,8 +27,8 @@ spring:
       token-validity-in-seconds: ${novel.spring.jwt.token-validity-in-seconds}
       refresh-token-validity-in-seconds: ${novel.spring.jwt.refresh-token-validity-in-seconds}
 
-  profiles:
-    include: oauth
+#  profiles:
+#    include: 'oauth'
 
   jpa:
     hibernate:

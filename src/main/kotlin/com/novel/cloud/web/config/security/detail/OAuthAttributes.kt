@@ -3,25 +3,22 @@ import com.novel.cloud.db.entity.member.Member
 
 data class OAuthAttributes(
     val attributes: Map<String, Any>,
-    val nameAttributeKey: String,
     val name: String,
     val email: String,
     val picture: String
 ) {
     companion object {
-        fun of(
+        fun create(
             registrationId: String,
-            userNameAttributeName: String,
             attributes: Map<String, Any>
         ): OAuthAttributes {
             return OAuthAttributes(
                 name = attributes["name"] as String,
                 email = attributes["email"] as String,
                 picture = attributes["picture"] as String,
-                attributes = attributes,
-                nameAttributeKey = userNameAttributeName
-            )
+                attributes = attributes, )
         }
+
     }
 
     fun toEntity(): Member {
