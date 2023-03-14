@@ -4,7 +4,6 @@ import com.novel.cloud.web.config.security.jwt.JwtOncePerRequestFilter
 import com.novel.cloud.web.path.ApiPath
 import com.novel.cloud.web.security.CustomOauth2SuccessHandler
 import com.novel.cloud.web.security.CustomOauth2UserService
-import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -17,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 class SecurityConfig(
     private val jwtOncePerRequestFilter: JwtOncePerRequestFilter,
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
@@ -27,32 +25,34 @@ class SecurityConfig(
 ) {
 
     @Bean
-    @Throws(Exception::class)
-    fun apiFilterChain(http: HttpSecurity): SecurityFilterChain? {
-        http.httpBasic().disable()
-        http.formLogin().disable()
-        http.csrf().disable()
-        http.cors()
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        http.authorizeRequests()
-            .antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
-            .antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
-            .antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
-            .antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
-            .anyRequest().authenticated()
-        http.addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
+    fun apiFilterChain(http: HttpSecurity): SecurityFilterChain = with(http) {
+
+        httpBasic().disable()
+        formLogin().disable()
+        csrf().disable()
+        cors()
+        sessionManagement().apply {
+            sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        }
+        authorizeRequests().apply {
+            antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+            antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
+            antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
+            antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
+            anyRequest().authenticated()
+        }
+        addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling()
             .authenticationEntryPoint(customAuthenticationEntryPoint)
             .accessDeniedHandler(customAccessDeniedHandler)
-        http.oauth2Login()
-            .successHandler(customOauth2SuccessHandler)
-            .userInfoEndpoint()
-            .userService(customOauth2UserService)
-        return http.build()
+        oauth2Login().apply {
+            successHandler(customOauth2SuccessHandler)
+            userInfoEndpoint().userService(customOauth2UserService)
+        }
+        return build()
     }
 
     @Bean
-    @Throws(Exception::class)
     fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager? {
         return authenticationConfiguration.authenticationManager
     }
