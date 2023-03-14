@@ -3,9 +3,6 @@ package com.novel.cloud.db.entity.comment
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
-import lombok.AccessLevel
-import lombok.Getter
-import lombok.NoArgsConstructor
 import javax.persistence.*
 @Entity
 class Comment(
