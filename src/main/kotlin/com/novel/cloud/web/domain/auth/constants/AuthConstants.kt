@@ -11,8 +11,6 @@ object AuthConstants {
     const val GOOGLE_AUTH_URL = "https://oauth2.googleapis.com/token"
     const val GOOGLE_PROFILE_URL = "https://www.googleapis.com/oauth2/v1/userinfo"
     const val ACCESS_TOKEN = "access_token"
-    const val AUTHORIZATION = "Authorization"
-    const val BEARER = "Bearer "
     const val AUTHORIZATION_CODE = "authorization_code"
 
 }

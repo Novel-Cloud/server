@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.    config.http.SessionCreationPolicy
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -31,23 +31,23 @@ class SecurityConfig(
         formLogin().disable()
         csrf().disable()
         cors()
-        sessionManagement {
-            it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        sessionManagement().apply {
+            sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         }
-        authorizeRequests {
-            it.antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
-            it.antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
-            it.antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
-            it.antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
-            it.anyRequest().authenticated()
+        authorizeRequests().apply {
+            antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+            antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
+            antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
+            antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
+            anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling()
             .authenticationEntryPoint(customAuthenticationEntryPoint)
             .accessDeniedHandler(customAccessDeniedHandler)
-        oauth2Login {
-            it.successHandler(customOauth2SuccessHandler)
-            it.userInfoEndpoint().userService(customOauth2UserService)
+        oauth2Login().apply {
+            successHandler(customOauth2SuccessHandler)
+            userInfoEndpoint().userService(customOauth2UserService)
         }
         return build()
     }
