@@ -13,7 +13,6 @@ import javax.transaction.Transactional
 class OAuth2Service(
     private val oAuth2GoogleService: OAuth2GoogleService
 ) {
-
     fun loginOAuth2(rq: OAuthRq): JwtTokenDto {
         val code: String = rq.code;
         try {
@@ -22,6 +21,5 @@ class OAuth2Service(
             throw AuthenticationException()
         }
     }
-
 
 }
