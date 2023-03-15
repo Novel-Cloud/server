@@ -1,4 +1,5 @@
 package com.novel.cloud.web.config.web
+
 object CorsPatternConstant {
 
     const val CORS_LOCAL = "http*://localhost:[*]"
