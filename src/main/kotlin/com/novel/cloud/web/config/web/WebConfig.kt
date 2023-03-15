@@ -11,6 +11,7 @@ class WebConfig : WebMvcConfigurer {
             .allowedMethods("*")
             .allowedOriginPatterns(
                 CorsPatternConstant.CORS_LOCAL,
-                CorsPatternConstant.CORS_LOCAL_IP)
+                CorsPatternConstant.CORS_LOCAL_SWAGGER)
     }
+
 }

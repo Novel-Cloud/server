@@ -8,31 +8,31 @@ import com.novel.cloud.web.utils.DateUtils
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import lombok.RequiredArgsConstructor
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.Date
 
 @Component
-@RequiredArgsConstructor
 class JwtTokenFactory {
 
     @Value("\${spring.security.jwt.token-validity-in-seconds}")
     private val TOKEN_TIME_TO_LIVE: Long = 0
 
     fun generateJwtToken(member: Member): JwtTokenDto {
-        val now: Date = DateUtils.now()
-        val expiredDate: Date = DateUtils.addTime(now, TOKEN_TIME_TO_LIVE)
-        val expiredLocalDateTime: LocalDateTime =
+        val now = DateUtils.now()
+        val expiredDate = DateUtils.addTime(now, TOKEN_TIME_TO_LIVE)
+        val expiredLocalDateTime =
             LocalDateTime.ofInstant(expiredDate.toInstant(), ZoneId.systemDefault())
+        val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtProperty.SIGN_KEY))
         val token: String = Jwts.builder()
             .setClaims(createJwtClaims(member))
             .setIssuedAt(now)
             .setIssuer(JWT_ISSUER)
             .setExpiration(expiredDate)
-            .signWith(SignatureAlgorithm.HS256, JwtProperty.SIGN_KEY)
+            .signWith(key, SignatureAlgorithm.HS256)
             .compact()
         return JwtTokenDto(
                 token = token,
@@ -40,7 +40,7 @@ class JwtTokenFactory {
             )
     }
 
-    private fun createJwtClaims(member: Member): Map<String, Any>? {
+    private fun createJwtClaims(member: Member): Map<String, Any> {
         val claims: MutableMap<String, Any> = HashMap()
         claims[MEMBER_EMAIL] = member.email
         return claims
@@ -48,11 +48,11 @@ class JwtTokenFactory {
 
     fun parseClaims(token: String): Claims {
         return Jwts
-            .parser()
+            .parserBuilder()
             .setSigningKey(JwtProperty.SIGN_KEY)
+            .build()
             .parseClaimsJws(token)
             .body
     }
-
 
 }

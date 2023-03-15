@@ -1,11 +1,13 @@
 package com.novel.cloud.web.utils
 
 import lombok.experimental.UtilityClass
-import java.util.*
+import java.util.Date
+
 @UtilityClass
 class DateUtils {
 
     companion object {
+
         fun now(): Date {
             return Date()
         }
