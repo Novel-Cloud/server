@@ -57,6 +57,9 @@ dependencies {
 	// json
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+
 }
 
 tasks.withType(KotlinCompile) {
