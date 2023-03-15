@@ -15,7 +15,6 @@ class CustomAccessDeniedHandler: AccessDeniedHandler {
         request: HttpServletRequest,
         response: HttpServletResponse,
         accessDeniedException: AccessDeniedException
-    ) {
-    }
+    ) {}
 
 }

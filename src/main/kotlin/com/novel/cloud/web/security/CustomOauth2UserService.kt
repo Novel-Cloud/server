@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class CustomOauth2UserService : DefaultOAuth2UserService() {
+
     @Throws(OAuth2AuthenticationException::class)
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         return super.loadUser(userRequest)

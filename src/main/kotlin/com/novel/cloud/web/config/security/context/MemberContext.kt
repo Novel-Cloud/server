@@ -1,6 +1,6 @@
 package com.novel.cloud.web.config.security.context
 
-class MemberContext (
+data class MemberContext (
     val email: String,
     val registrationId: String
 ) {

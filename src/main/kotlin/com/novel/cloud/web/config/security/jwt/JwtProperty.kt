@@ -6,7 +6,6 @@ object JwtProperty {
     const val SIGN_KEY = "test-server"
     const val MEMBER_EMAIL = "MEMBER_EMAIL"
     const val REGISTRATION_ID = "REGISTRATION_ID"
-    const val MEMBER_ROLE_TYPE = "MEMBER_ROLE_TYPE"
     const val JWT_ISSUER = "min"
     const val JWT_EXCEPTION = "exception"
     const val TOKEN_KEY = "token"

@@ -13,4 +13,5 @@ class WebConfig : WebMvcConfigurer {
                 CorsPatternConstant.CORS_LOCAL,
                 CorsPatternConstant.CORS_LOCAL_SWAGGER)
     }
+
 }
