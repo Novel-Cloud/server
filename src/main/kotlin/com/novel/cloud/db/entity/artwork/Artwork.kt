@@ -5,9 +5,12 @@ import com.novel.cloud.db.entity.bookmark.Bookmark
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.enums.ArtworkType
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -24,6 +27,7 @@ class Artwork(
     content: String,
     writer: Member,
     tags: Set<Tag>,
+    artworkType: ArtworkType
 ) : BaseTimeEntity() {
 
     @Id
@@ -41,6 +45,10 @@ class Artwork(
     @Column(nullable = false)
     var view: Long = 0
         protected set;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    var artworkType: ArtworkType = artworkType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
