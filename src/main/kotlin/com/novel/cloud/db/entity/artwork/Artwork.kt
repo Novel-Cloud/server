@@ -1,6 +1,7 @@
 package com.novel.cloud.db.entity.artwork
 
 import com.novel.cloud.db.entity.attach_file.AttachFile
+import com.novel.cloud.db.entity.bookmark.Bookmark
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
@@ -65,6 +66,11 @@ class Artwork(
     private val mutableAttachFiles: MutableList<AttachFile> = mutableListOf();
     val attachFiles: List<AttachFile> get() = mutableAttachFiles.toList();
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private val mutableBookmarks: MutableList<Bookmark> = mutableListOf();
+    val bookmarks: List<Bookmark> get() = mutableBookmarks.toList();
+
     fun addTag(tag: Tag) {
         mutableTags.add(tag);
     }
@@ -79,6 +85,10 @@ class Artwork(
 
     fun addAttachFile(attachFile: AttachFile) {
         mutableAttachFiles.add(attachFile);
+    }
+
+    fun addBookmark(bookmark: Bookmark) {
+        mutableBookmarks.add(bookmark);
     }
 
     // artwork 생성시 작가의 작품 목록에 추가
