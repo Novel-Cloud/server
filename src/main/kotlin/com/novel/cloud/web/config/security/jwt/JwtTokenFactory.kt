@@ -26,13 +26,12 @@ class JwtTokenFactory {
         val expiredDate = DateUtils.addTime(now, TOKEN_TIME_TO_LIVE)
         val expiredLocalDateTime =
             LocalDateTime.ofInstant(expiredDate.toInstant(), ZoneId.systemDefault())
-        val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtProperty.SIGN_KEY))
         val token: String = Jwts.builder()
             .setClaims(createJwtClaims(member))
             .setIssuedAt(now)
             .setIssuer(JWT_ISSUER)
             .setExpiration(expiredDate)
-            .signWith(key, SignatureAlgorithm.HS256)
+            .signWith(SignatureAlgorithm.HS256, JwtProperty.SIGN_KEY)
             .compact()
         return JwtTokenDto(
                 token = token,
@@ -48,11 +47,10 @@ class JwtTokenFactory {
 
     fun parseClaims(token: String): Claims {
         return Jwts
-            .parserBuilder()
+            .parser()
             .setSigningKey(JwtProperty.SIGN_KEY)
-            .build()
             .parseClaimsJws(token)
-            .body
+            .body;
     }
 
 }
