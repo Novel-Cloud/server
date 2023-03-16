@@ -7,7 +7,9 @@ import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
 import javax.persistence.CascadeType
+import javax.persistence.CollectionTable
 import javax.persistence.Column
+import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -26,7 +28,6 @@ class Artwork(
     title: String,
     content: String,
     writer: Member,
-    tags: Set<Tag>,
     artworkType: ArtworkType
 ) : BaseTimeEntity() {
 
@@ -55,14 +56,10 @@ class Artwork(
     var writer: Member = writer
         protected set;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
-    @JoinTable(
-        name = "artwork_tag_assoc",
-        joinColumns = [JoinColumn(name = "artwork_id")],
-        inverseJoinColumns = [JoinColumn(name = "tag_id")],
-    )
-    protected val mutableTags: MutableSet<Tag> = tags.toMutableSet();
-    val tags: Set<Tag> get() = mutableTags.toSet();
+    @ElementCollection
+    @CollectionTable(name = "tag")
+    private val mutableTags: MutableList<Tag> = mutableListOf();
+    val tags: List<Tag> get() = mutableTags.toList();
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -83,8 +80,8 @@ class Artwork(
         mutableTags.add(tag);
     }
 
-    fun removeTag(tagId: Long) {
-        mutableTags.removeIf { it.id == tagId };
+    fun removeAllTag() {
+        mutableTags.clear()
     }
 
     fun addComment(comment: Comment) {

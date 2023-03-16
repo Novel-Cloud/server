@@ -38,7 +38,7 @@ class SecurityConfig(
             antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
             antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
             antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
-            antMatchers(ApiPath.LOGIN_OAUTH2, ApiPath.REFRESH_TOKEN).permitAll()
+            antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

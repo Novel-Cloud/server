@@ -14,4 +14,7 @@ object ApiPath {
 
     const val REFRESH_TOKEN = "/api/oauth/token"
 
+    // 작품
+    const val ARTWORK = "/api/artwork"
+
 }
