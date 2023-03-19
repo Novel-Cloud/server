@@ -21,7 +21,4 @@ data class CreateArtworkRq (
     @field:NotNull
     val tags: List<String>,
 
-    @field:NotNull
-    val attachFileUids: List<String>
-
 )
