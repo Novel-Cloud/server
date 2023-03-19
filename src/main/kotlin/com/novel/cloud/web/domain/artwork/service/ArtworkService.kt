@@ -15,7 +15,7 @@ class ArtworkService(
     private val findMemberService: FindMemberService,
     private val artworkRepository: ArtworkRepository,
 ) {
-    fun createArtwork(memberContext: MemberContext, rq: CreateArtworkRq) {
+    fun createArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
         val member = findMemberService.findLoginMemberOrElseException(memberContext);
         val tags = rq.tags
         val artwork = Artwork(
@@ -25,7 +25,7 @@ class ArtworkService(
             artworkType = rq.artworkType
         )
         createTags(artwork, tags)
-        artworkRepository.save(artwork)
+        return artworkRepository.save(artwork)
     }
 
     private fun createTags(artwork: Artwork, tags: List<String>) {

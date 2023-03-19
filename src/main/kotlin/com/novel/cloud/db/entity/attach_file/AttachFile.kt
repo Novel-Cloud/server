@@ -16,7 +16,6 @@ class AttachFile (
     fileName: String,
     filePath: String,
     fileSize: Long,
-    fileUid: String,
     artwork: Artwork
 ): BaseTimeEntity() {
 
@@ -34,10 +33,6 @@ class AttachFile (
 
     @Column(nullable = false)
     var fileSize: Long = fileSize
-        protected set;
-
-    @Column(length = 40, nullable = false)
-    var fileUid: String = fileUid
         protected set;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
