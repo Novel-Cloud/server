@@ -20,7 +20,7 @@ class FileService (
 ) {
 
     // TODO: 예시 업로드 dir 수정
-    val uploadDir = "/Users/min/projects/novel-cloud/file/img"
+    val uploadDir = "/Users/min/projects/novel-cloud/file/img/"
 
     fun uploadFile(memberContext: MemberContext, artwork: Artwork, multipartFiles: List<MultipartFile>, thumbnail: MultipartFile) {
         val member = findMemberService.findLoginMemberOrElseException(memberContext)
