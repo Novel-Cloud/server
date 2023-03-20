@@ -1,6 +1,7 @@
 package com.novel.cloud.web.domain.artwork.controller
 
 import com.novel.cloud.web.config.security.context.MemberContext
+import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
@@ -20,14 +21,10 @@ class FindArtworkController (
 
     @Operation(summary = "작품 모두 조회")
     @GetMapping(ApiPath.ARTWORK)
-    fun findAllArtwork(@AuthenticationPrincipal memberContext: MemberContext,
-                       @RequestParam(value = "page", required = false) page: Int,
-                       @RequestParam(value = "size", required = false) size: Int) {
-        val pagination: Pagination = Pagination(
-            page = page,
-            size = size
-        )
-        return findArtworkService.findAllArtwork(memberContext, pagination)
+    fun findAllArtwork(@RequestParam(value = "page", required = false) page: Int,
+                       @RequestParam(value = "size", required = false) size: Int): PagedResponse<FindArtworkRs> {
+        val pagination = Pagination(page, size)
+        return findArtworkService.findAllArtwork(pagination)
     }
 
 //    @Operation(summary = "작품 상세보기")

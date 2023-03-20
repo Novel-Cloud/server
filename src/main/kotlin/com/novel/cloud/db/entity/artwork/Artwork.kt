@@ -68,7 +68,7 @@ class Artwork(
     val comments: List<Comment> get() = mutableComments.toList();
 
     @Column(length = 200, nullable = true)
-    private var thumbnail: String? = null;
+    var thumbnail: String? = null;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
