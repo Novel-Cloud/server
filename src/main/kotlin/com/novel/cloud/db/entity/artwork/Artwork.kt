@@ -22,6 +22,7 @@ import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 
 @Entity
 class Artwork(
@@ -66,6 +67,9 @@ class Artwork(
     private val mutableComments: MutableList<Comment> = mutableListOf();
     val comments: List<Comment> get() = mutableComments.toList();
 
+    @Column(length = 200, nullable = true)
+    private var thumbnail: String? = null;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private val mutableAttachFiles: MutableList<AttachFile> = mutableListOf();
@@ -82,6 +86,10 @@ class Artwork(
 
     fun removeAllTag() {
         mutableTags.clear()
+    }
+
+    fun updateThumbnail(thumbnail: String) {
+        this.thumbnail = thumbnail
     }
 
     fun addComment(comment: Comment) {

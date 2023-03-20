@@ -23,7 +23,7 @@ class FileService (
     val uploadDir = "/Users/min/projects/novel-cloud/file/img/"
 
     fun uploadFile(memberContext: MemberContext, artwork: Artwork, multipartFiles: List<MultipartFile>, thumbnail: MultipartFile) {
-        val member = findMemberService.findLoginMemberOrElseException(memberContext)
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         uploadImageFiles(member, artwork, multipartFiles)
         uploadThumbnail(member, artwork, thumbnail)
     }
@@ -54,13 +54,7 @@ class FileService (
         // 파일 저장 및 파일 정보 저장
         originalFileName?.let {
             thumbnail.transferTo(File(uploadDir + saveFileName))
-            val attachFile = AttachFile(
-                fileName = originalFileName,
-                filePath = uploadDir + saveFileName,
-                fileSize = thumbnail.size,
-                artwork = artwork
-            )
-            fileRepository.save(attachFile)
+            artwork.updateThumbnail(uploadDir + saveFileName)
         }
 
     }

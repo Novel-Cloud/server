@@ -2,10 +2,10 @@ package com.novel.cloud.web.endpoint
 
 import lombok.Getter
 import lombok.NoArgsConstructor
+import lombok.Setter
 import org.springframework.data.domain.PageRequest
 
-@Getter
-@NoArgsConstructor
+@Setter
 data class Pagination(
     var page: Int = 1,
     var size: Int = 10,

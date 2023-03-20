@@ -9,9 +9,10 @@ import com.novel.cloud.db.entity.artwork.QArtwork.artwork
 import com.querydsl.jpa.impl.JPAQuery
 import org.springframework.data.support.PageableExecutionUtils
 
-class ArtworkRepositoryImpl(
+class ArtworkRepositoryImpl (
     private val jpaQueryFactory: JPAQueryFactory
 ): ArtworkRepositoryCustom {
+
     override fun findArtworkList(pageable: Pageable): Page<Artwork> {
         val contents = jpaQueryFactory
             .selectFrom(artwork)
@@ -28,6 +29,7 @@ class ArtworkRepositoryImpl(
         val totalSupplier = { countQuery.fetchCount() }
 
         return PageableExecutionUtils.getPage(contents, pageable, totalSupplier)
+
     }
 
 }

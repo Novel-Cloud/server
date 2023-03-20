@@ -36,7 +36,7 @@ class FindMemberService(
         return findByEmailOrElseNull(email)
     }
 
-    fun findLoginMemberOrElseException(memberContext: MemberContext): Member {
+    fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {
         val email = memberContext.email
         return findByEmailOrElseException(email);
     }
