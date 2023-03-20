@@ -30,10 +30,10 @@ class FindArtworkController (
         return findArtworkService.findAllArtwork(memberContext, pagination)
     }
 
-    @Operation(summary = "작품 상세보기")
-    @GetMapping(ApiPath.ARTWORK)
-    fun findArtworkDetail(@AuthenticationPrincipal memberContext: MemberContext) {
-
-    }
+//    @Operation(summary = "작품 상세보기")
+//    @GetMapping(ApiPath.ARTWORK)
+//    fun findArtworkDetail(@AuthenticationPrincipal memberContext: MemberContext) {
+//
+//    }
 
 }
