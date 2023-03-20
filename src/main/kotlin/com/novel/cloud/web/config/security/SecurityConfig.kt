@@ -39,6 +39,7 @@ class SecurityConfig(
             antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
             antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
             antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
+            antMatchers(ApiPath.VIEW_ARTWORK).permitAll()
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

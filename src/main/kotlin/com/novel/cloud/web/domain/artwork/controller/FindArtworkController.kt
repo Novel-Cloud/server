@@ -20,7 +20,7 @@ class FindArtworkController (
 ) {
 
     @Operation(summary = "작품 모두 조회")
-    @GetMapping(ApiPath.ARTWORK)
+    @GetMapping(ApiPath.VIEW_ARTWORK)
     fun findAllArtwork(@RequestParam(value = "page", required = false) page: Int,
                        @RequestParam(value = "size", required = false) size: Int): PagedResponse<FindArtworkRs> {
         val pagination = Pagination(page, size)
