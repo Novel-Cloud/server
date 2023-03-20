@@ -7,9 +7,8 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.spring") version "1.6.21"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.6.21"
 	id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
+	kotlin("kapt") version "1.7.10"
 }
-
-apply(plugin = "kotlin-kapt")
 
 group = "com.novel.cloud"
 version = "0.0.1-SNAPSHOT"
@@ -44,18 +43,31 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.projectlombok:lombok")
+
+	// security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	// mysql
 	implementation("com.mysql:mysql-connector-j")
+
+	// jjwt
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
-	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
-	implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
-	implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	// oauth
 	implementation("com.googlecode.json-simple:json-simple:1.1.1")
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
-	implementation("com.querydsl:querydsl-jpa")
-	implementation("com.querydsl:querydsl-apt")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+
+	// swagger
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+
+	// querydsl
+	implementation("com.querydsl:querydsl-jpa:5.0.0")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 }
