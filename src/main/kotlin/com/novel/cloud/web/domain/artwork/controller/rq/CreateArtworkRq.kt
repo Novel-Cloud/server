@@ -1,9 +1,6 @@
 package com.novel.cloud.web.domain.artwork.controller.rq
 
-import com.novel.cloud.db.entity.artwork.Tag
-import com.novel.cloud.db.entity.attach_file.AttachFile
 import com.novel.cloud.db.enums.ArtworkType
-import java.net.ContentHandler
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
