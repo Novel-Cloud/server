@@ -35,9 +35,9 @@ class ArtworkController(
     @Operation(summary = "작품 자동 저장")
     @PostMapping(ApiPath.ARTWORK_SAVE)
     fun autoSaveArtwork(@AuthenticationPrincipal memberContext: MemberContext,
-                        @Validated @RequestBody rq: UpdateTemporaryArtworkRq
-    ) {
-        return artworkService.autoSaveArtwork(memberContext, rq)
+                        @Validated @RequestBody rq: UpdateTemporaryArtworkRq): String {
+        artworkService.autoSaveArtwork(memberContext, rq)
+        return "자동저장 되었습니다."
     }
 
     @Operation(summary = "최종 작품 등록")

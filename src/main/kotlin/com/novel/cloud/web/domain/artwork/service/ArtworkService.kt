@@ -56,7 +56,9 @@ class ArtworkService(
     fun autoSaveArtwork(memberContext: MemberContext, rq: UpdateTemporaryArtworkRq) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val temporaryArtwork = findTemporaryArtworkByIdOrElseThrow(rq.temporaryArtworkId)
+        autoSavePermissionCheck(member, temporaryArtwork)
 
+        temporaryArtwork.updateContent(rq.content)
 
     }
 
@@ -65,10 +67,11 @@ class ArtworkService(
             .orElseThrow{ NotFoundTemporaryArtworkException() }
     }
 
-    private fun autoSavePermissionCheck(temporaryArtwork: TemporaryArtwork, member: Member) {
+    private fun autoSavePermissionCheck(member: Member, temporaryArtwork: TemporaryArtwork) {
         if (!temporaryArtwork.writer.equals(member)) {
             throw DoNotHavePermissionToAutoSaveArtwork()
         }
     }
+
 
 }

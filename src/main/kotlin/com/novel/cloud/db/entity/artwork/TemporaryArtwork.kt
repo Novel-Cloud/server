@@ -30,4 +30,9 @@ class TemporaryArtwork(
     var writer: Member = writer
         protected set;
 
+
+    fun updateContent(content: String) {
+        this.content = content
+    }
+
 }
