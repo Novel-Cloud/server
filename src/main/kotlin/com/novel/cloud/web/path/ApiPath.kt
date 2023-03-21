@@ -21,6 +21,8 @@ object ApiPath {
 
     const val VIEW_ARTWORK = "/api/artwork/view"
 
+    const val ARTWORK_DETAIL = "/api/artwork/detail/{artworkId}"
+
     // 파일
     const val FILE = "/api/file"
 

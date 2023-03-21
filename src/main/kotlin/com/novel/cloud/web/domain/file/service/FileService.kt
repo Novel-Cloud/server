@@ -35,8 +35,8 @@ class FileService(
 
     fun uploadFile(memberContext: MemberContext, artwork: Artwork, multipartFiles: List<MultipartFile>, thumbnail: MultipartFile) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        uploadImageFiles(member, artwork, multipartFiles)
         uploadThumbnail(member, artwork, thumbnail)
+        uploadImageFiles(member, artwork, multipartFiles)
     }
 
     private fun uploadImageFiles(member: Member, artwork: Artwork, multipartFiles: List<MultipartFile>) {
