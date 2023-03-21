@@ -14,4 +14,14 @@ object ApiPath {
 
     const val REFRESH_TOKEN = "/api/oauth/token"
 
+    // 작품
+    const val ARTWORK = "/api/artwork"
+
+    const val VIEW_ARTWORK = "/api/artwork/view"
+
+    // 파일
+    const val FILE = "/api/file"
+
+    const val VIEW_IMG = "/api/file/{fileUidName}"
+
 }

@@ -4,6 +4,7 @@ import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.member.controller.rs.FindMemberSelfRs
 import com.novel.cloud.web.domain.member.repository.MemberRepository
+import com.novel.cloud.web.exception.NotFoundMemberException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,6 +19,11 @@ class FindMemberService(
             .orElse(null)
     }
 
+    fun findByEmailOrElseThrow(email: String): Member {
+        return memberRepository.findByEmail(email)
+            .orElseThrow{ NotFoundMemberException() }
+    }
+
     fun findMemberSelf(memberContext: MemberContext?): FindMemberSelfRs? {
         val member = memberContext?.let {
             findLoginMember(it)
@@ -27,7 +33,12 @@ class FindMemberService(
 
     fun findLoginMember(memberContext: MemberContext): Member? {
         val email = memberContext.email
-        return this.findByEmailOrElseNull(email)
+        return findByEmailOrElseNull(email)
+    }
+
+    fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {
+        val email = memberContext.email
+        return findByEmailOrElseThrow(email);
     }
 
 }
