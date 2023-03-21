@@ -32,13 +32,13 @@ class ArtworkController(
         return artworkService.createArtwork(memberContext, rq)
     }
 
-//    @Operation(summary = "작품 자동 저장")
-//    @PostMapping(ApiPath.ARTWORK_SAVE)
-//    fun autoSaveArtwork(@AuthenticationPrincipal memberContext: MemberContext,
-//                        @Validated @RequestBody rq: UpdateTemporaryArtworkRq
-//    ) {
-//        return artworkService.autoSaveArtwork()
-//    }
+    @Operation(summary = "작품 자동 저장")
+    @PostMapping(ApiPath.ARTWORK_SAVE)
+    fun autoSaveArtwork(@AuthenticationPrincipal memberContext: MemberContext,
+                        @Validated @RequestBody rq: UpdateTemporaryArtworkRq
+    ) {
+        return artworkService.autoSaveArtwork(memberContext, rq)
+    }
 
     @Operation(summary = "최종 작품 등록")
     @PostMapping(ApiPath.ARTWORK_SUBMIT)
