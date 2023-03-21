@@ -22,4 +22,6 @@ object ApiPath {
     // 파일
     const val FILE = "/api/file"
 
+    const val VIEW_IMG = "/api/file/{fileUidName}"
+
 }

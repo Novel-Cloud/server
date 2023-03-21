@@ -65,7 +65,7 @@ class FileService(
         // 파일 저장 및 파일 정보 저장
         originalFileName?.let {
             thumbnail.transferTo(File(uploadDir + saveFileName))
-            artwork.updateThumbnail(uploadDir + saveFileName)
+            artwork.updateThumbnail(saveFileName)
         }
 
     }
