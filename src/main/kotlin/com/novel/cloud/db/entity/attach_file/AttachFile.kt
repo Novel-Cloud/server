@@ -2,8 +2,11 @@ package com.novel.cloud.db.entity.attach_file
 
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.common.BaseTimeEntity
+import com.novel.cloud.db.enums.AttachFileType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -17,7 +20,8 @@ class AttachFile (
     filePath: String,
     fileUidName: String,
     fileSize: Long,
-    artwork: Artwork
+    artwork: Artwork,
+    attachFileType: AttachFileType
 ): BaseTimeEntity() {
 
     @Id
@@ -44,6 +48,10 @@ class AttachFile (
     @JoinColumn(nullable = false)
     var artwork: Artwork = artwork
         protected set;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    var attachFileType: AttachFileType = attachFileType;
 
     init {
         artwork.addAttachFile(this);

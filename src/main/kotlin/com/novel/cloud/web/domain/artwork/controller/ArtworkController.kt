@@ -33,5 +33,4 @@ class ArtworkController(
         fileService.uploadFile(memberContext, artwork, files, thumbnail);
     }
 
-
 }

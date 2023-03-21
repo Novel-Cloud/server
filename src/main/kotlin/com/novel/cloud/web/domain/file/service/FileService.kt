@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.file.service
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.attach_file.AttachFile
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.enums.AttachFileType
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.file.repository.FileRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
@@ -51,7 +52,8 @@ class FileService(
                     filePath = uploadDir + saveFileName,
                     fileUidName = saveFileName,
                     fileSize = file.size,
-                    artwork = artwork
+                    artwork = artwork,
+                    attachFileType = AttachFileType.IMAGE
                 )
                 fileRepository.save(attachFile)
             }
@@ -66,8 +68,16 @@ class FileService(
         originalFileName?.let {
             thumbnail.transferTo(File(uploadDir + saveFileName))
             artwork.updateThumbnail(saveFileName)
+            val attachFile = AttachFile(
+                fileName = originalFileName,
+                filePath = uploadDir + saveFileName,
+                fileUidName = saveFileName,
+                fileSize = thumbnail.size,
+                artwork = artwork,
+                attachFileType = AttachFileType.THUMBNAIL
+            )
+            fileRepository.save(attachFile)
         }
-
     }
 
     private fun getSaveFileName(originalFilename: String?): String {
