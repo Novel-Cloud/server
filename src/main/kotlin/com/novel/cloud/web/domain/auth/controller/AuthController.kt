@@ -27,7 +27,7 @@ class AuthController(
         return oAuth2Service.loginOAuth2(rq)
     }
 
-    @Operation(summary = "토큰 다시 발급받기")
+    @Operation(summary = "토큰 재발급")
     @PostMapping(ApiPath.REFRESH_TOKEN)
     fun refreshToken(@AuthenticationPrincipal memberContext: MemberContext?): JwtTokenDto? {
         return authService.refreshToken(memberContext)

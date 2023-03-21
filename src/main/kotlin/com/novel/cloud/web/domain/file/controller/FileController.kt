@@ -16,7 +16,7 @@ class FileController(
     private val fileService: FileService
 ) {
 
-    @Operation(summary = "이미지 불러오기")
+    @Operation(summary = "이미지")
     @GetMapping(ApiPath.VIEW_IMG)
     fun downloadImage (@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
         return fileService.downloadImage(fileUidName)

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @Hidden
 @RestController
 class ErrorController {
+
     @GetMapping(ApiPath.ERROR_AUTH)
     fun errorAuth(@RequestParam(value = "message") message: String) {
         throw JwtException(message)

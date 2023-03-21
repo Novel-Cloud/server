@@ -2,6 +2,7 @@ package com.novel.cloud.web.domain.member.service
 
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
+import com.novel.cloud.web.domain.member.controller.rq.UpdateMemberNicknameRq
 import com.novel.cloud.web.domain.member.controller.rs.FindMemberSelfRs
 import com.novel.cloud.web.domain.member.repository.MemberRepository
 import com.novel.cloud.web.exception.NotFoundMemberException

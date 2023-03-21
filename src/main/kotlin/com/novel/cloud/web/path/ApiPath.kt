@@ -10,6 +10,10 @@ object ApiPath {
 
     const val MEMBER_SELF = "/api/member/self"
 
+    const val MEMBER_SELF_IMG = "/api/member/self/image"
+
+    const val MEMBER_SELF_NAME = "/api/member/self/nickname"
+
     const val MEMBER_OTHER = "/api/member/profile/{memberId}"
 
     const val LOGIN_OAUTH2 = "/api/oauth"

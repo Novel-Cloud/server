@@ -11,7 +11,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class FindArtworkDetailRs (
+    // TODO:: COMMENT 기능 추가하면 프로퍼티 주가
     val title: String? = null,
+    val content: String? = null,
+    val view: Long? = null,
     val artworkType: ArtworkType? = null,
     val writer: MemberDto? = null,
     val tags: List<Tag>? = null,
@@ -23,6 +26,8 @@ data class FindArtworkDetailRs (
         fun create(artwork: Artwork): FindArtworkDetailRs {
             return FindArtworkDetailRs(
                 title = artwork.title,
+                content = artwork.content,
+                view = artwork.view,
                 artworkType = artwork.artworkType,
                 writer = getWriter(artwork.writer),
                 tags = artwork.tags,

@@ -22,35 +22,39 @@ class Member (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null;
+    val id: Long? = null
     @Column(nullable = false, unique = true)
     var email: String = email
-        protected set;
+        protected set
 
     @Column(nullable = false)
     var nickname: String = nickname
-        protected set;
+        protected set
 
     @Column(nullable = false)
     var picture: String = picture
-        protected set;
+        protected set
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
     protected val mutableArtworks: MutableList<Artwork> = mutableListOf();
-    val artworks: List<Artwork> get() = mutableArtworks.toList();
+    val artworks: List<Artwork> get() = mutableArtworks.toList()
 
     fun writeArtwork(artwork: Artwork) {
-        mutableArtworks.add(artwork);
+        mutableArtworks.add(artwork)
     }
 
     fun copy(email: String = this.email,
              nickname: String = this.nickname,
              picture: String = this.picture): Member {
-        return Member(email, nickname, picture);
+        return Member(email, nickname, picture)
     }
 
-    fun update(picture: String = this.picture) {
-        this.picture = picture;
+    fun updatePicture(picture: String = this.picture) {
+        this.picture = picture
+    }
+
+    fun updateNickname(nickname: String = this.nickname) {
+        this.nickname = nickname
     }
 
 }
