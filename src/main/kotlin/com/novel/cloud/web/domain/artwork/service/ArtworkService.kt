@@ -13,6 +13,7 @@ import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.DoNotHavePermissionToAutoSaveArtwork
 import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
+import com.novel.cloud.web.utils.DateUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -53,13 +54,13 @@ class ArtworkService(
         return temporaryArtwork.id
     }
 
-    fun autoSaveArtwork(memberContext: MemberContext, rq: UpdateTemporaryArtworkRq) {
+    fun autoSaveArtwork(memberContext: MemberContext, rq: UpdateTemporaryArtworkRq): String {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val temporaryArtwork = findTemporaryArtworkByIdOrElseThrow(rq.temporaryArtworkId)
         autoSavePermissionCheck(member, temporaryArtwork)
 
         temporaryArtwork.updateContent(rq.content)
-
+        return getAutoSaveResponseString();
     }
 
     private fun findTemporaryArtworkByIdOrElseThrow(temporaryArtworkId: Long): TemporaryArtwork {
@@ -73,5 +74,8 @@ class ArtworkService(
         }
     }
 
+    private fun getAutoSaveResponseString(): String {
+        return DateUtils.formatedNow() + "에 자동 저장 되었습니다."
+    }
 
 }
