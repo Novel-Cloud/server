@@ -40,7 +40,8 @@ class SecurityConfig(
             antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
             antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
             antMatchers(ApiPath.VIEW_ARTWORK).permitAll()
-            antMatchers("/api/file/**").permitAll()
+            antMatchers(ApiPath.MEMBER_OTHER).permitAll()
+            antMatchers(ApiPath.FILE_SECURITY).permitAll()
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

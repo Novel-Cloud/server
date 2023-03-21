@@ -3,7 +3,6 @@ package com.novel.cloud.web.domain.artwork.controller.rs
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.Tag
 import com.novel.cloud.db.entity.attach_file.AttachFile
-import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
 import com.novel.cloud.web.domain.dto.AttachFileDto

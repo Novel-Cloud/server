@@ -24,6 +24,11 @@ class FindMemberService(
             .orElseThrow{ NotFoundMemberException() }
     }
 
+    private fun findByIdOrElseThrow(memberId: Long): Member {
+        return memberRepository.findById(memberId)
+            .orElseThrow { NotFoundMemberException() }
+    }
+
     fun findMemberSelf(memberContext: MemberContext?): FindMemberSelfRs? {
         val member = memberContext?.let {
             findLoginMember(it)
@@ -39,6 +44,11 @@ class FindMemberService(
     fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {
         val email = memberContext.email
         return findByEmailOrElseThrow(email);
+    }
+
+    fun findMemberProfile(memberId: Long): FindMemberSelfRs {
+        val member = findByIdOrElseThrow(memberId)
+        return FindMemberSelfRs.create(member)
     }
 
 }

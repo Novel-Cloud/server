@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "멤버")
@@ -18,6 +19,12 @@ class MemberController(private val findMemberService: FindMemberService) {
     @GetMapping(ApiPath.MEMBER_SELF)
     fun findMemberSelf(@AuthenticationPrincipal memberContext: MemberContext?): FindMemberSelfRs? {
         return findMemberService.findMemberSelf(memberContext)
+    }
+
+    @Operation(summary = "다른 멤버 프로필 불러오기")
+    @GetMapping(ApiPath.MEMBER_OTHER)
+    fun findMemberProfile(@PathVariable memberId: Long): FindMemberSelfRs? {
+        return findMemberService.findMemberProfile(memberId)
     }
 
 } 

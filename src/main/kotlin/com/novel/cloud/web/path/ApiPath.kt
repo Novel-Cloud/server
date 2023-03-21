@@ -10,6 +10,8 @@ object ApiPath {
 
     const val MEMBER_SELF = "/api/member/self"
 
+    const val MEMBER_OTHER = "/api/member/profile/{memberId}"
+
     const val LOGIN_OAUTH2 = "/api/oauth"
 
     const val REFRESH_TOKEN = "/api/oauth/token"
@@ -21,6 +23,8 @@ object ApiPath {
 
     // 파일
     const val FILE = "/api/file"
+
+    const val FILE_SECURITY = "/api/file/**"
 
     const val VIEW_IMG = "/api/file/{fileUidName}"
 
