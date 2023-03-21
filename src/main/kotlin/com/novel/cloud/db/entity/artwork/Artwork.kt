@@ -6,7 +6,6 @@ import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
-import javax.persistence.CascadeType
 import javax.persistence.CollectionTable
 import javax.persistence.Column
 import javax.persistence.ElementCollection
@@ -18,11 +17,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
-import javax.persistence.JoinTable
-import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
-import javax.persistence.OneToOne
 
 @Entity
 class Artwork(
@@ -40,7 +36,7 @@ class Artwork(
     var title: String = title
         protected set;
 
-    @Column(nullable = false, length = 3000)
+    @Column(nullable = false, length = 65535)
     var content: String = content
         protected set;
 

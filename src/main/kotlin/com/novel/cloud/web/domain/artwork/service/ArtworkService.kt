@@ -15,8 +15,8 @@ class ArtworkService(
     private val findMemberService: FindMemberService,
     private val artworkRepository: ArtworkRepository,
 ) {
-    fun createArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
-        val member = findMemberService.findLoginMemberOrElseThrow(memberContext);
+    fun submitArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val tags = rq.tags
         val artwork = Artwork(
             title = rq.title,
@@ -34,5 +34,10 @@ class ArtworkService(
             artwork.addTag(tag)
         }
     }
+
+//    fun createArtwork(memberContext: MemberContext) {
+//        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+//        val artwork = Artwork
+//    }
 
 }

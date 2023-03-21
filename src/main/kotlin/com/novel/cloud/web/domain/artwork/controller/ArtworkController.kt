@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -23,13 +22,25 @@ class ArtworkController(
     private val fileService: FileService
 ) {
 
+    @Operation(summary = "작품 작성 시작")
+    @PostMapping(ApiPath.ARTWORK_START)
+    fun createArtwork(@AuthenticationPrincipal memberContext: MemberContext) {
+        artworkService.createArtwork(memberContext)
+    }
+
+    @Operation(summary = "작품 자동 저장")
+    @PostMapping(ApiPath.ARTWORK_SAVE)
+    fun autoSaveArtwork() {
+
+    }
+
     @Operation(summary = "최종 작품 등록")
     @PostMapping(ApiPath.ARTWORK)
-    fun createArtwork(@AuthenticationPrincipal memberContext: MemberContext,
+    fun submitArtwork(@AuthenticationPrincipal memberContext: MemberContext,
                       @Validated @RequestPart(value = "rq") rq: CreateArtworkRq,
                       @RequestPart(value = "files") files: List<MultipartFile>,
                       @RequestPart(value = "thumbnail") thumbnail: MultipartFile) {
-        val artwork = artworkService.createArtwork(memberContext, rq)
+        val artwork = artworkService.submitArtwork(memberContext, rq)
         fileService.uploadFile(memberContext, artwork, files, thumbnail);
     }
 

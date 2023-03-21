@@ -23,6 +23,12 @@ object ApiPath {
     // 작품
     const val ARTWORK = "/api/artwork"
 
+    const val ARTWORK_START = "/api/artwork/start"
+
+    const val ARTWORK_SAVE = "/api/artwork/save"
+
+    const val ARTWORK_SUBMIT = "/api/artwork/submit"
+
     const val VIEW_ARTWORK = "/api/artwork/view"
 
     const val ARTWORK_DETAIL = "/api/artwork/detail/{artworkId}"
