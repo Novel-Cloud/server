@@ -2,9 +2,12 @@ package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.Tag
+import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.CreateTemporaryArtworkRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
+import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class ArtworkService(
     private val findMemberService: FindMemberService,
     private val artworkRepository: ArtworkRepository,
+    private val temporaryArtworkRepository: TemporaryArtworkRepository
 ) {
     fun submitArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
@@ -35,9 +39,14 @@ class ArtworkService(
         }
     }
 
-//    fun createArtwork(memberContext: MemberContext) {
-//        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-//        val artwork = Artwork
-//    }
+    fun createArtwork(memberContext: MemberContext, rq: CreateTemporaryArtworkRq): Long? {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val temporaryArtwork = TemporaryArtwork(
+            content = rq.content,
+            writer = member
+        )
+        temporaryArtworkRepository.save(temporaryArtwork)
+        return temporaryArtwork.id
+    }
 
 }

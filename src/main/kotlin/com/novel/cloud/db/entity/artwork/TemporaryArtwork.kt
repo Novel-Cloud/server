@@ -21,7 +21,7 @@ class TemporaryArtwork(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null;
 
-    @Column(nullable = false, length = 65535)
+    @Column(nullable = false, length = 10000)
     var content: String = content
         protected set;
 
