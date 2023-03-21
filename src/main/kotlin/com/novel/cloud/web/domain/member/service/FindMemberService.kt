@@ -19,7 +19,7 @@ class FindMemberService(
             .orElse(null)
     }
 
-    fun findByEmailOrElseException(email: String): Member {
+    fun findByEmailOrElseThrow(email: String): Member {
         return memberRepository.findByEmail(email)
             .orElseThrow{ NotFoundMemberException() }
     }
@@ -38,7 +38,7 @@ class FindMemberService(
 
     fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {
         val email = memberContext.email
-        return findByEmailOrElseException(email);
+        return findByEmailOrElseThrow(email);
     }
 
 }

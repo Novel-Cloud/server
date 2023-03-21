@@ -6,17 +6,27 @@ import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.file.repository.FileRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
+import com.novel.cloud.web.exception.NotFoundFileException
+import com.novel.cloud.web.path.ApiPath
+import org.springframework.core.io.ByteArrayResource
+import org.springframework.core.io.FileSystemResource
+import org.springframework.core.io.Resource
+import org.springframework.core.io.UrlResource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.nio.file.Files
 import java.util.*
 import javax.transaction.Transactional
 
 @Service
 @Transactional
-class FileService (
+class FileService(
     private val findMemberService: FindMemberService,
-    private val fileRepository: FileRepository
+    private val fileRepository: FileRepository,
 ) {
 
     // TODO: 예시 업로드 dir 수정
@@ -39,6 +49,7 @@ class FileService (
                 val attachFile = AttachFile(
                     fileName = originalFileName,
                     filePath = uploadDir + saveFileName,
+                    fileUidName = saveFileName,
                     fileSize = file.size,
                     artwork = artwork
                 )
@@ -65,5 +76,32 @@ class FileService (
 
         return UUID.randomUUID().toString() + "." + ext
     }
+
+    fun downloadImage(fileUidName: String): ResponseEntity<ByteArrayResource> {
+        val file = findAttachFileByFileUidNameOrElseThrow(fileUidName)
+        val img = File(file.filePath)
+
+        // 파일이 존재하지 않는 경우 404 Not Found 반환
+        if (!img.exists()) {
+            throw NotFoundFileException();
+        }
+
+        // 파일을 바이트 배열로 읽어옴
+        val imageBytes = Files.readAllBytes(img.toPath())
+
+        // 바이트 배열을 ByteArrayResource로 변환하여 반환
+        val resource = ByteArrayResource(imageBytes)
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.IMAGE_JPEG)
+            .contentLength(imageBytes.size.toLong())
+            .body(resource)
+    }
+
+    private fun findAttachFileByFileUidNameOrElseThrow(fileUidName: String): AttachFile {
+        return fileRepository.findAttachFileByFileUidName(fileUidName)
+            .orElseThrow{ NotFoundFileException() }
+    }
+
 
 }

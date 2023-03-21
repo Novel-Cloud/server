@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne
 class AttachFile (
     fileName: String,
     filePath: String,
+    fileUidName: String,
     fileSize: Long,
     artwork: Artwork
 ): BaseTimeEntity() {
@@ -25,6 +26,10 @@ class AttachFile (
 
     @Column(length = 200, nullable = false)
     var fileName: String = fileName
+        protected set
+
+    @Column(length = 200, nullable = false)
+    var fileUidName: String = fileUidName
         protected set
 
     @Column(length = 200, nullable = false)

@@ -5,7 +5,7 @@ import com.novel.cloud.db.entity.attach_file.AttachFile
 data class AttachFileDto (
     val attachFileId: Long? = null,
     val fileName: String? = null,
-    val filePath: String? = null,
+    val fileUidName: String? = null,
     val fileSize: Long? = null
 ) {
     companion object {
@@ -13,7 +13,7 @@ data class AttachFileDto (
             return AttachFileDto(
                 attachFileId = attachFile?.id,
                 fileName = attachFile?.fileName,
-                filePath = attachFile?.filePath,
+                fileUidName = attachFile?.fileUidName,
                 fileSize = attachFile?.fileSize
             )
         }
