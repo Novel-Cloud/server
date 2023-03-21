@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @Tag(name = "멤버")
 @RestController
@@ -37,15 +39,18 @@ class MemberController(
 
     @Operation(summary = "닉네임 변경")
     @PutMapping(ApiPath.MEMBER_SELF_NAME)
-    fun updateNickname(@AuthenticationPrincipal memberContext: MemberContext,
-                       @Validated @RequestBody rq: UpdateMemberNicknameRq) {
-        return memberService.updateNickname(memberContext, rq)
+    fun updateMemberNickname(@AuthenticationPrincipal memberContext: MemberContext,
+                             @Validated @RequestBody rq: UpdateMemberNicknameRq) {
+        return memberService.updateMemberNickname(memberContext, rq)
     }
-//
-//    @Operation(summary = "이름을 변경한다")
-//    @GetMapping(ApiPath.MEMBER_OTHER)
-//    fun findMemberProfile(@PathVariable memberId: Long): FindMemberSelfRs? {
-//        return findMemberService.findMemberProfile(memberId)
-//    }
+
+    @Operation(summary = "프로필 사진 변경")
+    @PutMapping(ApiPath.MEMBER_SELF_IMG)
+    fun updateMemberPicture(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @RequestPart(value = "profile") profile: MultipartFile,
+    ) {
+        return memberService.updateMemberPicture(memberContext, profile)
+    }
 
 } 

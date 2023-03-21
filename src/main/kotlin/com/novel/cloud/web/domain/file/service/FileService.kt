@@ -61,8 +61,8 @@ class FileService(
     }
 
     private fun uploadThumbnail(member: Member, artwork: Artwork, thumbnail: MultipartFile) {
-        val originalFileName = thumbnail.originalFilename;
-        val saveFileName = getSaveFileName(originalFileName);
+        val originalFileName = thumbnail.originalFilename
+        val saveFileName = getSaveFileName(originalFileName)
 
         // 파일 저장 및 파일 정보 저장
         originalFileName?.let {
@@ -78,6 +78,17 @@ class FileService(
             )
             fileRepository.save(attachFile)
         }
+    }
+
+    fun uploadProfile(profile: MultipartFile): String {
+        val originalFilename = profile.originalFilename
+        val saveFileName = getSaveFileName(originalFilename)
+
+        originalFilename?.let {
+            profile.transferTo(File(uploadDir + saveFileName))
+        }
+
+        return saveFileName
     }
 
     private fun getSaveFileName(originalFilename: String?): String {
