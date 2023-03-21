@@ -16,10 +16,16 @@ class FileController(
     private val fileService: FileService
 ) {
 
-    @Operation(summary = "이미지")
-    @GetMapping(ApiPath.VIEW_IMG)
-    fun downloadImage (@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
-        return fileService.downloadImage(fileUidName)
+    @Operation(summary = "작품 이미지 보기")
+    @GetMapping(ApiPath.VIEW_ARTWORK_IMG)
+    fun findArtworkImage(@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
+        return fileService.findArtworkImage(fileUidName)
+    }
+
+    @Operation(summary = "프로필 이미지 보기")
+    @GetMapping(ApiPath.VIEW_PROFILE_IMG)
+    fun findProfileImage(@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
+        return fileService.findProfileImage(fileUidName)
     }
 
 }

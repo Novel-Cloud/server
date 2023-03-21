@@ -24,8 +24,8 @@ class MemberService (
     fun updateMemberPicture(memberContext: MemberContext, profile: MultipartFile) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val fileUidName = fileService.uploadProfile(profile)
-        // TODO: 무조건 상수화로 수정
-        member.updatePicture("http://localhost:3000/api/file/" + fileUidName)
+        // TODO: 상수화 또는 다른 로직으로 수정
+        member.updatePicture("http://localhost:8080/api/file/profile/$fileUidName")
     }
 
 }

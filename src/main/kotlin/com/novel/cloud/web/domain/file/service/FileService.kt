@@ -98,7 +98,7 @@ class FileService(
         return UUID.randomUUID().toString() + "." + ext
     }
 
-    fun downloadImage(fileUidName: String): ResponseEntity<ByteArrayResource> {
+    fun findArtworkImage(fileUidName: String): ResponseEntity<ByteArrayResource> {
         val file = findAttachFileByFileUidNameOrElseThrow(fileUidName)
         val img = File(file.filePath)
 
@@ -122,6 +122,26 @@ class FileService(
     private fun findAttachFileByFileUidNameOrElseThrow(fileUidName: String): AttachFile {
         return fileRepository.findAttachFileByFileUidName(fileUidName)
             .orElseThrow{ NotFoundFileException() }
+    }
+
+    fun findProfileImage(fileUidName: String): ResponseEntity<ByteArrayResource> {
+
+        // TODO:: 파일 경로 상수화
+        // TODO:: 작품 이미지 등록이랑 더불어 로직 변경
+        val img = File(uploadDir + fileUidName)
+
+        if (!img.exists()) {
+            throw NotFoundFileException();
+        }
+
+        val imageBytes = Files.readAllBytes(img.toPath())
+
+        val resource = ByteArrayResource(imageBytes)
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.IMAGE_JPEG)
+            .contentLength(imageBytes.size.toLong())
+            .body(resource)
     }
 
 
