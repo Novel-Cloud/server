@@ -23,7 +23,7 @@ class ArtworkController(
     private val fileService: FileService
 ) {
 
-    @Operation(summary = "작품 등록")
+    @Operation(summary = "최종 작품 등록")
     @PostMapping(ApiPath.ARTWORK)
     fun createArtwork(@AuthenticationPrincipal memberContext: MemberContext,
                       @Validated @RequestPart(value = "rq") rq: CreateArtworkRq,

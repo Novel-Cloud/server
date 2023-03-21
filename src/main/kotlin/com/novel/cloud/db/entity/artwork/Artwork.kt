@@ -92,6 +92,10 @@ class Artwork(
         this.thumbnail = thumbnail
     }
 
+    fun addView() {
+        this.view++
+    }
+
     fun addComment(comment: Comment) {
         mutableComments.add(comment);
     }

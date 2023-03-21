@@ -32,6 +32,7 @@ class FindArtworkService (
 
     fun findArtworkDetail(artworkId: Long): FindArtworkDetailRs {
         val artwork = findArtworkByIdOrElseThrow(artworkId)
+        artwork.addView()
         return FindArtworkDetailRs.create(artwork)
     }
 
