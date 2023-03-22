@@ -1,21 +1,29 @@
 package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.Artwork
+import com.novel.cloud.db.entity.artwork.TemporaryArtwork
+import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkDetailRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
+import com.novel.cloud.web.domain.artwork.controller.rs.FindTemporaryArtworkRs
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
+import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
 import com.novel.cloud.web.exception.NotFoundArtworkException
+import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
 import org.springframework.stereotype.Service
+import java.io.Writer
 import javax.transaction.Transactional
 
 @Service
 @Transactional
 class FindArtworkService (
     val findMemberService: FindMemberService,
-    val artworkRepository: ArtworkRepository
+    val artworkRepository: ArtworkRepository,
+    val temporaryArtworkRepository: TemporaryArtworkRepository
 ) {
 
     fun findAllArtwork(pagination: Pagination): PagedResponse<FindArtworkRs> {
@@ -40,5 +48,17 @@ class FindArtworkService (
         return artworkRepository.findById(artworkId)
             .orElseThrow{ NotFoundArtworkException() }
     }
+
+    private fun findTopTemporaryByWriter(writer: Member): TemporaryArtwork {
+        return temporaryArtworkRepository.findTopByWriterOrderByCreatedDateDesc(writer)
+            .orElseThrow { NotFoundTemporaryArtworkException() }
+    }
+
+    fun findTemporaryArtworkSelf(memberContext: MemberContext): FindTemporaryArtworkRs {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val temporaryArtwork = findTopTemporaryByWriter(member)
+        return FindTemporaryArtworkRs.create(temporaryArtwork)
+    }
+
 
 }

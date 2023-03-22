@@ -1,5 +1,6 @@
 package com.novel.cloud.db.entity.artwork
 
+import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
 import javax.persistence.Column
@@ -15,7 +16,7 @@ import javax.persistence.ManyToOne
 class TemporaryArtwork(
     content: String,
     writer: Member,
-) {
+): BaseTimeEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

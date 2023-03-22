@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
@@ -33,7 +34,7 @@ class ArtworkController(
     }
 
     @Operation(summary = "작품 자동 저장")
-    @PostMapping(ApiPath.ARTWORK_SAVE)
+    @PutMapping(ApiPath.ARTWORK_SAVE)
     fun autoSaveArtwork(@AuthenticationPrincipal memberContext: MemberContext,
                         @Validated @RequestBody rq: UpdateTemporaryArtworkRq): String {
         return artworkService.autoSaveArtwork(memberContext, rq)
