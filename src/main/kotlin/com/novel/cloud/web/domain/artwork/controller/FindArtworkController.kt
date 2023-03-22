@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.artwork.controller
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkDetailRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
+import com.novel.cloud.web.domain.artwork.controller.rs.FindTemporaryArtworkRs
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
@@ -21,6 +22,12 @@ import org.springframework.web.bind.annotation.RestController
 class FindArtworkController (
     private val findArtworkService: FindArtworkService
 ) {
+
+    @Operation(summary = "임시 저장 작품 불러오기")
+    @GetMapping(ApiPath.ARTWORK_SAVE)
+    fun findTemporaryArtworkSelf(@AuthenticationPrincipal memberContext: MemberContext): FindTemporaryArtworkRs {
+        return findArtworkService.findTemporaryArtworkSelf(memberContext)
+    }
 
     @Operation(summary = "작품 모두 조회")
     @GetMapping(ApiPath.VIEW_ARTWORK)
