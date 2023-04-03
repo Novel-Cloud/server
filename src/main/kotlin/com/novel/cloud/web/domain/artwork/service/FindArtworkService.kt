@@ -49,16 +49,15 @@ class FindArtworkService (
             .orElseThrow{ NotFoundArtworkException() }
     }
 
-    private fun findTopTemporaryByWriter(writer: Member): TemporaryArtwork {
-        return temporaryArtworkRepository.findTopByWriterOrderByCreatedDateDesc(writer)
-            .orElseThrow { NotFoundTemporaryArtworkException() }
+    fun findTemporaryArtworkByWriterOrElseNull(writer: Member): TemporaryArtwork? {
+        return temporaryArtworkRepository.findByWriter(writer)
+            .orElse(null)
     }
 
     fun findTemporaryArtworkSelf(memberContext: MemberContext): FindTemporaryArtworkRs {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val temporaryArtwork = findTopTemporaryByWriter(member)
+        val temporaryArtwork = findTemporaryArtworkByWriterOrElseNull(member)
         return FindTemporaryArtworkRs.create(temporaryArtwork)
     }
-
 
 }

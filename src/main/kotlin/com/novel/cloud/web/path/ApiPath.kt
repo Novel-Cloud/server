@@ -27,7 +27,7 @@ object ApiPath {
 
     const val ARTWORK_SAVE = "/api/artwork/save"
 
-    const val ARTWORK_SUBMIT = "/api/artwork/end"
+    const val ARTWORK_SUBMIT = "/api/artwork"
 
     const val VIEW_ARTWORK = "/api/artwork/view"
 

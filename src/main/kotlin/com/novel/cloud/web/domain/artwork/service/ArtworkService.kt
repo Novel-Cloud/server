@@ -6,13 +6,11 @@ import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
-import com.novel.cloud.web.domain.artwork.controller.rq.CreateTemporaryArtworkRq
-import com.novel.cloud.web.domain.artwork.controller.rq.UpdateTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.DoNotHavePermissionToAutoSaveArtwork
-import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
 import com.novel.cloud.web.utils.DateUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ArtworkService(
     private val findMemberService: FindMemberService,
+    private val findArtworkService: FindArtworkService,
     private val artworkRepository: ArtworkRepository,
     private val temporaryArtworkRepository: TemporaryArtworkRepository
 ) {
@@ -44,28 +43,25 @@ class ArtworkService(
         }
     }
 
-    fun createArtwork(memberContext: MemberContext, rq: CreateTemporaryArtworkRq): Long? {
+    private fun createTemporaryArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): TemporaryArtwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val temporaryArtwork = TemporaryArtwork(
             content = rq.content,
             writer = member
         )
-        temporaryArtworkRepository.save(temporaryArtwork)
-        return temporaryArtwork.id
+        return temporaryArtworkRepository.save(temporaryArtwork)
     }
 
-    fun autoSaveArtwork(memberContext: MemberContext, rq: UpdateTemporaryArtworkRq): String {
+    fun autoSaveArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): String {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val temporaryArtwork = findTemporaryArtworkByIdOrElseThrow(rq.temporaryArtworkId)
-        autoSavePermissionCheck(member, temporaryArtwork)
-
-        temporaryArtwork.updateContent(rq.content)
-        return getAutoSaveResponseString();
-    }
-
-    private fun findTemporaryArtworkByIdOrElseThrow(temporaryArtworkId: Long): TemporaryArtwork {
-        return temporaryArtworkRepository.findById(temporaryArtworkId)
-            .orElseThrow{ NotFoundTemporaryArtworkException() }
+        val temporaryArtwork = findArtworkService.findTemporaryArtworkByWriterOrElseNull(member)
+        temporaryArtwork?.let {
+            autoSavePermissionCheck(member, temporaryArtwork)
+            temporaryArtwork.updateContent(rq.content)
+            return getAutoSaveResponseString()
+        }
+        this.createTemporaryArtwork(memberContext, rq)
+        return getAutoSaveResponseString()
     }
 
     private fun autoSavePermissionCheck(member: Member, temporaryArtwork: TemporaryArtwork) {

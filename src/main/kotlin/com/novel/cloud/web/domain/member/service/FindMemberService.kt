@@ -47,6 +47,11 @@ class FindMemberService(
         return findByEmailOrElseThrow(email);
     }
 
+    fun findLoginMemberOrElseNull(memberContext: MemberContext): Member? {
+        val email = memberContext.email
+        return findByEmailOrElseNull(email);
+    }
+
     fun findMemberProfile(memberId: Long): FindMemberSelfRs {
         val member = findByIdOrElseThrow(memberId)
         return FindMemberSelfRs.create(member)

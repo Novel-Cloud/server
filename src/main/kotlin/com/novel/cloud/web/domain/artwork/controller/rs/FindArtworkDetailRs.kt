@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class FindArtworkDetailRs (
-    // TODO:: COMMENT 기능 추가하면 프로퍼티 주가
+    // TODO:: COMMENT 기능 추가하면 프로퍼티 추가
     val title: String? = null,
     val content: String? = null,
     val view: Long? = null,

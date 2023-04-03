@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 
 interface TemporaryArtworkRepository: JpaRepository<TemporaryArtwork, Long> {
-
-    fun findTopByWriterOrderByCreatedDateDesc(writer: Member): Optional<TemporaryArtwork>
+    fun findByWriter(writer: Member): Optional<TemporaryArtwork>
 
 }
