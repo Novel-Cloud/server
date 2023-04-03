@@ -5,9 +5,10 @@ import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
+import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.repository.AbbreviationRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
-import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteAbbreviationException
+import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -32,17 +33,25 @@ class AbbreviationService(
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val shortcutId: Long = rq.shortcutId
         val abbreviation: Abbreviation = findAbbreviationService.findByIdOrElseThrow(shortcutId)
-        abbreviationDeletePermissionCheck(abbreviation, member)
+        abbreviationPermissionCheck(abbreviation, member)
         abbreviationRepository.delete(abbreviation)
     }
 
-    private fun abbreviationDeletePermissionCheck(abbreviation: Abbreviation, member: Member) {
+    private fun abbreviationPermissionCheck(abbreviation: Abbreviation, member: Member) {
         val writerId: Long? = abbreviation.writer.id
         val memberId: Long? = member.id
         if (writerId == memberId) {
             return
         }
-        throw DoNotHavePermissionToDeleteAbbreviationException()
+        throw DoNotHavePermissionToDeleteOrUpdateAbbreviationException()
+    }
+
+    fun updateAbbreviation(memberContext: MemberContext, rq: UpdateAbbreviationRq) {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val shortcutId: Long = rq.shortcutId
+        val abbreviation: Abbreviation = findAbbreviationService.findByIdOrElseThrow(shortcutId)
+        abbreviationPermissionCheck(abbreviation, member)
+        abbreviation.updateContent(rq.content)
     }
 
 }

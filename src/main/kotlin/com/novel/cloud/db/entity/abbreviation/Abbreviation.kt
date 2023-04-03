@@ -34,7 +34,7 @@ class Abbreviation (
     var writer: Member = writer
         protected set
 
-    fun updateName(content: String) {
+    fun updateContent(content: String) {
         this.content = content
     }
 
