@@ -6,12 +6,15 @@ import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationRq
+import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationSequenceRq
 import com.novel.cloud.web.domain.abbreviation.repository.AbbreviationRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
+import com.novel.cloud.web.exception.AbbreviationSequenceContainException
+import com.novel.cloud.web.exception.AbbreviationSequenceSizeException
 import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
+import org.apache.commons.lang3.ObjectUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.Objects
 
 @Service
 @Transactional
@@ -57,5 +60,48 @@ class AbbreviationService(
         abbreviationPermissionCheck(abbreviation, member)
         abbreviation.updateContent(rq.content)
     }
+
+    fun updateAbbreviationSequence(memberContext: MemberContext, rq: UpdateAbbreviationSequenceRq) {
+        val abbreviationIdList = rq.shortcutIdList
+        if (ObjectUtils.isEmpty(abbreviationIdList)) {
+            return
+        }
+
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val abbreviationList = member.abbreviations
+
+        updateAbbreviationValidationCheck(abbreviationList, abbreviationIdList)
+
+        val portfolioMap: Map<Long?, Abbreviation> = abbreviationList.associateBy { abbreviation ->
+            abbreviation.id
+        }
+
+        for (index in abbreviationIdList.indices) {
+            val abbreviationId = abbreviationIdList[index]
+            val abbreviation = portfolioMap[abbreviationId]
+            abbreviation?.updateSequence(index)
+        }
+
+    }
+
+    private fun updateAbbreviationValidationCheck(
+        abbreviationList: List<Abbreviation>,
+        abbreviationIdList: List<Long>,
+    ) {
+        val abbreviationIdSet = abbreviationList.map { abbreviation ->
+            abbreviation.id
+        }.toSet()
+
+        if (abbreviationIdSet.size != abbreviationIdList.size) {
+            throw AbbreviationSequenceSizeException()
+        }
+
+        abbreviationIdList.map { abbreviationId ->
+            if (!abbreviationIdSet.contains(abbreviationId)) {
+                throw AbbreviationSequenceContainException()
+            }
+        }
+    }
+
 
 }

@@ -4,6 +4,7 @@ import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationRq
+import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationSequenceRq
 import com.novel.cloud.web.domain.abbreviation.service.AbbreviationService
 import com.novel.cloud.web.domain.abbreviation.service.FindAbbreviationService
 import com.novel.cloud.web.path.ApiPath
@@ -44,14 +45,12 @@ class AbbreviationController(
         abbreviationService.updateAbbreviation(memberContext, rq)
     }
 
-//    @Operation(summary = "단축어 순서변경")
-//    @PostMapping(ApiPath.SHORTCUT)
-//    fun seqence(@AuthenticationPrincipal memberContext: MemberContext,
-//                 @Validated @RequestPart(value = "rq") rq: CreateArtworkRq,
-//                 @RequestPart(value = "files") files: List<MultipartFile>,
-//                 @RequestPart(value = "thumbnail") thumbnail: MultipartFile): null {
-//        return null
-//    }
+    @Operation(summary = "단축어 순서변경")
+    @PutMapping(ApiPath.SHORTCUT_SEQUENCE)
+    fun updateAbbreviationSequence(@AuthenticationPrincipal memberContext: MemberContext,
+                 @Validated @RequestBody rq: UpdateAbbreviationSequenceRq) {
+        abbreviationService.updateAbbreviationSequence(memberContext, rq)
+    }
 
 //    @Operation(summary = "내 단축어 불러오기")
 //    @GetMapping(ApiPath.SHORTCUT)
