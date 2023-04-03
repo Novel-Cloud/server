@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -52,13 +53,10 @@ class AbbreviationController(
         abbreviationService.updateAbbreviationSequence(memberContext, rq)
     }
 
-//    @Operation(summary = "내 단축어 불러오기")
-//    @GetMapping(ApiPath.SHORTCUT)
-//    fun my(@AuthenticationPrincipal memberContext: MemberContext,
-//                @Validated @RequestPart(value = "rq") rq: CreateArtworkRq,
-//                @RequestPart(value = "files") files: List<MultipartFile>,
-//                @RequestPart(value = "thumbnail") thumbnail: MultipartFile): null {
-//        return null
-//    }
+    @Operation(summary = "내 단축어 불러오기")
+    @GetMapping(ApiPath.SHORTCUT)
+    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext) {
+        return findAbbreviationService.findAbbreviationSelf(memberContext)
+    }
 
 }

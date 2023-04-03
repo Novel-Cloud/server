@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import java.util.Optional
 
 import com.novel.cloud.db.entity.abbreviation.QAbbreviation.abbreviation
+import java.lang.reflect.Member
 
 class AbbreviationRepositoryImpl (
     private val jpaQueryFactory: JPAQueryFactory
@@ -18,6 +19,14 @@ class AbbreviationRepositoryImpl (
                 .orderBy(abbreviation.sequence.desc())
                 .fetchFirst()
         );
+    }
+
+    override fun findSequenceAbbreviation(memberId: Long?): List<Abbreviation> {
+        return jpaQueryFactory
+            .selectFrom(abbreviation)
+            .where(abbreviation.writer.id.eq(memberId))
+            .orderBy(abbreviation.sequence.asc())
+            .fetch()
     }
 
 }
