@@ -1,18 +1,22 @@
 package com.novel.cloud.web.domain.abbreviation.service
 
 import com.novel.cloud.db.entity.abbreviation.Abbreviation
+import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
+import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.repository.AbbreviationRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
+import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteAbbreviationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class AbbreviationService (
+class AbbreviationService(
     private val findMemberService: FindMemberService,
-    private val abbreviationRepository: AbbreviationRepository
+    private val findAbbreviationService: FindAbbreviationService,
+    private val abbreviationRepository: AbbreviationRepository,
 ) {
     fun createAbbreviation(memberContext: MemberContext, rq: CreateAbbreviationRq) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
@@ -22,6 +26,23 @@ class AbbreviationService (
             writer = member
         )
         abbreviationRepository.save(abbreviation)
+    }
+
+    fun deleteAbbreviation(memberContext: MemberContext, rq: DeleteAbbreviationRq) {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val shortcutId: Long = rq.shortcutId
+        val abbreviation: Abbreviation = findAbbreviationService.findByIdOrElseThrow(shortcutId)
+        abbreviationDeletePermissionCheck(abbreviation, member)
+        abbreviationRepository.delete(abbreviation)
+    }
+
+    private fun abbreviationDeletePermissionCheck(abbreviation: Abbreviation, member: Member) {
+        val writerId: Long? = abbreviation.writer.id
+        val memberId: Long? = member.id
+        if (writerId == memberId) {
+            return
+        }
+        throw DoNotHavePermissionToDeleteAbbreviationException()
     }
 
 }
