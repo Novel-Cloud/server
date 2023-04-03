@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 import com.novel.cloud.db.entity.artwork.QArtwork.artwork
-import com.querydsl.jpa.impl.JPAQuery
 import org.springframework.data.support.PageableExecutionUtils
 
 class ArtworkRepositoryImpl (

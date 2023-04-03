@@ -1,4 +1,4 @@
-package com.novel.cloud.web.domain.artwork.controller
+package com.novel.cloud.web.domain.abbreviation.controller
 
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
@@ -43,7 +43,7 @@ class AbbreviationController(
                       @Validated @RequestBody rq: UpdateAbbreviationRq) {
         abbreviationService.updateAbbreviation(memberContext, rq)
     }
-//
+
 //    @Operation(summary = "단축어 순서변경")
 //    @PostMapping(ApiPath.SHORTCUT)
 //    fun seqence(@AuthenticationPrincipal memberContext: MemberContext,
@@ -52,7 +52,7 @@ class AbbreviationController(
 //                 @RequestPart(value = "thumbnail") thumbnail: MultipartFile): null {
 //        return null
 //    }
-//
+
 //    @Operation(summary = "내 단축어 불러오기")
 //    @GetMapping(ApiPath.SHORTCUT)
 //    fun my(@AuthenticationPrincipal memberContext: MemberContext,

@@ -16,4 +16,9 @@ class FindAbbreviationService (
             .orElseThrow { NotFoundAbbreviationException() }
     }
 
+    fun findMyLastSequenceAbbreviation(id: Long?): Abbreviation? {
+        return abbreviationRepository.findMyLastSequenceAbbreviation(id)
+            .orElse(null)
+    }
+
 }

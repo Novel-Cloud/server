@@ -11,6 +11,7 @@ import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.Objects
 
 @Service
 @Transactional
@@ -21,9 +22,12 @@ class AbbreviationService(
 ) {
     fun createAbbreviation(memberContext: MemberContext, rq: CreateAbbreviationRq) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val myLastAbbreviation = findAbbreviationService.findMyLastSequenceAbbreviation(member.id);
+        val sequence: Int = myLastAbbreviation?.sequence?.plus(1) ?: 1
+
         val abbreviation = Abbreviation(
             content = rq.content,
-            sequence = 1,
+            sequence = sequence,
             writer = member
         )
         abbreviationRepository.save(abbreviation)
