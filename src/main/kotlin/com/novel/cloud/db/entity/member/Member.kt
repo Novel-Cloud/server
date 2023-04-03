@@ -1,5 +1,6 @@
 package com.novel.cloud.db.entity.member
 
+import com.novel.cloud.db.entity.abbreviation.Abbreviation
 import com.novel.cloud.db.entity.artwork.Artwork
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -38,6 +39,10 @@ class Member (
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
     protected val mutableArtworks: MutableList<Artwork> = mutableListOf();
     val artworks: List<Artwork> get() = mutableArtworks.toList()
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
+    protected val mutableAbbreviation: MutableList<Abbreviation> = mutableListOf();
+    val abbreviations: List<Abbreviation> get() = mutableAbbreviation.toList()
 
     fun writeArtwork(artwork: Artwork) {
         mutableArtworks.add(artwork)
