@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne
 @Entity
 class Abbreviation (
     content: String,
+    sequence: Int,
     writer: Member,
 ): BaseTimeEntity() {
 
@@ -26,7 +27,7 @@ class Abbreviation (
         protected set
 
     @Column(nullable = false)
-    var sequence: Int? = null
+    var sequence: Int? = sequence
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)

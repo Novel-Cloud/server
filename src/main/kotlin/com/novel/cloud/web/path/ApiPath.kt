@@ -23,8 +23,6 @@ object ApiPath {
     // 작품
     const val ARTWORK = "/api/artwork"
 
-    const val ARTWORK_START = "/api/artwork/start"
-
     const val ARTWORK_SAVE = "/api/artwork/save"
 
     const val ARTWORK_SUBMIT = "/api/artwork"
@@ -41,5 +39,10 @@ object ApiPath {
     const val VIEW_ARTWORK_IMG = "/api/file/artwork/{fileUidName}"
 
     const val VIEW_PROFILE_IMG = "/api/file/profile/{fileUidName}"
+
+    //단축어
+    const val SHORTCUT = "/api/shortcut"
+
+    const val SHORTCUT_SEQUENCE = "/api/shortcut/sequence"
 
 }

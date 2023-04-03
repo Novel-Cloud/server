@@ -13,13 +13,11 @@ import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
 import com.novel.cloud.web.exception.NotFoundArtworkException
-import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
 import org.springframework.stereotype.Service
-import java.io.Writer
-import javax.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class FindArtworkService (
     val findMemberService: FindMemberService,
     val artworkRepository: ArtworkRepository,
