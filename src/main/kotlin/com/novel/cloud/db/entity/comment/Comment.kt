@@ -60,6 +60,10 @@ class Comment(
         artwork.addComment(this);
     }
 
+    fun updateDeleted(deleted: Boolean) {
+        this.deleted = deleted
+    }
+
 }
 
 
