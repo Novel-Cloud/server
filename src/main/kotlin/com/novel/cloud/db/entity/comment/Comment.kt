@@ -11,13 +11,15 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
 
 
 @Entity
 class Comment(
     content: String,
     writer: Member,
-    artwork: Artwork
+    artwork: Artwork,
+    parent: Comment?
 ): BaseTimeEntity() {
 
     @Id
@@ -37,6 +39,15 @@ class Comment(
     @JoinColumn(nullable = false)
     var artwork: Artwork = artwork
         protected set;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+    private val parent: Comment? = parent
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+    private val mutableChildren: MutableList<Comment> = mutableListOf();
+    val children: List<Comment> get() = mutableChildren.toList();
 
     init {
         artwork.addComment(this);

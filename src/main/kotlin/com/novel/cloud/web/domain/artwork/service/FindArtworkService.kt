@@ -42,7 +42,7 @@ class FindArtworkService (
         return FindArtworkDetailRs.create(artwork)
     }
 
-    private fun findArtworkByIdOrElseThrow(artworkId: Long): Artwork {
+    fun findArtworkByIdOrElseThrow(artworkId: Long): Artwork {
         return artworkRepository.findById(artworkId)
             .orElseThrow{ NotFoundArtworkException() }
     }

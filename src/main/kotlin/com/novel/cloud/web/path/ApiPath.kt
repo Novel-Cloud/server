@@ -45,4 +45,7 @@ object ApiPath {
 
     const val SHORTCUT_SEQUENCE = "/api/shortcut/sequence"
 
+    //댓글
+    const val COMMENT = "/api/comment"
+
 }
