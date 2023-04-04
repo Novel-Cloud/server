@@ -5,6 +5,7 @@ import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationR
 import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationSequenceRq
+import com.novel.cloud.web.domain.abbreviation.controller.rs.FindSequenceAbbreviationRs
 import com.novel.cloud.web.domain.abbreviation.service.AbbreviationService
 import com.novel.cloud.web.domain.abbreviation.service.FindAbbreviationService
 import com.novel.cloud.web.path.ApiPath
@@ -55,7 +56,7 @@ class AbbreviationController(
 
     @Operation(summary = "내 단축어 불러오기")
     @GetMapping(ApiPath.SHORTCUT)
-    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext) {
+    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext): List<FindSequenceAbbreviationRs> {
         return findAbbreviationService.findAbbreviationSelf(memberContext)
     }
 

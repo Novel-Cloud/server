@@ -2,6 +2,7 @@ package com.novel.cloud.web.domain.abbreviation.service
 
 import com.novel.cloud.db.entity.abbreviation.Abbreviation
 import com.novel.cloud.web.config.security.context.MemberContext
+import com.novel.cloud.web.domain.abbreviation.controller.rs.FindSequenceAbbreviationRs
 import com.novel.cloud.web.domain.abbreviation.repository.AbbreviationRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.NotFoundAbbreviationException
@@ -29,9 +30,13 @@ class FindAbbreviationService (
         return abbreviationRepository.findSequenceAbbreviation(memberId)
     }
 
-    fun findAbbreviationSelf(memberContext: MemberContext): List<Abbreviation> {
+    fun findAbbreviationSelf(memberContext: MemberContext): List<FindSequenceAbbreviationRs> {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        return abbreviationRepository.findSequenceAbbreviation(member.id)
+        val abbreviationList = abbreviationRepository.findSequenceAbbreviation(member.id)
+        val findSequenceAbbreviationRsList = abbreviationList.map { abbreviation ->
+            FindSequenceAbbreviationRs.create(abbreviation)
+        }.toList()
+        return findSequenceAbbreviationRsList
     }
 
 }
