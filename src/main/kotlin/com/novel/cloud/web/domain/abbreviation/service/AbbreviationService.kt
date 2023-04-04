@@ -48,9 +48,8 @@ class AbbreviationService(
         val writerId: Long? = abbreviation.writer.id
         val memberId: Long? = member.id
         if (writerId == memberId) {
-            return
+            throw DoNotHavePermissionToDeleteOrUpdateAbbreviationException()
         }
-        throw DoNotHavePermissionToDeleteOrUpdateAbbreviationException()
     }
 
     fun updateAbbreviation(memberContext: MemberContext, rq: UpdateAbbreviationRq) {

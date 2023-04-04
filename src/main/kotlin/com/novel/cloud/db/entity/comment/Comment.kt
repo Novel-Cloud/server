@@ -21,7 +21,7 @@ class Comment(
     content: String,
     writer: Member,
     artwork: Artwork,
-    parent: Comment?
+    parent: Comment?,
 ): BaseTimeEntity() {
 
     @Id
@@ -32,8 +32,8 @@ class Comment(
     var content: String = content
         protected set;
 
-    @Convert(converter = BooleanToYNConverter::class)
     @Column(nullable = false)
+    @Convert(converter = BooleanToYNConverter::class)
     var deleted: Boolean = false
         protected set;
 

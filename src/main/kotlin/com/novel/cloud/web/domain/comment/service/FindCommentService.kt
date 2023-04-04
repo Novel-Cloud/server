@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class FindCommentService(
     private val commentRepository: CommentRepository,
 ) {
-    fun findByIdOrElseThrow(parentId: Long): Comment? {
+    fun findByIdOrElseThrow(parentId: Long): Comment {
         return commentRepository.findById(parentId)
             .orElseThrow{ NotFoundCommentException() }
     }

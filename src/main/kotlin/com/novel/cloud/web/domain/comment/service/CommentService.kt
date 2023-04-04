@@ -1,12 +1,15 @@
 package com.novel.cloud.web.domain.comment.service
 
 import com.novel.cloud.db.entity.comment.Comment
+import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.comment.controller.rq.CreateCommentRq
 import com.novel.cloud.web.domain.comment.controller.rq.DeleteCommentRq
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
+import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
+import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateCommentException
 import com.novel.cloud.web.exception.NotMatchedParentChildArtworkIdException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -58,7 +61,19 @@ class CommentService(
     }
 
     fun deleteComment(memberContext: MemberContext, rq: DeleteCommentRq) {
-        TODO("Not yet implemented")
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val comment = findCommentService.findByIdOrElseThrow(rq.commentId)
+
+        commentPermissionCheck(member, comment)
+        comment.updateDeleted(true)
+    }
+
+    private fun commentPermissionCheck(member: Member, comment: Comment) {
+        val writerId: Long? = comment.writer.id
+        val memberId: Long? = member.id
+        if (writerId != memberId) {
+            throw DoNotHavePermissionToDeleteOrUpdateCommentException()
+        }
     }
 
 

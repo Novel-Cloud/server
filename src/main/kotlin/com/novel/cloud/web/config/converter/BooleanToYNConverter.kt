@@ -6,10 +6,8 @@ import javax.persistence.Converter
 @Converter
 class BooleanToYNConverter: AttributeConverter<Boolean, String> {
 
-    override fun convertToDatabaseColumn(attribute: Boolean?): String {
-        attribute?.let {
-            return "Y"
-        }
+    override fun convertToDatabaseColumn(attribute: Boolean): String {
+        if (attribute) return "Y"
         return "N"
     }
 
