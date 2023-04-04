@@ -4,6 +4,7 @@ import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.comment.controller.rq.CreateCommentRq
+import com.novel.cloud.web.domain.comment.controller.rq.DeleteCommentRq
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.NotMatchedParentChildArtworkIdException
@@ -55,5 +56,11 @@ class CommentService(
             // TODO: 일단 무한 대댓글이지만 나중에 깊이 제한이 생기면 댓글의 깊이 제한 validation 추가
         }
     }
+
+    fun deleteComment(memberContext: MemberContext, rq: DeleteCommentRq) {
+        TODO("Not yet implemented")
+    }
+
+
 
 }

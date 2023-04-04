@@ -3,7 +3,9 @@ package com.novel.cloud.db.entity.comment
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.web.config.converter.BooleanToYNConverter
 import javax.persistence.Column
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
@@ -28,6 +30,11 @@ class Comment(
 
     @Column(length = 3000)
     var content: String = content
+        protected set;
+
+    @Convert(converter = BooleanToYNConverter::class)
+    @Column(nullable = false)
+    var deleted: Boolean = false
         protected set;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
