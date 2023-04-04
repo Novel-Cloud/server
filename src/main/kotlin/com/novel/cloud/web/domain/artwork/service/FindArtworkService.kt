@@ -13,13 +13,11 @@ import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
 import com.novel.cloud.web.exception.NotFoundArtworkException
-import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
 import org.springframework.stereotype.Service
-import java.io.Writer
-import javax.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class FindArtworkService (
     val findMemberService: FindMemberService,
     val artworkRepository: ArtworkRepository,
@@ -49,16 +47,15 @@ class FindArtworkService (
             .orElseThrow{ NotFoundArtworkException() }
     }
 
-    private fun findTopTemporaryByWriter(writer: Member): TemporaryArtwork {
-        return temporaryArtworkRepository.findTopByWriterOrderByCreatedDateDesc(writer)
-            .orElseThrow { NotFoundTemporaryArtworkException() }
+    fun findTemporaryArtworkByWriterOrElseNull(writer: Member): TemporaryArtwork? {
+        return temporaryArtworkRepository.findByWriter(writer)
+            .orElse(null)
     }
 
     fun findTemporaryArtworkSelf(memberContext: MemberContext): FindTemporaryArtworkRs {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val temporaryArtwork = findTopTemporaryByWriter(member)
+        val temporaryArtwork = findTemporaryArtworkByWriterOrElseNull(member)
         return FindTemporaryArtworkRs.create(temporaryArtwork)
     }
-
 
 }
