@@ -6,6 +6,7 @@ import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.comment.controller.rq.CreateCommentRq
 import com.novel.cloud.web.domain.comment.controller.rq.DeleteCommentRq
+import com.novel.cloud.web.domain.comment.controller.rq.UpdateCommentRq
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
@@ -76,6 +77,14 @@ class CommentService(
         }
     }
 
+    fun updateComment(memberContext: MemberContext, rq: UpdateCommentRq) {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val comment = findCommentService.findByIdOrElseThrow(rq.commentId)
+        val content = rq.content
+
+        commentPermissionCheck(member, comment)
+        comment.updateContent(content)
+    }
 
 
 }

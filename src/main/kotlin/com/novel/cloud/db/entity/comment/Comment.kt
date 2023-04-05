@@ -64,6 +64,10 @@ class Comment(
         this.deleted = deleted
     }
 
+    fun updateContent(content: String) {
+        this.content = content
+    }
+
 }
 
 
