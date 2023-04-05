@@ -9,7 +9,6 @@ import com.novel.cloud.web.domain.comment.controller.rq.DeleteCommentRq
 import com.novel.cloud.web.domain.comment.controller.rq.UpdateCommentRq
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
-import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateAbbreviationException
 import com.novel.cloud.web.exception.DoNotHavePermissionToDeleteOrUpdateCommentException
 import com.novel.cloud.web.exception.NotMatchedParentChildArtworkIdException
 import org.springframework.stereotype.Service
@@ -27,7 +26,7 @@ class CommentService(
     fun createComment(memberContext: MemberContext, rq: CreateCommentRq) {
         val artworkId: Long = rq.artworkId
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val artwork = findArtworkService.findArtworkByIdOrElseThrow(artworkId)
+        val artwork = findArtworkService.findByIdOrElseThrow(artworkId)
 
         val parentId = rq.parentId
         val parent = getCommentParent(parentId)
