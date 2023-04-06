@@ -1,4 +1,10 @@
-package com.novel.cloud.web.domain.bookmark.controller
+package com.novel.cloud.web.domain.bookmark.controller.rq
 
-class BookmarkArtworkRq {
-}
+import javax.validation.constraints.NotNull
+
+data class BookmarkArtworkRq (
+
+    @field:NotNull
+    val artworkId: Long
+
+)

@@ -25,16 +25,20 @@ data class FindArtworkDetailRs (
 ){
     companion object {
         fun create(artwork: Artwork): FindArtworkDetailRs {
+            val writer = getWriter(artwork.writer)
+            val attachFiles = getAttachFiles(artwork.attachFiles)
+
             return FindArtworkDetailRs(
                 title = artwork.title,
                 content = artwork.content,
                 view = artwork.view,
                 artworkType = artwork.artworkType,
-                writer = getWriter(artwork.writer),
+                writer = writer,
                 tags = artwork.tags,
                 thumbnail = artwork.thumbnail,
-                attachFiles = getAttachFiles(artwork.attachFiles),
+                attachFiles = attachFiles,
                 createDates = DateUtils.formatDateYYYYMMDD(artwork.createdDate)
+
             )
         }
 
