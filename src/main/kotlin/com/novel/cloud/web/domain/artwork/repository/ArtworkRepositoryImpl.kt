@@ -15,7 +15,7 @@ class ArtworkRepositoryImpl (
     override fun findArtworkList(pageable: Pageable): Page<Artwork> {
         val contents = jpaQueryFactory
             .selectFrom(artwork)
-            .orderBy(artwork.createdDate.asc())
+            .orderBy(artwork.createdDate.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .fetch()
