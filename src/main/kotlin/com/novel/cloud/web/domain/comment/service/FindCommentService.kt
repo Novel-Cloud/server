@@ -25,8 +25,10 @@ class FindCommentService(
             .orElseThrow{ NotFoundCommentException() }
     }
 
-    fun findCommentByArtworkId(memberContext: MemberContext, artworkId: Long): ListResponse<FindCommentRs> {
-        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+    fun findCommentByArtworkId(memberContext: MemberContext?, artworkId: Long): ListResponse<FindCommentRs> {
+        val member = memberContext?.let {
+            findMemberService.findLoginMemberOrElseThrow(memberContext)
+        }
         val artwork: Artwork = findArtworkService.findByIdOrElseThrow(artworkId)
 
         val commentList = commentRepository.findParentCommentByArtwork(artwork)

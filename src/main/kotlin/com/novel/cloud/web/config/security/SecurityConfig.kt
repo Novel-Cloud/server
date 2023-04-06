@@ -41,6 +41,7 @@ class SecurityConfig(
             antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
             antMatchers(ApiPath.VIEW_ARTWORK).permitAll()
             antMatchers(ApiPath.ARTWORK_DETAIL).permitAll()
+            antMatchers(ApiPath.VIEW_COMMENT).permitAll()
             antMatchers(ApiPath.MEMBER_OTHER).permitAll()
             antMatchers(ApiPath.FILE_SECURITY).permitAll()
             anyRequest().authenticated()
