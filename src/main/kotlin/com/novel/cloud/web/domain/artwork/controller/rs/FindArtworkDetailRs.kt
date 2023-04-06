@@ -7,6 +7,7 @@ import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
 import com.novel.cloud.web.domain.dto.AttachFileDto
 import com.novel.cloud.web.domain.dto.MemberDto
+import com.novel.cloud.web.utils.DateUtils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -33,7 +34,7 @@ data class FindArtworkDetailRs (
                 tags = artwork.tags,
                 thumbnail = artwork.thumbnail,
                 attachFiles = getAttachFiles(artwork.attachFiles),
-                createDates = formatDate(artwork.createdDate)
+                createDates = DateUtils.formatDateYYYYMMDD(artwork.createdDate)
             )
         }
 
@@ -45,10 +46,6 @@ data class FindArtworkDetailRs (
             return attachFiles.map { attachFile ->
                 AttachFileDto.create(attachFile)
             }.toList()
-        }
-
-        private fun formatDate(createdDate: LocalDateTime?): String? {
-            return createdDate?.format(DateTimeFormatter.ofPattern("yyyy.MM.dd."))
         }
 
     }

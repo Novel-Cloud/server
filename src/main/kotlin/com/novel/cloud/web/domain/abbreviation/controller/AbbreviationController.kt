@@ -8,6 +8,7 @@ import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationS
 import com.novel.cloud.web.domain.abbreviation.controller.rs.FindSequenceAbbreviationRs
 import com.novel.cloud.web.domain.abbreviation.service.AbbreviationService
 import com.novel.cloud.web.domain.abbreviation.service.FindAbbreviationService
+import com.novel.cloud.web.endpoint.ListResponse
 import com.novel.cloud.web.path.ApiPath
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -56,7 +57,7 @@ class AbbreviationController(
 
     @Operation(summary = "내 단축어 불러오기")
     @GetMapping(ApiPath.SHORTCUT)
-    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext): List<FindSequenceAbbreviationRs> {
+    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext): ListResponse<FindSequenceAbbreviationRs> {
         return findAbbreviationService.findAbbreviationSelf(memberContext)
     }
 

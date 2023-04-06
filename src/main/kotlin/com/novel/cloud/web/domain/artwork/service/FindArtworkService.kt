@@ -37,12 +37,12 @@ class FindArtworkService (
     }
 
     fun findArtworkDetail(artworkId: Long): FindArtworkDetailRs {
-        val artwork = findArtworkByIdOrElseThrow(artworkId)
+        val artwork = findByIdOrElseThrow(artworkId)
         artwork.addView()
         return FindArtworkDetailRs.create(artwork)
     }
 
-    private fun findArtworkByIdOrElseThrow(artworkId: Long): Artwork {
+    fun findByIdOrElseThrow(artworkId: Long): Artwork {
         return artworkRepository.findById(artworkId)
             .orElseThrow{ NotFoundArtworkException() }
     }

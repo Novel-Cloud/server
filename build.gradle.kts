@@ -6,7 +6,6 @@ plugins {
 	id("org.jetbrains.kotlin.jvm") version "1.6.21"
 	id("org.jetbrains.kotlin.plugin.spring") version "1.6.21"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.6.21"
-	id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 	kotlin("kapt") version "1.7.10"
 }
 

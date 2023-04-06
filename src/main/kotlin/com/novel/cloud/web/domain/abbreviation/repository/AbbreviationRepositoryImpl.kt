@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import java.util.Optional
 
 import com.novel.cloud.db.entity.abbreviation.QAbbreviation.abbreviation
-import java.lang.reflect.Member
 
 class AbbreviationRepositoryImpl (
     private val jpaQueryFactory: JPAQueryFactory
