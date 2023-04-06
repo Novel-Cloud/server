@@ -34,10 +34,6 @@ class Abbreviation (
     var writer: Member = writer
         protected set
 
-    fun updateContent(content: String) {
-        this.content = content
-    }
-
     fun updateSequence(sequence: Int) {
         this.sequence = sequence
     }

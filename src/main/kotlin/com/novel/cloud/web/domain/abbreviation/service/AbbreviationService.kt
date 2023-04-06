@@ -52,14 +52,6 @@ class AbbreviationService(
         }
     }
 
-    fun updateAbbreviation(memberContext: MemberContext, rq: UpdateAbbreviationRq) {
-        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val shortcutId: Long = rq.shortcutId
-        val abbreviation: Abbreviation = findAbbreviationService.findByIdOrElseThrow(shortcutId)
-        abbreviationPermissionCheck(abbreviation, member)
-        abbreviation.updateContent(rq.content)
-    }
-
     fun updateAbbreviationSequence(memberContext: MemberContext, rq: UpdateAbbreviationSequenceRq) {
         val abbreviationIdList = rq.shortcutIdList
         if (ObjectUtils.isEmpty(abbreviationIdList)) {

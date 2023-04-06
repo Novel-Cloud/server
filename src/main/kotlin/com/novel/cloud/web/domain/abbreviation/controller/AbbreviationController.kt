@@ -41,12 +41,6 @@ class AbbreviationController(
                       @Validated @RequestBody rq: DeleteAbbreviationRq) {
         abbreviationService.deleteAbbreviation(memberContext, rq)
     }
-    @Operation(summary = "단축어 수정")
-    @PutMapping(ApiPath.SHORTCUT)
-    fun updateAbbreviation(@AuthenticationPrincipal memberContext: MemberContext,
-                      @Validated @RequestBody rq: UpdateAbbreviationRq) {
-        abbreviationService.updateAbbreviation(memberContext, rq)
-    }
 
     @Operation(summary = "단축어 순서변경")
     @PutMapping(ApiPath.SHORTCUT_SEQUENCE)
