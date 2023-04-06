@@ -9,6 +9,7 @@ import com.novel.cloud.web.domain.dto.AttachFileDto
 import com.novel.cloud.web.domain.dto.MemberDto
 
 data class FindArtworkRs (
+    val artworkId: Long? = null,
     val title: String? = null,
     val artworkType: ArtworkType? = null,
     val writer: MemberDto? = null,
@@ -22,6 +23,7 @@ data class FindArtworkRs (
         fun create(artwork: Artwork, bookmarkYn: Boolean): FindArtworkRs {
             val writer = getWriter(artwork.writer)
             return FindArtworkRs(
+                artworkId = artwork.id,
                 title = artwork.title,
                 artworkType = artwork.artworkType,
                 writer = writer,

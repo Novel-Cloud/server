@@ -10,7 +10,7 @@ import com.novel.cloud.web.domain.dto.MemberDto
 import com.novel.cloud.web.utils.DateUtils
 
 data class FindArtworkDetailRs (
-    // TODO:: COMMENT 기능 추가하면 프로퍼티 추가
+    val artworkId: Long? = null,
     val title: String? = null,
     val content: String? = null,
     val view: Long? = null,
@@ -30,6 +30,7 @@ data class FindArtworkDetailRs (
             val attachFiles = getAttachFiles(artwork.attachFiles)
             val likes = getLikes(artwork)
             return FindArtworkDetailRs(
+                artworkId = artwork.id,
                 title = artwork.title,
                 content = artwork.content,
                 view = artwork.view,
