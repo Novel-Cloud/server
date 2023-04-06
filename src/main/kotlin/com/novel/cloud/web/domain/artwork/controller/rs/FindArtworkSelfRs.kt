@@ -3,29 +3,26 @@ package com.novel.cloud.web.domain.artwork.controller.rs
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.Tag
 import com.novel.cloud.db.entity.attach_file.AttachFile
-import com.novel.cloud.db.entity.bookmark.Bookmark
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.db.enums.ArtworkType
 import com.novel.cloud.web.domain.dto.AttachFileDto
 import com.novel.cloud.web.domain.dto.MemberDto
 
-data class FindArtworkRs (
+data class FindArtworkSelfRs (
     val title: String? = null,
     val artworkType: ArtworkType? = null,
     val writer: MemberDto? = null,
-    val bookmarkYn: Boolean? = null,
     val tags: List<Tag>? = null,
     val thumbnail: String? = null,
     val attachFiles: List<AttachFileDto>? = null,
 ){
     companion object {
-        fun create(artwork: Artwork, bookmarkYn: Boolean): FindArtworkRs {
+        fun create(artwork: Artwork): FindArtworkRs {
             val writer = getWriter(artwork.writer)
             return FindArtworkRs(
                 title = artwork.title,
                 artworkType = artwork.artworkType,
                 writer = writer,
-                bookmarkYn = bookmarkYn,
                 tags = artwork.tags,
                 thumbnail = artwork.thumbnail,
                 attachFiles = getAttachFiles(artwork.attachFiles)

@@ -26,11 +26,12 @@ class FindArtworkService(
     val temporaryArtworkRepository: TemporaryArtworkRepository,
 ) {
 
-    fun findAllArtwork(pagination: Pagination): PagedResponse<FindArtworkRs> {
+    fun findAllArtwork(memberContext: MemberContext?, pagination: Pagination): PagedResponse<FindArtworkRs> {
         val pageRequest = pagination.toPageRequest()
         val artworkList = artworkRepository.findArtworkList(pageRequest);
         val findArtworkRsList: List<FindArtworkRs> = artworkList.map { artwork ->
-            FindArtworkRs.create(artwork)
+            val bookmarkYn = getBookmarkYn(memberContext, artwork)
+            FindArtworkRs.create(artwork, bookmarkYn)
         }.toList()
         return PagedResponse(
             pagination = pagination.copy(totalCount = artworkList.totalElements, totalPages = artworkList.totalPages),

@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.member.controller.rs
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
+import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkSelfRs
 
 data class FindMemberSelfRs(
     val memberId: Long? = null,
@@ -25,7 +26,7 @@ data class FindMemberSelfRs(
 
         private fun getArtworks(artworks: List<Artwork>?): List<FindArtworkRs>? {
             return artworks?.map { artwork ->
-                FindArtworkRs.create(artwork)
+                FindArtworkSelfRs.create(artwork)
             }?.toList()
         }
 
