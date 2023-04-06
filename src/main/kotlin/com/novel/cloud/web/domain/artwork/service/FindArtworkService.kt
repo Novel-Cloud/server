@@ -39,6 +39,8 @@ class FindArtworkService(
         )
     }
 
+    // TODO::FindArtwork, Artwork 병합
+    @Transactional
     fun findArtworkDetail(memberContext: MemberContext?, artworkId: Long): FindArtworkDetailRs {
         val artwork = findByIdOrElseThrow(artworkId)
         val bookmarkYn = getBookmarkYn(memberContext, artwork)

@@ -1,4 +1,4 @@
-package com.novel.cloud.web.domain.abbreviation.controller.rs
+package com.novel.cloud.web.domain.comment.controller.rs
 
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.member.Member

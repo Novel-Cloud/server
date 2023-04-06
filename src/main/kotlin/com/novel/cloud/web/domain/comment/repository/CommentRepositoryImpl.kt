@@ -17,7 +17,7 @@ class CommentRepositoryImpl (
                 comment.parent.id.isNull
             )
             .orderBy(comment.parent.id.asc().nullsFirst(), comment.createdDate.desc())
-            .fetch();
+            .fetch()
     }
 
 }

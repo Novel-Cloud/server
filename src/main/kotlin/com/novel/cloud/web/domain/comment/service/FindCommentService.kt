@@ -3,7 +3,7 @@ package com.novel.cloud.web.domain.comment.service
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.web.config.security.context.MemberContext
-import com.novel.cloud.web.domain.abbreviation.controller.rs.FindCommentRs
+import com.novel.cloud.web.domain.comment.controller.rs.FindCommentRs
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
