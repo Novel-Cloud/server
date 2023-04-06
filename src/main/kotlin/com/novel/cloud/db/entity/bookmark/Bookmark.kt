@@ -3,7 +3,6 @@ package com.novel.cloud.db.entity.bookmark
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
