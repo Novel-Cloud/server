@@ -16,7 +16,9 @@ data class FindCommentRs(
     val replyList: List<FindCommentRs>? = null,
 ){
     companion object {
+
         fun create(comment: Comment, member: Member): FindCommentRs {
+            val content = getContent(comment)
             val formattedDate = DateUtils.formatDateYYYYMMDD(comment.createdDate)
             val writerId = comment.writer.id
             val editAndDeletable = getEditAndDeletable(writerId, member)
@@ -25,7 +27,7 @@ data class FindCommentRs(
 
             return FindCommentRs(
                 commentId = comment.id,
-                content = comment.content,
+                content = content,
                 createdDate = formattedDate,
                 editable = editAndDeletable,
                 deletable = editAndDeletable,
@@ -33,6 +35,13 @@ data class FindCommentRs(
                 writer = getWriter(comment.writer),
                 replyList = replyList
             )
+        }
+
+        private fun getContent(comment: Comment): String {
+            if (comment.deleted) {
+                return "삭제된 메세지입니다"
+            }
+            return comment.content
         }
 
         private fun getEditAndDeletable(writerId: Long?, member: Member): Boolean? {
