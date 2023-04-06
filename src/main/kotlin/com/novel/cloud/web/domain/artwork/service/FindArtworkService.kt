@@ -42,7 +42,7 @@ class FindArtworkService(
         val artwork = findByIdOrElseThrow(artworkId)
         val bookmarkYn = getBookmarkYn(memberContext, artwork)
         artwork.addView()
-        return FindArtworkDetailRs.create(artwork)
+        return FindArtworkDetailRs.create(artwork, bookmarkYn)
     }
 
     fun getBookmarkYn(memberContext: MemberContext?, artwork: Artwork): Boolean {
