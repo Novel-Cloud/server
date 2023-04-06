@@ -39,6 +39,7 @@ class CommentService(
             artwork = artwork,
             parent = parent
         )
+        parent?.addComment(comment)
         commentRepository.save(comment)
     }
 
@@ -84,6 +85,5 @@ class CommentService(
         commentPermissionCheck(member, comment)
         comment.updateContent(content)
     }
-
 
 }

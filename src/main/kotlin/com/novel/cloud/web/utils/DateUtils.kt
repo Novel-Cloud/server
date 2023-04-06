@@ -1,6 +1,8 @@
 package com.novel.cloud.web.utils
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -19,6 +21,10 @@ object DateUtils {
         val pattern = "yyyy/MM/dd HH:mm:ss"
         val formatter = SimpleDateFormat(pattern)
         return formatter.format(today)
+    }
+
+    fun formatDateYYYYMMDD(createdDate: LocalDateTime?): String? {
+        return createdDate?.format(DateTimeFormatter.ofPattern("yyyy.MM.dd."))
     }
 
 }

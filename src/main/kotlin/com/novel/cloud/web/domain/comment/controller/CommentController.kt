@@ -51,9 +51,9 @@ class CommentController(
     }
 
     @Operation(summary = "작품 댓글 불러오기")
-    @GetMapping(ApiPath.COMMENT)
+    @GetMapping(ApiPath.VIEW_COMMENT)
     fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext,
-                             @PathVariable("artwork-id") artworkId: Long): ListResponse<FindCommentRs> {
+                             @PathVariable("artworkId") artworkId: Long): ListResponse<FindCommentRs> {
         return findCommentService.findCommentByArtworkId(memberContext, artworkId)
     }
 

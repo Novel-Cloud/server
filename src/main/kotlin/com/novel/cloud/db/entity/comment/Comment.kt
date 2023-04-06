@@ -49,15 +49,18 @@ class Comment(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
-    private val parent: Comment? = parent
+    val parent: Comment? = parent
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
-    private val mutableChildren: MutableList<Comment> = mutableListOf();
+    val mutableChildren: MutableList<Comment> = mutableListOf();
     val children: List<Comment> get() = mutableChildren.toList();
 
     init {
-        artwork.addComment(this);
+        artwork.addComment(this)
+    }
+    fun addComment(comment: Comment) {
+        mutableChildren.add(comment);
     }
 
     fun updateDeleted(deleted: Boolean) {

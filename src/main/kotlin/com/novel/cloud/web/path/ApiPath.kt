@@ -48,4 +48,6 @@ object ApiPath {
     //댓글
     const val COMMENT = "/api/comment"
 
+    const val VIEW_COMMENT = "/api/comment/{artworkId}"
+
 }
