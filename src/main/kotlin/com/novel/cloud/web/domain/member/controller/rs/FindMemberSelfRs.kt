@@ -3,7 +3,6 @@ package com.novel.cloud.web.domain.member.controller.rs
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
-import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkSelfRs
 
 data class FindMemberSelfRs(
     val memberId: Long? = null,
@@ -14,20 +13,26 @@ data class FindMemberSelfRs(
 ){
     companion object {
 
-        fun create(member: Member?): FindMemberSelfRs {
+        fun create(member: Member?, myBookmarkedArtworkIdSet: Set<Long?>): FindMemberSelfRs {
+            val artworks = getArtworks(member?.artworks, myBookmarkedArtworkIdSet)
             return FindMemberSelfRs(
                 memberId = member?.id,
                 nickname = member?.nickname,
                 picture = member?.picture,
                 email = member?.email,
-                artworks = getArtworks(member?.artworks)
+                artworks = artworks
             )
         }
 
-        private fun getArtworks(artworks: List<Artwork>?): List<FindArtworkRs>? {
+        private fun getArtworks(artworks: List<Artwork>?, myBookmarkedArtworkIdSet: Set<Long?>): List<FindArtworkRs>? {
             return artworks?.map { artwork ->
-                FindArtworkSelfRs.create(artwork)
+                val bookmarkYn = getBookmarkYn(artwork, myBookmarkedArtworkIdSet)
+                FindArtworkRs.create(artwork, bookmarkYn)
             }?.toList()
+        }
+
+        private fun getBookmarkYn(artwork: Artwork, myBookmarkedArtworkIdSet: Set<Long?>): Boolean {
+            return myBookmarkedArtworkIdSet.contains(artwork.id)
         }
 
     }

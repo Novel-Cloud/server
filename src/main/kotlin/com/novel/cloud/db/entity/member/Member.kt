@@ -24,6 +24,7 @@ class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
     @Column(nullable = false, unique = true)
     var email: String = email
         protected set

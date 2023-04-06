@@ -3,7 +3,6 @@ package com.novel.cloud.web.domain.abbreviation.controller
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.abbreviation.controller.rq.CreateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.DeleteAbbreviationRq
-import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationRq
 import com.novel.cloud.web.domain.abbreviation.controller.rq.UpdateAbbreviationSequenceRq
 import com.novel.cloud.web.domain.abbreviation.controller.rs.FindSequenceAbbreviationRs
 import com.novel.cloud.web.domain.abbreviation.service.AbbreviationService
