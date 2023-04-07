@@ -1,4 +1,4 @@
-package com.novel.cloud.web.domain.abbreviation.controller.rs
+package com.novel.cloud.web.domain.comment.controller.rs
 
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.member.Member
@@ -14,10 +14,10 @@ data class FindCommentRs(
     val parentId: Long? = null,
     val writer: MemberDto? = null,
     val replyList: List<FindCommentRs>? = null,
-){
+) {
     companion object {
 
-        fun create(comment: Comment, member: Member): FindCommentRs {
+        fun create(comment: Comment, member: Member?): FindCommentRs {
             val content = getContent(comment)
             val formattedDate = DateUtils.formatDateYYYYMMDD(comment.createdDate)
             val writerId = comment.writer.id
@@ -44,8 +44,11 @@ data class FindCommentRs(
             return comment.content
         }
 
-        private fun getEditAndDeletable(writerId: Long?, member: Member): Boolean? {
-            return member.id?.equals(writerId)
+        private fun getEditAndDeletable(writerId: Long?, member: Member?): Boolean? {
+            member?.let {
+                return member.id?.equals(writerId)
+            }
+            return false
         }
 
         private fun getWriter(member: Member): MemberDto {
@@ -62,7 +65,7 @@ data class FindCommentRs(
 
         private fun getReplyList(
             comment: Comment,
-            member: Member,
+            member: Member?,
         ): List<FindCommentRs> {
             val children = comment.children
             return children.map { child ->

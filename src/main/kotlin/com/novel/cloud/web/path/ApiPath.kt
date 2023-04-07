@@ -40,14 +40,20 @@ object ApiPath {
 
     const val VIEW_PROFILE_IMG = "/api/file/profile/{fileUidName}"
 
-    //단축어
+    // 단축어
     const val SHORTCUT = "/api/shortcut"
 
     const val SHORTCUT_SEQUENCE = "/api/shortcut/sequence"
 
-    //댓글
+    // 댓글
     const val COMMENT = "/api/comment"
 
     const val VIEW_COMMENT = "/api/comment/{artworkId}"
+
+    // 좋아요
+    const val LIKE = "/api/like"
+
+    const val TOGGLE_LIKE = "/api/like/{artworkId}"
+
 
 }

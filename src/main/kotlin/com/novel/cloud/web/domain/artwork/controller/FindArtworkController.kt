@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -31,17 +30,18 @@ class FindArtworkController (
 
     @Operation(summary = "작품 모두 조회")
     @GetMapping(ApiPath.VIEW_ARTWORK)
-    fun findAllArtwork(@RequestParam(value = "page", required = false) page: Int,
+    fun findAllArtwork(@AuthenticationPrincipal memberContext: MemberContext?,
+                       @RequestParam(value = "page", required = false) page: Int,
                        @RequestParam(value = "size", required = false) size: Int): PagedResponse<FindArtworkRs> {
         val pagination = Pagination(page, size)
-        return findArtworkService.findAllArtwork(pagination)
+        return findArtworkService.findAllArtwork(memberContext, pagination)
     }
 
     @Operation(summary = "작품 상세 조회")
     @GetMapping(ApiPath.ARTWORK_DETAIL)
-    fun findArtworkDetail(@AuthenticationPrincipal memberContext: MemberContext,
+    fun findArtworkDetail(@AuthenticationPrincipal memberContext: MemberContext?,
                           @PathVariable artworkId: Long): FindArtworkDetailRs {
-        return findArtworkService.findArtworkDetail(artworkId)
+        return findArtworkService.findArtworkDetail(memberContext, artworkId)
     }
 
 }

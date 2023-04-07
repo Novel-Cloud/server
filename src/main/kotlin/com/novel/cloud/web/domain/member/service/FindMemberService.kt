@@ -2,7 +2,8 @@ package com.novel.cloud.web.domain.member.service
 
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
-import com.novel.cloud.web.domain.member.controller.rq.UpdateMemberNicknameRq
+import com.novel.cloud.web.domain.artwork.service.FindArtworkService
+import com.novel.cloud.web.domain.bookmark.service.FindBookmarkService
 import com.novel.cloud.web.domain.member.controller.rs.FindMemberSelfRs
 import com.novel.cloud.web.domain.member.repository.MemberRepository
 import com.novel.cloud.web.exception.NotFoundMemberException
@@ -12,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class FindMemberService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val findBookmarkService: FindBookmarkService
 ) {
 
     fun findByEmailOrElseNull(email: String): Member? {
@@ -34,7 +36,8 @@ class FindMemberService(
         val member = memberContext?.let {
             findLoginMember(it)
         }
-        return FindMemberSelfRs.create(member)
+        val myBookmarkedArtworkIdSet = getMyBookmarkedArtworkIdSet(memberContext)
+        return FindMemberSelfRs.create(member, myBookmarkedArtworkIdSet)
     }
 
     fun findLoginMember(memberContext: MemberContext): Member? {
@@ -52,9 +55,20 @@ class FindMemberService(
         return findByEmailOrElseNull(email);
     }
 
-    fun findMemberProfile(memberId: Long): FindMemberSelfRs {
+    fun findMemberProfile(memberContext: MemberContext, memberId: Long): FindMemberSelfRs {
         val member = findByIdOrElseThrow(memberId)
-        return FindMemberSelfRs.create(member)
+        val myBookmarkedArtworkIdSet = getMyBookmarkedArtworkIdSet(memberContext)
+        return FindMemberSelfRs.create(member, myBookmarkedArtworkIdSet)
+    }
+
+    private fun getMyBookmarkedArtworkIdSet(memberContext: MemberContext?): Set<Long?> {
+        memberContext?.let {
+            val member = findLoginMemberOrElseThrow(memberContext)
+            return findBookmarkService.findByMember(member).map { bookmark ->
+                bookmark.artwork.id
+            }.toSet()
+        }
+        return HashSet()
     }
 
 }

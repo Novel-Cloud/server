@@ -9,10 +9,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseTimeEntity {
+
     @CreatedDate
     @Column(nullable = false)
     var createdDate: LocalDateTime = LocalDateTime.now()

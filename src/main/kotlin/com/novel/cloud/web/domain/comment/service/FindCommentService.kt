@@ -3,7 +3,7 @@ package com.novel.cloud.web.domain.comment.service
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.web.config.security.context.MemberContext
-import com.novel.cloud.web.domain.abbreviation.controller.rs.FindCommentRs
+import com.novel.cloud.web.domain.comment.controller.rs.FindCommentRs
 import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.comment.repository.CommentRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
@@ -25,8 +25,10 @@ class FindCommentService(
             .orElseThrow{ NotFoundCommentException() }
     }
 
-    fun findCommentByArtworkId(memberContext: MemberContext, artworkId: Long): ListResponse<FindCommentRs> {
-        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+    fun findCommentByArtworkId(memberContext: MemberContext?, artworkId: Long): ListResponse<FindCommentRs> {
+        val member = memberContext?.let {
+            findMemberService.findLoginMemberOrElseThrow(memberContext)
+        }
         val artwork: Artwork = findArtworkService.findByIdOrElseThrow(artworkId)
 
         val commentList = commentRepository.findParentCommentByArtwork(artwork)

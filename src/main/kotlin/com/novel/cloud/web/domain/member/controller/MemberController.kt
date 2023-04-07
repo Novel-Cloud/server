@@ -27,14 +27,15 @@ class MemberController(
 
     @Operation(summary = "내 정보 불러오기")
     @GetMapping(ApiPath.MEMBER_SELF)
-    fun findMemberSelf(@AuthenticationPrincipal memberContext: MemberContext?): FindMemberSelfRs? {
+    fun findMemberSelf(@AuthenticationPrincipal memberContext: MemberContext): FindMemberSelfRs? {
         return findMemberService.findMemberSelf(memberContext)
     }
 
     @Operation(summary = "다른 멤버의 프로필 보기")
     @GetMapping(ApiPath.MEMBER_OTHER)
-    fun findMemberProfile(@PathVariable memberId: Long): FindMemberSelfRs? {
-        return findMemberService.findMemberProfile(memberId)
+    fun findMemberProfile(@AuthenticationPrincipal memberContext: MemberContext,
+                          @PathVariable memberId: Long): FindMemberSelfRs? {
+        return findMemberService.findMemberProfile(memberContext, memberId)
     }
 
     @Operation(summary = "닉네임 변경")

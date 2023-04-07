@@ -74,4 +74,9 @@ class ArtworkService(
         return DateUtils.formatedNow() + "에 자동 저장 되었습니다."
     }
 
+    fun artworkAddView(artwork: Artwork) {
+        artwork.addView()
+    }
+
+
 }

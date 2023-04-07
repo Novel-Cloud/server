@@ -1,7 +1,7 @@
 package com.novel.cloud.web.domain.comment.controller
 
 import com.novel.cloud.web.config.security.context.MemberContext
-import com.novel.cloud.web.domain.abbreviation.controller.rs.FindCommentRs
+import com.novel.cloud.web.domain.comment.controller.rs.FindCommentRs
 import com.novel.cloud.web.domain.comment.controller.rq.CreateCommentRq
 import com.novel.cloud.web.domain.comment.controller.rq.DeleteCommentRq
 import com.novel.cloud.web.domain.comment.controller.rq.UpdateCommentRq
@@ -52,7 +52,7 @@ class CommentController(
 
     @Operation(summary = "작품 댓글 불러오기")
     @GetMapping(ApiPath.VIEW_COMMENT)
-    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext,
+    fun findAbbreviationSelf(@AuthenticationPrincipal memberContext: MemberContext?,
                              @PathVariable("artworkId") artworkId: Long): ListResponse<FindCommentRs> {
         return findCommentService.findCommentByArtworkId(memberContext, artworkId)
     }
