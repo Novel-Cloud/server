@@ -5,6 +5,7 @@ import com.novel.cloud.db.entity.bookmark.Bookmark
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.entity.tag.Tag
 import com.novel.cloud.db.enums.ArtworkType
 import javax.persistence.CollectionTable
 import javax.persistence.Column
@@ -53,8 +54,8 @@ class Artwork(
     var writer: Member = writer
         protected set;
 
-    @ElementCollection
-    @CollectionTable(name = "tag")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
     private val mutableTags: MutableList<Tag> = mutableListOf();
     val tags: List<Tag> get() = mutableTags.toList();
 
@@ -93,16 +94,17 @@ class Artwork(
     }
 
     fun addComment(comment: Comment) {
-        mutableComments.add(comment);
+        mutableComments.add(comment)
     }
 
     fun addAttachFile(attachFile: AttachFile) {
-        mutableAttachFiles.add(attachFile);
+        mutableAttachFiles.add(attachFile)
     }
 
     fun addBookmark(bookmark: Bookmark) {
-        mutableBookmarks.add(bookmark);
+        mutableBookmarks.add(bookmark)
     }
+
 
     // artwork 생성시 작가의 작품 목록에 추가
     init {
