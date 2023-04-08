@@ -1,13 +1,14 @@
 package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.Artwork
-import com.novel.cloud.db.entity.artwork.Tag
 import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.entity.tag.Tag
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
+import com.novel.cloud.web.domain.artwork.repository.ArtworkTagRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.exception.DoNotHavePermissionToAutoSaveArtwork
@@ -21,7 +22,8 @@ class ArtworkService(
     private val findMemberService: FindMemberService,
     private val findArtworkService: FindArtworkService,
     private val artworkRepository: ArtworkRepository,
-    private val temporaryArtworkRepository: TemporaryArtworkRepository
+    private val temporaryArtworkRepository: TemporaryArtworkRepository,
+    private val artworkTagRepository: ArtworkTagRepository
 ) {
     fun submitArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
@@ -32,14 +34,19 @@ class ArtworkService(
             writer = member,
             artworkType = rq.artworkType
         )
-        createTags(artwork, tags)
-        return artworkRepository.save(artwork)
+        artworkRepository.save(artwork)
+        createTags(artwork, member, tags)
+        return artwork;
     }
 
-    private fun createTags(artwork: Artwork, tags: List<String>) {
-        tags.map {
-            val tag = Tag(it)
-            artwork.addTag(tag)
+    private fun createTags(artwork: Artwork, member: Member, tags: List<String>) {
+        tags.map { content ->
+            val tag = Tag(
+                content = content,
+                writer = member,
+                artwork = artwork
+            )
+            artworkTagRepository.save(tag)
         }
     }
 

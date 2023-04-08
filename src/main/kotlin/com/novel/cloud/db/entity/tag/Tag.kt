@@ -17,7 +17,7 @@ class Tag (
     content: String,
     writer: Member,
     artwork: Artwork
-): BaseTimeEntity() {
+) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
