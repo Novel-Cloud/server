@@ -7,6 +7,7 @@ import com.novel.cloud.db.entity.tag.Tag
 import com.novel.cloud.db.enums.ArtworkType
 import com.novel.cloud.web.domain.dto.AttachFileDto
 import com.novel.cloud.web.domain.dto.MemberDto
+import com.novel.cloud.web.domain.dto.TagDto
 import com.novel.cloud.web.utils.DateUtils
 
 data class FindArtworkDetailRs (
@@ -18,7 +19,7 @@ data class FindArtworkDetailRs (
     val writer: MemberDto? = null,
     val likes: Int? = null,
     val likeYn: Boolean? = null,
-    val tags: List<Tag>? = null,
+    val tags: List<TagDto>? = null,
     val thumbnail: String? = null,
     val attachFiles: List<AttachFileDto>? = null,
     val createDate: String? = null
@@ -29,6 +30,7 @@ data class FindArtworkDetailRs (
             val writer = getWriter(artwork.writer)
             val attachFiles = getAttachFiles(artwork.attachFiles)
             val likes = getLikes(artwork)
+            val tags = getTags(artwork.tags)
             return FindArtworkDetailRs(
                 artworkId = artwork.id,
                 title = artwork.title,
@@ -38,7 +40,7 @@ data class FindArtworkDetailRs (
                 writer = writer,
                 likes = likes,
                 likeYn = bookmarkYn,
-                tags = artwork.tags,
+                tags = tags,
                 thumbnail = artwork.thumbnail,
                 attachFiles = attachFiles,
                 createDate = DateUtils.formatDateYYYYMMDD(artwork.createdDate)
@@ -51,6 +53,12 @@ data class FindArtworkDetailRs (
 
         private fun getLikes(artwork: Artwork): Int {
             return artwork.bookmarks.size
+        }
+
+        private fun getTags(tags: List<Tag>): List<TagDto> {
+            return tags.map {tag ->
+                TagDto.create(tag)
+            }.toList()
         }
 
         private fun getAttachFiles(attachFiles: List<AttachFile>): List<AttachFileDto> {
