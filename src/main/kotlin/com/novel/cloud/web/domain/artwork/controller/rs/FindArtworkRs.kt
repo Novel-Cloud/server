@@ -39,7 +39,7 @@ data class FindArtworkRs (
         private fun getWriter(member: Member): MemberDto {
             return MemberDto.create(member)
         }
-        private fun getTags(tags: List<Tag>): List<TagDto> {
+        private fun getTags(tags: Set<Tag>): List<TagDto> {
             return tags.map {tag ->
                 TagDto.create(tag)
             }.toList()
