@@ -32,19 +32,18 @@ class ArtworkRepositoryImpl (
 
     }
 
-    override fun findArtworkListByTag(pageable: Pageable, tag: Tag): Page<Artwork> {
+    override fun findArtworkListByTag(pageable: Pageable, tags: List<String>): Page<Artwork> {
         val contents = jpaQueryFactory
             .selectFrom(artwork)
-            .where(artwork.mutableTags.contains(tag))
+            .where(*tags.map { artwork.mutableTags.any().content.eq(it) }.toTypedArray())
             .orderBy(artwork.createdDate.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .fetch()
 
-        // TODO: fetchCount Deprecated 리팩토링
         val countQuery = jpaQueryFactory
             .selectFrom(artwork)
-            .orderBy(artwork.createdDate.desc());
+            .orderBy(artwork.createdDate.desc())
 
         val totalSupplier = { countQuery.fetchCount() }
 

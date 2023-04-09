@@ -9,6 +9,6 @@ interface ArtworkRepositoryCustom {
 
     fun findArtworkList(pageable: Pageable): Page<Artwork>
 
-    fun findArtworkListByTag(pageable: Pageable, tag: Tag): Page<Artwork>
+    fun findArtworkListByTag(pageable: Pageable, tags: List<String>): Page<Artwork>
 
 }

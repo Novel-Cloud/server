@@ -59,7 +59,7 @@ object ApiPath {
 
     const val SEARCH = "/api/search"
 
-    const val SEARCH_TAG = "/api/search/tag/{tagId}"
+    const val SEARCH_TAG = "/api/search/tag"
 
 
 }

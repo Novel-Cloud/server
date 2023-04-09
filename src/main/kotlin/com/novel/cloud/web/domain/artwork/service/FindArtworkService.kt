@@ -17,6 +17,7 @@ import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
 import com.novel.cloud.web.exception.NotFoundArtworkException
 import com.novel.cloud.web.exception.NotFoundTagException
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -33,14 +34,7 @@ class FindArtworkService(
     fun findAllArtwork(memberContext: MemberContext?, pagination: Pagination): PagedResponse<FindArtworkRs> {
         val pageRequest = pagination.toPageRequest()
         val artworkList = artworkRepository.findArtworkList(pageRequest);
-        val findArtworkRsList: List<FindArtworkRs> = artworkList.map { artwork ->
-            val bookmarkYn = getBookmarkYn(memberContext, artwork)
-            FindArtworkRs.create(artwork, bookmarkYn)
-        }.toList()
-        return PagedResponse(
-            pagination = pagination.copy(totalCount = artworkList.totalElements, totalPages = artworkList.totalPages),
-            list = findArtworkRsList
-        )
+        return getFindArtworkPagedResponseList(artworkList, memberContext, pagination)
     }
 
     // TODO :: FindArtwork, Artwork 병합
@@ -88,10 +82,13 @@ class FindArtworkService(
             .orElseThrow { NotFoundTagException() }
     }
 
-    fun findArtworkByTag(memberContext: MemberContext?, pagination: Pagination, tagId: Long): PagedResponse<FindArtworkRs> {
+    fun findArtworkByTag(memberContext: MemberContext?, pagination: Pagination, tags: List<String>): PagedResponse<FindArtworkRs> {
         val pageRequest = pagination.toPageRequest()
-        val tag = findTagByIdOrThrow(tagId)
-        val artworkList = artworkRepository.findArtworkListByTag(pageRequest, tag)
+        val artworkList = artworkRepository.findArtworkListByTag(pageRequest, tags)
+        return getFindArtworkPagedResponseList(artworkList, memberContext, pagination)
+    }
+
+    fun getFindArtworkPagedResponseList(artworkList: Page<Artwork>, memberContext: MemberContext?, pagination: Pagination): PagedResponse<FindArtworkRs> {
         val findArtworkRsList: List<FindArtworkRs> = artworkList.map { artwork ->
             val bookmarkYn = getBookmarkYn(memberContext, artwork)
             FindArtworkRs.create(artwork, bookmarkYn)
