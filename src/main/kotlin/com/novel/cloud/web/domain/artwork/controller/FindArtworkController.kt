@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "작품")
+@Tag(name = "작품 조회/검색")
 @RestController
 class FindArtworkController (
     private val findArtworkService: FindArtworkService
@@ -42,6 +42,16 @@ class FindArtworkController (
     fun findArtworkDetail(@AuthenticationPrincipal memberContext: MemberContext?,
                           @PathVariable artworkId: Long): FindArtworkDetailRs {
         return findArtworkService.findArtworkDetail(memberContext, artworkId)
+    }
+
+    @Operation(summary = "해시태그 검색")
+    @GetMapping(ApiPath.SEARCH_TAG)
+    fun findArtworkByTag(@AuthenticationPrincipal memberContext: MemberContext?,
+                         @RequestParam(value = "page", required = false) page: Int,
+                         @RequestParam(value = "size", required = false) size: Int,
+                         @PathVariable tagId: Long): PagedResponse<FindArtworkRs> {
+        val pagination = Pagination(page, size)
+        return findArtworkService.findArtworkByTag(memberContext, pagination, tagId)
     }
 
 }
