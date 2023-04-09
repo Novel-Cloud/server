@@ -44,6 +44,7 @@ class SecurityConfig(
             antMatchers(ApiPath.VIEW_COMMENT).permitAll()
             antMatchers(ApiPath.MEMBER_OTHER).permitAll()
             antMatchers(ApiPath.FILE_SECURITY).permitAll()
+            antMatchers(ApiPath.SEARCH + "/**").permitAll()
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

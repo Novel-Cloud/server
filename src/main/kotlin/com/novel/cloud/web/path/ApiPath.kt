@@ -55,5 +55,11 @@ object ApiPath {
 
     const val TOGGLE_LIKE = "/api/like/{artworkId}"
 
+    // 검색
+
+    const val SEARCH = "/api/search"
+
+    const val SEARCH_TAG = "/api/search/tag"
+
 
 }

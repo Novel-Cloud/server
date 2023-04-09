@@ -5,10 +5,10 @@ import com.novel.cloud.db.entity.bookmark.Bookmark
 import com.novel.cloud.db.entity.comment.Comment
 import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.entity.tag.Tag
 import com.novel.cloud.db.enums.ArtworkType
-import javax.persistence.CollectionTable
+import javax.persistence.CascadeType
 import javax.persistence.Column
-import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -17,6 +17,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 
@@ -25,7 +27,8 @@ class Artwork(
     title: String,
     content: String,
     writer: Member,
-    artworkType: ArtworkType
+    artworkType: ArtworkType,
+    tags: Set<Tag>
 ) : BaseTimeEntity() {
 
     @Id
@@ -53,10 +56,14 @@ class Artwork(
     var writer: Member = writer
         protected set;
 
-    @ElementCollection
-    @CollectionTable(name = "tag")
-    private val mutableTags: MutableList<Tag> = mutableListOf();
-    val tags: List<Tag> get() = mutableTags.toList();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
+    @JoinTable(
+        name = "artwork_tag_assoc",
+        joinColumns = [JoinColumn(name = "artwork_id")],
+        inverseJoinColumns = [JoinColumn(name = "tag_id")],
+    )
+    protected val mutableTags: MutableSet<Tag> = tags.toMutableSet()
+    val tags: Set<Tag> get() = mutableTags.toSet()
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -93,16 +100,17 @@ class Artwork(
     }
 
     fun addComment(comment: Comment) {
-        mutableComments.add(comment);
+        mutableComments.add(comment)
     }
 
     fun addAttachFile(attachFile: AttachFile) {
-        mutableAttachFiles.add(attachFile);
+        mutableAttachFiles.add(attachFile)
     }
 
     fun addBookmark(bookmark: Bookmark) {
-        mutableBookmarks.add(bookmark);
+        mutableBookmarks.add(bookmark)
     }
+
 
     // artwork 생성시 작가의 작품 목록에 추가
     init {
