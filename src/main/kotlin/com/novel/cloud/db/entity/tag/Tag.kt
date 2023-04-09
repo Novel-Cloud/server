@@ -28,6 +28,10 @@ class Tag (
     var content: String = content
         protected set
 
+    @Column(nullable = false)
+    var usageCount: Long = 0
+        protected set;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var writer: Member = writer

@@ -61,5 +61,9 @@ object ApiPath {
 
     const val SEARCH_TAG = "/api/search/tag"
 
+    // 태그
+
+    const val TAG = "/api/tag"
+
 
 }

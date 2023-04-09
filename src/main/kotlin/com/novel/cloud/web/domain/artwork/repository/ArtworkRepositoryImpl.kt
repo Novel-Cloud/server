@@ -50,4 +50,6 @@ class ArtworkRepositoryImpl (
         return PageableExecutionUtils.getPage(contents, pageable, totalSupplier)
     }
 
+
+
 }
