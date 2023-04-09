@@ -27,27 +27,34 @@ class ArtworkService(
 ) {
     fun submitArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val tags = rq.tags
+        val tagContents = rq.tags.toSet()
+        val tags = createTags(member, tagContents)
         val artwork = Artwork(
             title = rq.title,
             content = rq.content,
             writer = member,
-            artworkType = rq.artworkType
+            artworkType = rq.artworkType,
+            tags = tags
         )
         artworkRepository.save(artwork)
-        createTags(artwork, member, tags)
-        return artwork;
+        return artwork
     }
 
-    private fun createTags(artwork: Artwork, member: Member, tags: List<String>) {
-        tags.map { content ->
-            val tag = Tag(
+    private fun findByContentOrElseNull(content: String): Tag? {
+        return artworkTagRepository.findByContent(content)
+            .orElse(null)
+    }
+
+    private fun createTags(member: Member, tags: Set<String>): Set<Tag> {
+        return tags.map { content ->
+            // 이미 있는 태그일 경우 참조만
+            val tag = findByContentOrElseNull(content) ?: Tag(
                 content = content,
-                writer = member,
-                artwork = artwork
+                writer = member
             )
             artworkTagRepository.save(tag)
-        }
+            tag
+        }.toSet()
     }
 
     private fun createTemporaryArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): TemporaryArtwork {

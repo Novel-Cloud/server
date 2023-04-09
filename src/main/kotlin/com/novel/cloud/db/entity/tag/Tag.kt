@@ -1,7 +1,6 @@
 package com.novel.cloud.db.entity.tag
 
 import com.novel.cloud.db.entity.artwork.Artwork
-import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.entity.member.Member
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -11,12 +10,14 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 
 @Entity
+@Table(uniqueConstraints = [UniqueConstraint(name = "tag_content_uk", columnNames = ["`content`"])])
 class Tag (
     content: String,
     writer: Member,
-    artwork: Artwork
 ) {
 
     @Id
@@ -32,13 +33,8 @@ class Tag (
     var writer: Member = writer
         protected set
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
-    var artwork: Artwork = artwork
-        protected set;
-
-    init {
-        artwork.addTag(this)
-    }
+//    init {
+//        artwork.addTag(this)
+//    }
 
 }
