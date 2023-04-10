@@ -47,7 +47,7 @@ class AbbreviationService(
     private fun abbreviationPermissionCheck(abbreviation: Abbreviation, member: Member) {
         val writerId: Long? = abbreviation.writer.id
         val memberId: Long? = member.id
-        if (writerId == memberId) {
+        if (writerId != memberId) {
             throw DoNotHavePermissionToDeleteOrUpdateAbbreviationException()
         }
     }
