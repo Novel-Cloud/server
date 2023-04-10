@@ -14,9 +14,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 import java.time.LocalDateTime
-import java.util.*
-import javax.swing.SortOrder
-
 
 class ArtworkRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory,
