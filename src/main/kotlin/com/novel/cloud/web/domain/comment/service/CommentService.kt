@@ -57,7 +57,6 @@ class CommentService(
             if (parentArtworkId != artworkId) {
                 throw NotMatchedParentChildArtworkIdException()
             }
-            // TODO: 일단 무한 대댓글이지만 나중에 깊이 제한이 생기면 댓글의 깊이 제한 validation 추가
         }
     }
 

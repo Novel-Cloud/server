@@ -27,11 +27,10 @@ class ArtworkRepositoryImpl(
             .limit(pageable.pageSize.toLong())
             .fetch()
 
-        // TODO: fetchCount Deprecated 리팩토링
         val countQuery = jpaQueryFactory
             .selectFrom(artwork)
 
-        val totalSupplier = { countQuery.fetchCount() }
+        val totalSupplier = { countQuery.fetch().size.toLong() }
 
         return PageableExecutionUtils.getPage(contents, pageable, totalSupplier)
 
@@ -50,7 +49,7 @@ class ArtworkRepositoryImpl(
             .selectFrom(artwork)
             .where(*tags.map { artwork.mutableTags.any().content.eq(it) }.toTypedArray())
 
-        val totalSupplier = { countQuery.fetchCount() }
+        val totalSupplier = { countQuery.fetch().size.toLong() }
 
         return PageableExecutionUtils.getPage(contents, pageable, totalSupplier)
     }
@@ -79,7 +78,7 @@ class ArtworkRepositoryImpl(
                 portfolioThemeEq(filter.artworkType)
             )
 
-        val totalSupplier = { countQuery.fetchCount() }
+        val totalSupplier = { countQuery.fetch().size.toLong() }
 
         return PageableExecutionUtils.getPage(contents, pageable, totalSupplier)
     }
