@@ -5,13 +5,15 @@ import com.novel.cloud.db.entity.tag.Tag
 data class FindPopularTagRs (
     val tagId: Long? = null,
     val content: String? = null,
+    val usageCount: Long? = null,
 ) {
 
     companion object {
         fun create(tag: Tag): FindPopularTagRs {
             return FindPopularTagRs(
                 tagId = tag.id,
-                content = tag.content
+                content = tag.content,
+                usageCount = tag.usageCount
             )
         }
 

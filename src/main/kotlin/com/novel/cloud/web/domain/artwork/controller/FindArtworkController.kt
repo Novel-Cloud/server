@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "작품 조회/검색")
+@Tag(name = "작품 조회")
 @RestController
 class FindArtworkController (
     private val findArtworkService: FindArtworkService

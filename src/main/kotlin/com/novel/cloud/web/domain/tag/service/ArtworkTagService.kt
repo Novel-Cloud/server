@@ -21,6 +21,7 @@ class ArtworkTagService (
                 writer = member
             )
             artworkTagRepository.save(tag)
+            tag.updateUsageCount()
             tag
         }.toSet()
     }

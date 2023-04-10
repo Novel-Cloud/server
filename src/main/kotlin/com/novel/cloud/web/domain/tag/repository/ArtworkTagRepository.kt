@@ -8,4 +8,6 @@ interface ArtworkTagRepository: JpaRepository<Tag, Long> {
 
     fun findByContent(content: String): Optional<Tag>
 
+    fun findAllByOrderByUsageCountDesc(): List<Tag>
+
 }

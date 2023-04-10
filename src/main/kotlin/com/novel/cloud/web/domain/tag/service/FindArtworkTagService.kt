@@ -11,9 +11,14 @@ import org.springframework.transaction.annotation.Transactional
 class FindArtworkTagService (
     val artworkTagRepository: ArtworkTagRepository,
 ){
-
-//    fun findPopularTags(): ListResponse<FindPopularTagRs> {
-//        return artworkTagRepository.
-//    }
+    fun findPopularTags(): ListResponse<FindPopularTagRs> {
+        val tags = artworkTagRepository.findAllByOrderByUsageCountDesc()
+        val tagList = tags.map { tag ->
+            FindPopularTagRs.create(tag)
+        }.toList()
+        return ListResponse(
+            list = tagList
+        )
+    }
 
 }

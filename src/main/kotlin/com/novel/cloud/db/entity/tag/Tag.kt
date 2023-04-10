@@ -37,8 +37,8 @@ class Tag (
     var writer: Member = writer
         protected set
 
-//    init {
-//        artwork.addTag(this)
-//    }
+    fun updateUsageCount() {
+        usageCount++
+    }
 
 }
