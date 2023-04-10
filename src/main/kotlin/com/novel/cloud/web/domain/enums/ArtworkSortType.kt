@@ -1,6 +1,6 @@
 package com.novel.cloud.web.domain.enums
 
-enum class ArtworkSortType (
+enum class ArtworkSortType(
     val type: String,
 ) {
     UPLOAD_DATE("업로드 날짜"),

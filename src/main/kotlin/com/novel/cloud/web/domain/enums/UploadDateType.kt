@@ -1,6 +1,6 @@
 package com.novel.cloud.web.domain.enums
 
-enum class UploadDateType (
+enum class UploadDateType(
     val type: String,
 ) {
     AN_HOUR_AGO("1시간 전"),

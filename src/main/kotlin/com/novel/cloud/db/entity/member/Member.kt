@@ -49,12 +49,6 @@ class Member (
         mutableArtworks.add(artwork)
     }
 
-    fun copy(email: String = this.email,
-             nickname: String = this.nickname,
-             picture: String = this.picture): Member {
-        return Member(email, nickname, picture)
-    }
-
     fun updatePicture(picture: String = this.picture) {
         this.picture = picture
     }
