@@ -4,6 +4,7 @@ import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
+import com.novel.cloud.web.domain.artwork.controller.rq.SearchArtworkFilterRq
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkDetailRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindTemporaryArtworkRs
@@ -73,7 +74,7 @@ class FindArtworkService(
         return FindTemporaryArtworkRs.create(temporaryArtwork)
     }
 
-    fun findArtworkByTag(memberContext: MemberContext?, pagination: Pagination, tags: List<String>): PagedResponse<FindArtworkRs> {
+    fun searchArtworkByTag(memberContext: MemberContext?, pagination: Pagination, tags: List<String>): PagedResponse<FindArtworkRs> {
         val pageRequest = pagination.toPageRequest()
         val artworkList = artworkRepository.findArtworkListByTag(pageRequest, tags)
         return getFindArtworkPagedResponseList(artworkList, memberContext, pagination)
@@ -88,6 +89,12 @@ class FindArtworkService(
             pagination = pagination.copy(totalCount = artworkList.totalElements, totalPages = artworkList.totalPages),
             list = findArtworkRsList
         )
+    }
+
+    fun searchArtworkByFilter(memberContext: MemberContext?, pagination: Pagination, filter: SearchArtworkFilterRq): PagedResponse<FindArtworkRs> {
+        val pageRequest = pagination.toPageRequest()
+        val artworkList = artworkRepository.findArtworkListByFilter(pageRequest, filter)
+        return getFindArtworkPagedResponseList(artworkList, memberContext, pagination)
     }
 
 }
