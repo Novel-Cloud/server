@@ -6,13 +6,13 @@ data class MemberDto(
     val memberId: Long? = null,
     val nickname: String? = null,
     val picture: String? = null,
-){
+) {
     companion object {
-        fun create(member: Member?): MemberDto {
+        fun create(member: Member): MemberDto {
             return MemberDto(
-                memberId = member?.id,
-                nickname = member?.nickname,
-                picture = member?.picture,
+                memberId = member.id,
+                nickname = member.nickname,
+                picture = member.picture,
             )
         }
     }

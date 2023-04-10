@@ -27,10 +27,9 @@ class CustomOauth2SuccessHandler(
         saveOrUpdate(oAuthAttributes)
     }
 
-    private fun saveOrUpdate(oAuthAttributes: OAuthAttributes): Member? {
+    private fun saveOrUpdate(oAuthAttributes: OAuthAttributes): Member {
         val member = findMemberService.findByEmailOrElseNull(oAuthAttributes.email)
             ?: memberRepository.save(oAuthAttributes.toEntity())
-        member.updatePicture(oAuthAttributes.picture)
         return member
     }
 

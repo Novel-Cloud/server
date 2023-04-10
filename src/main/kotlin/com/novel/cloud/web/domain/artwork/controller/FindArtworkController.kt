@@ -1,6 +1,7 @@
 package com.novel.cloud.web.domain.artwork.controller
 
 import com.novel.cloud.web.config.security.context.MemberContext
+import com.novel.cloud.web.domain.artwork.controller.rq.SearchArtworkListRq
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkDetailRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
 import com.novel.cloud.web.domain.artwork.controller.rs.FindTemporaryArtworkRs
@@ -14,11 +15,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "작품 조회/검색")
+@Tag(name = "작품 조회")
 @RestController
 class FindArtworkController (
     private val findArtworkService: FindArtworkService
@@ -46,15 +48,25 @@ class FindArtworkController (
         return findArtworkService.findArtworkDetail(memberContext, artworkId)
     }
 
+    @Operation(summary = "필터 검색")
+    @PostMapping(ApiPath.SEARCH)
+    fun searchArtworkByFilter(@AuthenticationPrincipal memberContext: MemberContext?,
+                              @Validated @RequestBody rq: SearchArtworkListRq): PagedResponse<FindArtworkRs> {
+        val paginationRq = rq.pagination
+        val filter = rq.filter
+        val pagination = Pagination(paginationRq.page, paginationRq.size)
+        return findArtworkService.searchArtworkByFilter(memberContext, pagination, filter)
+    }
+
     @Operation(summary = "해시태그 검색")
     @GetMapping(ApiPath.SEARCH_TAG)
-    fun findArtworkByTag(@AuthenticationPrincipal memberContext: MemberContext?,
-                         @RequestParam(value = "page", required = true) page: Int,
-                         @RequestParam(value = "size", required = true) size: Int,
-                         @RequestParam(value="tags[]") tags: List<String>
+    fun searchArtworkByTag(@AuthenticationPrincipal memberContext: MemberContext?,
+                           @RequestParam(value = "page", required = true) page: Int,
+                           @RequestParam(value = "size", required = true) size: Int,
+                           @RequestParam(value="tags[]") tags: List<String>
     ): PagedResponse<FindArtworkRs> {
         val pagination = Pagination(page, size)
-        return findArtworkService.findArtworkByTag(memberContext, pagination, tags)
+        return findArtworkService.searchArtworkByTag(memberContext, pagination, tags)
     }
 
 }

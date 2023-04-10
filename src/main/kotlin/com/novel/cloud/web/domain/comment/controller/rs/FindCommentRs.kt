@@ -19,7 +19,7 @@ data class FindCommentRs(
 
         fun create(comment: Comment, member: Member?): FindCommentRs {
             val content = getContent(comment)
-            val formattedDate = DateUtils.formatDateYYYYMMDD(comment.createdDate)
+            val formattedDate = DateUtils.formatDateComment(comment.createdDate)
             val writerId = comment.writer.id
             val editAndDeletable = getEditAndDeletable(writerId, member)
             val parentId = getParentId(comment)

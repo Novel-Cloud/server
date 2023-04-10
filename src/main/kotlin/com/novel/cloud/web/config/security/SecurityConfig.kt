@@ -39,12 +39,13 @@ class SecurityConfig(
             antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
             antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
             antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
-            antMatchers(ApiPath.VIEW_ARTWORK).permitAll()
+            antMatchers(ApiPath.VIEW_ARTWORK).permitAll() // 조회
             antMatchers(ApiPath.ARTWORK_DETAIL).permitAll()
+            antMatchers(ApiPath.TAG).permitAll()
             antMatchers(ApiPath.VIEW_COMMENT).permitAll()
             antMatchers(ApiPath.MEMBER_OTHER).permitAll()
-            antMatchers(ApiPath.FILE_SECURITY).permitAll()
-            antMatchers(ApiPath.SEARCH + "/**").permitAll()
+            antMatchers(ApiPath.SEARCH + "/**").permitAll() // 검색
+            antMatchers(ApiPath.FILE_SECURITY).permitAll() // 파일
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

@@ -17,8 +17,7 @@ class OAuth2LoginService(
     fun saveOrUpdate(oAuthAttributes: OAuthAttributes): Member {
         val member = findMemberService.findByEmailOrElseNull(oAuthAttributes.email)
             ?: memberRepository.save(oAuthAttributes.toEntity())
-        member.updatePicture(oAuthAttributes.picture)
-        return member;
+        return member
     }
 
 }
