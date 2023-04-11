@@ -61,8 +61,7 @@ class FindArtworkServiceTest {
     }
 
     @Test
-    fun `유저는 필터 검색이 가능하다`() {
-
+    fun `필터 검색이 가능하다`() {
         // given
         val paginationRq = PaginationRq(
             page = 1,
@@ -77,7 +76,7 @@ class FindArtworkServiceTest {
         )
 
         val artwork = Artwork(
-            title = "work",
+            title = "제목입니다",
             content = "콘텐스",
             writer = member,
             artworkType = ArtworkType.NOVEL,
@@ -96,9 +95,11 @@ class FindArtworkServiceTest {
         every { artworkRepository.findArtworkListByFilter(pageRequest, searchArtworkListRq) }.returns( PageImpl(listOf(artwork), pageRequest, 1) )
         every { findBookmarkService.findByMember(member) }.returns( listOf(bookmark) )
 
-        // when & then
-        val pagedFindArtworkRs = findArtworkService.searchArtworkByFilter(memberContext, pagination, searchArtworkListRq)
-        Assertions.assertEquals(pagedFindArtworkRs.list!![0].title, "work")
+        // when
+        val result = findArtworkService.searchArtworkByFilter(memberContext, pagination, searchArtworkListRq)
+
+        // then
+        Assertions.assertEquals(result.list!![0].title, "제목입니다")
     }
 
 }
