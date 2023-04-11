@@ -2,7 +2,6 @@ package com.novel.cloud.web.domain.member.service
 
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
-import com.novel.cloud.web.domain.artwork.service.FindArtworkService
 import com.novel.cloud.web.domain.bookmark.service.FindBookmarkService
 import com.novel.cloud.web.domain.member.controller.rs.FindMemberSelfRs
 import com.novel.cloud.web.domain.member.repository.MemberRepository
@@ -49,15 +48,10 @@ class FindMemberService(
 
     fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {
         val email = memberContext.email
-        return findByEmailOrElseThrow(email);
+        return findByEmailOrElseThrow(email)
     }
 
-    fun findLoginMemberOrElseNull(memberContext: MemberContext): Member? {
-        val email = memberContext.email
-        return findByEmailOrElseNull(email);
-    }
-
-    fun findMemberProfile(memberContext: MemberContext, memberId: Long): FindMemberSelfRs {
+    fun findMemberProfile(memberContext: MemberContext?, memberId: Long): FindMemberSelfRs {
         val member = findByIdOrElseThrow(memberId)
         val myBookmarkedArtworkIdSet = getMyBookmarkedArtworkIdSet(memberContext)
         return FindMemberSelfRs.create(member, myBookmarkedArtworkIdSet)

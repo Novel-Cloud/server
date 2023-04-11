@@ -33,7 +33,7 @@ class MemberController(
 
     @Operation(summary = "다른 멤버의 프로필 보기")
     @GetMapping(ApiPath.MEMBER_OTHER)
-    fun findMemberProfile(@AuthenticationPrincipal memberContext: MemberContext,
+    fun findMemberProfile(@AuthenticationPrincipal memberContext: MemberContext?,
                           @PathVariable memberId: Long): FindMemberSelfRs? {
         return findMemberService.findMemberProfile(memberContext, memberId)
     }
