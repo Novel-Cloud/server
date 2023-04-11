@@ -70,7 +70,6 @@ class ArtworkService(
 
         // 이미 있는 경우 update 없으면 create
         temporaryArtwork?.let {
-            autoSavePermissionCheck(member, temporaryArtwork)
             temporaryArtwork.updateContent(rq.content)
         } ?: createTemporaryArtwork(memberContext, rq)
 
@@ -85,12 +84,6 @@ class ArtworkService(
             writer = member
         )
         return temporaryArtworkRepository.save(temporaryArtwork)
-    }
-
-    private fun autoSavePermissionCheck(member: Member, temporaryArtwork: TemporaryArtwork) {
-        if (temporaryArtwork.writer != member) {
-            throw DoNotHavePermissionToAutoSaveArtwork()
-        }
     }
 
     private fun getAutoSaveResponseString(): String {

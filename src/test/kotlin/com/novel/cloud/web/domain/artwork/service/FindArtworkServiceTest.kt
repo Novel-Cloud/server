@@ -31,8 +31,8 @@ class FindArtworkServiceTest {
     private lateinit var artworkRepository: ArtworkRepository
     private lateinit var temporaryArtworkRepository: TemporaryArtworkRepository
 
-    lateinit var member: Member
-    lateinit var memberContext: MemberContext
+    private lateinit var member: Member
+    private lateinit var memberContext: MemberContext
 
     @BeforeEach
     fun setUp() {
