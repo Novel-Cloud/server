@@ -1,6 +1,5 @@
 package com.novel.cloud.web.domain.artwork.service
 
-import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
@@ -9,14 +8,14 @@ import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.domain.tag.service.ArtworkTagService
-import com.novel.cloud.web.exception.DoNotHavePermissionToAutoSaveArtwork
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 internal class ArtworkServiceTest {
 
@@ -71,10 +70,36 @@ internal class ArtworkServiceTest {
 
         every { findMemberService.findLoginMemberOrElseThrow(memberContext) }.returns(member)
         every { temporaryArtworkRepository.findByWriter(member) }.returns( temporaryArtwork )
+
+        // when
         artworkService.autoSaveArtwork(memberContext, body)
 
         // then
         Assertions.assertEquals(temporaryArtwork.content, "난 멋쟁이")
+    }
+
+    @Test
+    fun `내 임시 저장된 작품이 없으면 새로운 객체를 저장한다`() {
+        // given
+        val body = AutoSaveTemporaryArtworkRq(
+            content = "난 멋쟁이"
+        )
+
+        val temporaryArtwork = TemporaryArtwork(
+            content = body.content,
+            writer = member
+        )
+
+        every { findMemberService.findLoginMemberOrElseThrow(memberContext) }.returns(member)
+        every { temporaryArtworkRepository.findByWriter(member) }.returns( null )
+        every { temporaryArtworkRepository.save(any()) } returns temporaryArtwork
+
+        // when
+        artworkService.autoSaveArtwork(memberContext, body)
+
+        // then
+        verify { temporaryArtworkRepository.save(any()) }
+        confirmVerified()
     }
 
 }
