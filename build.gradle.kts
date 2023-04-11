@@ -65,7 +65,10 @@ dependencies {
 
 	// querydsl
 	implementation("com.querydsl:querydsl-jpa:5.0.0")
-	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+
+	// junit
+	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")

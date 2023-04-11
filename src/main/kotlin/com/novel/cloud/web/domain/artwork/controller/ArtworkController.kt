@@ -24,6 +24,7 @@ class ArtworkController(
     private val artworkService: ArtworkService,
     private val fileService: FileService
 ) {
+
     @Operation(summary = "작품 자동 저장")
     @PostMapping(ApiPath.ARTWORK_SAVE)
     fun autoSaveArtwork(@AuthenticationPrincipal memberContext: MemberContext,
