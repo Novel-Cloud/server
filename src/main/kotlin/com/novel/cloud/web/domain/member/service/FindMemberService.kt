@@ -40,9 +40,11 @@ class FindMemberService(
         return FindMemberSelfRs.create(member, myBookmarkedArtworkIdSet)
     }
 
-    fun findLoginMember(memberContext: MemberContext): Member? {
-        val email = memberContext.email
-        return findByEmailOrElseNull(email)
+    fun findLoginMember(memberContext: MemberContext?): Member? {
+        return memberContext?.let {
+            val email = memberContext.email
+            findByEmailOrElseNull(email)
+        }
     }
 
     fun findLoginMemberOrElseThrow(memberContext: MemberContext): Member {

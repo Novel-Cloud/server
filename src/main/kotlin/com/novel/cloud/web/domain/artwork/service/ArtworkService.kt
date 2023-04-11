@@ -6,6 +6,7 @@ import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkViewRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
@@ -50,7 +51,7 @@ class ArtworkService(
 
     fun autoSaveArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): String {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val temporaryArtwork = findArtworkService.findTemporaryArtworkByWriterOrElseNull(member)
+        val temporaryArtwork = temporaryArtworkRepository.findByWriter(member)
         temporaryArtwork?.let {
             autoSavePermissionCheck(member, temporaryArtwork)
             temporaryArtwork.updateContent(rq.content)
@@ -74,5 +75,12 @@ class ArtworkService(
         artwork.addView()
     }
 
+    fun updateArtworkView(rq: UpdateArtworkViewRq) {
+        val artworkId = rq.artworkId
+        artworkId?.let {
+            val artwork = findArtworkService.findByIdOrElseThrow(artworkId)
+            artwork.addView()
+        }
+    }
 
 }

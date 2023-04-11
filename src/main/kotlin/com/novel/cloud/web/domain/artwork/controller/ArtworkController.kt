@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.artwork.controller
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkViewRq
 import com.novel.cloud.web.domain.artwork.service.ArtworkService
 import com.novel.cloud.web.domain.file.service.FileService
 import com.novel.cloud.web.path.ApiPath
@@ -38,6 +39,12 @@ class ArtworkController(
                       @RequestPart(value = "thumbnail") thumbnail: MultipartFile) {
         val artwork = artworkService.submitArtwork(memberContext, rq)
         fileService.uploadFile(memberContext, artwork, files, thumbnail)
+    }
+
+    @Operation(summary = "조회수 증가")
+    @PostMapping(ApiPath.VIEW_ARTWORK)
+    fun updateArtworkView(@Validated @RequestBody rq: UpdateArtworkViewRq) {
+        artworkService.updateArtworkView(rq)
     }
 
 }

@@ -29,6 +29,8 @@ object ApiPath {
 
     const val VIEW_ARTWORK = "/api/artwork/view"
 
+    const val VIEW_UPDATE = "/api/artwork/view/update"
+
     const val ARTWORK_DETAIL = "/api/artwork/detail/{artworkId}"
 
     // 파일
@@ -53,7 +55,7 @@ object ApiPath {
     // 좋아요
     const val LIKE = "/api/like"
 
-    const val TOGGLE_LIKE = "/api/like/{artworkId}"
+    const val TOGGLE_LIKE = "/api/like"
 
     // 검색
 

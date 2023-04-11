@@ -14,7 +14,12 @@ import javax.persistence.Table
 import javax.persistence.UniqueConstraint
 
 @Entity
-@Table(uniqueConstraints = [UniqueConstraint(name = "tag_content_uk", columnNames = ["`content`"])])
+@Table(
+    uniqueConstraints = [UniqueConstraint(
+        name = "tag_content_uk",
+        columnNames = ["`content`"]
+    )]
+)
 class Tag (
     content: String,
     writer: Member,
