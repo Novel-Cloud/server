@@ -9,11 +9,12 @@ data class FindTemporaryArtworkRs (
     val content: String? = null
 ){
     companion object {
-        fun create(temporaryArtwork: TemporaryArtwork?): FindTemporaryArtworkRs {
+
+        fun create(temporaryArtwork: TemporaryArtwork): FindTemporaryArtworkRs {
             return FindTemporaryArtworkRs(
-                temporaryArtworkId = temporaryArtwork?.id,
-                createdDate = temporaryArtwork?.createdDate,
-                content = temporaryArtwork?.content
+                temporaryArtworkId = temporaryArtwork.id,
+                createdDate = temporaryArtwork.createdDate,
+                content = temporaryArtwork.content
             )
         }
 

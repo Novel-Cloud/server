@@ -14,6 +14,7 @@ import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.endpoint.PagedResponse
 import com.novel.cloud.web.endpoint.Pagination
 import com.novel.cloud.web.exception.NotFoundArtworkException
+import com.novel.cloud.web.exception.NotFoundTemporaryArtworkException
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -56,7 +57,6 @@ class FindArtworkService(
      * 작품 단건 조회
      */
     fun findArtworkDetail(memberContext: MemberContext?, artworkId: Long): FindArtworkDetailRs {
-
         val artwork = findByIdOrElseThrow(artworkId)
         val loginMember = findMemberService.findLoginMember(memberContext)
 
@@ -70,6 +70,8 @@ class FindArtworkService(
     fun findTemporaryArtworkSelf(memberContext: MemberContext): FindTemporaryArtworkRs {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val temporaryArtwork = temporaryArtworkRepository.findByWriter(member)
+            ?: throw NotFoundTemporaryArtworkException()
+
         return FindTemporaryArtworkRs.create(temporaryArtwork)
     }
 

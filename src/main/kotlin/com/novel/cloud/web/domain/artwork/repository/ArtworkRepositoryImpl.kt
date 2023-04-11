@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 
 class ArtworkRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory,
-): ArtworkRepositoryCustom {
+) : ArtworkRepositoryCustom {
 
     override fun findArtworkList(pageable: Pageable): Page<Artwork> {
         val contents = jpaQueryFactory
@@ -39,7 +39,9 @@ class ArtworkRepositoryImpl(
     override fun findArtworkListByTag(pageable: Pageable, tags: List<String>): Page<Artwork> {
         val contents = jpaQueryFactory
             .selectFrom(artwork)
-            .where(*tags.map { artwork.mutableTags.any().content.eq(it) }.toTypedArray())
+            .where(*tags.map { tag ->
+                artwork.mutableTags.any().content.eq(tag)
+            }.toTypedArray())
             .orderBy(artwork.createdDate.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
@@ -47,7 +49,9 @@ class ArtworkRepositoryImpl(
 
         val countQuery = jpaQueryFactory
             .selectFrom(artwork)
-            .where(*tags.map { artwork.mutableTags.any().content.eq(it) }.toTypedArray())
+            .where(*tags.map { tag ->
+                artwork.mutableTags.any().content.eq(tag)
+            }.toTypedArray())
 
         val totalSupplier = { countQuery.fetch().size.toLong() }
 
@@ -84,36 +88,32 @@ class ArtworkRepositoryImpl(
     }
 
     private fun portfolioThemeEq(artworkType: ArtworkType?): BooleanExpression? {
-        artworkType?.let {
+        return artworkType?.let {
             return artwork.artworkType.eq(artworkType)
         }
-        return null
     }
 
     private fun uploadDateEq(uploadDateType: UploadDateType?): BooleanExpression? {
-        uploadDateType?.let {
-            return when (uploadDateType) {
+        return uploadDateType?.let {
+            when (uploadDateType) {
                 UploadDateType.AN_HOUR_AGO -> artwork.createdDate.after(LocalDateTime.now().minusHours(1))
                 UploadDateType.TODAY -> artwork.createdDate.after(LocalDateTime.now().minusDays(1))
                 UploadDateType.THIS_WEEK -> artwork.createdDate.after(LocalDateTime.now().minusWeeks(1))
                 UploadDateType.THIS_MONTH -> artwork.createdDate.after(LocalDateTime.now().minusMonths(1))
                 UploadDateType.THIS_YEAR -> artwork.createdDate.after(LocalDateTime.now().minusYears(1))
-                else -> null
             }
         }
-        return null
     }
 
     private fun getOrderSpecifier(sortType: ArtworkSortType?, defaultOrder: Order): OrderSpecifier<*> {
-        sortType?.let {
-            return when(sortType) {
+        return sortType?.let {
+            when (sortType) {
                 ArtworkSortType.UPLOAD_DATE -> OrderSpecifier(Order.ASC, artwork.createdDate)
                 ArtworkSortType.VIEWS -> OrderSpecifier(defaultOrder, artwork.view)
                 ArtworkSortType.LIKES -> OrderSpecifier(defaultOrder, artwork.mutableBookmarks.size())
                 ArtworkSortType.COMMENTS -> OrderSpecifier(defaultOrder, artwork.mutableComments.size())
             }
-        }
-        return OrderSpecifier(defaultOrder, artwork.createdDate)
+        } ?: OrderSpecifier(defaultOrder, artwork.createdDate)
     }
 
 }

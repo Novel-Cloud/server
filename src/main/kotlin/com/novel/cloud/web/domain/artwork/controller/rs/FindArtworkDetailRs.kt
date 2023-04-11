@@ -31,6 +31,7 @@ data class FindArtworkDetailRs (
             val attachFiles = getAttachFiles(artwork.attachFiles)
             val likes = getLikes(artwork)
             val tags = getTags(artwork.tags)
+            val formattedDate = DateUtils.formatDateYYYYMMDD(artwork.createdDate) ?: ""
             return FindArtworkDetailRs(
                 artworkId = artwork.id,
                 title = artwork.title,
@@ -43,7 +44,7 @@ data class FindArtworkDetailRs (
                 tags = tags,
                 thumbnail = artwork.thumbnail,
                 attachFiles = attachFiles,
-                createDate = DateUtils.formatDateYYYYMMDD(artwork.createdDate)
+                createDate = formattedDate
             )
         }
 
