@@ -1,7 +1,6 @@
 package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.Artwork
-import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.SearchArtworkFilterRq
@@ -74,6 +73,9 @@ class FindArtworkService(
         return FindTemporaryArtworkRs.create(temporaryArtwork)
     }
 
+    /**
+     * 작품 해시 태그 검색
+     */
     fun searchArtworkByTag(
         memberContext: MemberContext?,
         pagination: Pagination,
@@ -84,6 +86,9 @@ class FindArtworkService(
         return getFindArtworkPagedResponseList(memberContext, artworkList, pagination)
     }
 
+    /**
+     * 작품 필터 검색
+     */
     fun searchArtworkByFilter(
         memberContext: MemberContext?,
         pagination: Pagination,

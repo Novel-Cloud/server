@@ -25,10 +25,17 @@ class ArtworkService(
     private val artworkRepository: ArtworkRepository,
     private val temporaryArtworkRepository: TemporaryArtworkRepository,
 ) {
+
+    /**
+     * 작품 등록
+     */
     fun submitArtwork(memberContext: MemberContext, rq: CreateArtworkRq): Artwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+
+        // [1] 태그 중복 제거 후 저장
         val tagContents = rq.tags.toSet()
         val tags = artworkTagService.createTags(member, tagContents)
+
         val artwork = Artwork(
             title = rq.title,
             content = rq.content,
@@ -36,12 +43,43 @@ class ArtworkService(
             artworkType = rq.artworkType,
             tags = tags
         )
+
+        // [2] 글 저장
         artworkRepository.save(artwork)
         return artwork
     }
 
+    /**
+     * 작품 조회수 증가
+     */
+    fun updateArtworkView(rq: UpdateArtworkViewRq) {
+        val artworkId = rq.artworkId
+        artworkId?.let {
+            val artwork = findArtworkService.findByIdOrElseThrow(artworkId)
+            artwork.addView()
+        }
+    }
+
+    /**
+     * 임시 작품 자동 저장
+     */
+    fun autoSaveArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): String {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+
+        val temporaryArtwork = temporaryArtworkRepository.findByWriter(member)
+
+        // 이미 있는 경우 update 없으면 create
+        temporaryArtwork?.let {
+            autoSavePermissionCheck(member, temporaryArtwork)
+            temporaryArtwork.updateContent(rq.content)
+        } ?: createTemporaryArtwork(memberContext, rq)
+
+        return getAutoSaveResponseString()
+    }
+
     private fun createTemporaryArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): TemporaryArtwork {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+
         val temporaryArtwork = TemporaryArtwork(
             content = rq.content,
             writer = member
@@ -49,38 +87,14 @@ class ArtworkService(
         return temporaryArtworkRepository.save(temporaryArtwork)
     }
 
-    fun autoSaveArtwork(memberContext: MemberContext, rq: AutoSaveTemporaryArtworkRq): String {
-        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
-        val temporaryArtwork = temporaryArtworkRepository.findByWriter(member)
-        temporaryArtwork?.let {
-            autoSavePermissionCheck(member, temporaryArtwork)
-            temporaryArtwork.updateContent(rq.content)
-            return getAutoSaveResponseString()
-        }
-        this.createTemporaryArtwork(memberContext, rq)
-        return getAutoSaveResponseString()
-    }
-
     private fun autoSavePermissionCheck(member: Member, temporaryArtwork: TemporaryArtwork) {
-        if (!temporaryArtwork.writer.equals(member)) {
+        if (temporaryArtwork.writer != member) {
             throw DoNotHavePermissionToAutoSaveArtwork()
         }
     }
 
     private fun getAutoSaveResponseString(): String {
-        return DateUtils.formatedNow() + "에 자동 저장 되었습니다."
-    }
-
-    fun artworkAddView(artwork: Artwork) {
-        artwork.addView()
-    }
-
-    fun updateArtworkView(rq: UpdateArtworkViewRq) {
-        val artworkId = rq.artworkId
-        artworkId?.let {
-            val artwork = findArtworkService.findByIdOrElseThrow(artworkId)
-            artwork.addView()
-        }
+        return DateUtils.formattedNow() + "에 자동 저장 되었습니다."
     }
 
 }
