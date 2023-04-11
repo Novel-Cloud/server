@@ -63,12 +63,13 @@ dependencies {
 	// swagger
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
 
+	// junit & test
+	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+	testImplementation("io.mockk:mockk:1.12.0")
+
 	// querydsl
 	implementation("com.querydsl:querydsl-jpa:5.0.0")
-    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
-
-	// junit
-	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
