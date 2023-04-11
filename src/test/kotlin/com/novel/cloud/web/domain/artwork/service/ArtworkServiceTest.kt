@@ -2,8 +2,10 @@ package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.db.entity.member.Member
+import com.novel.cloud.db.enums.ArtworkType
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
@@ -92,7 +94,7 @@ internal class ArtworkServiceTest {
 
         every { findMemberService.findLoginMemberOrElseThrow(memberContext) }.returns(member)
         every { temporaryArtworkRepository.findByWriter(member) }.returns( null )
-        every { temporaryArtworkRepository.save(any()) } returns temporaryArtwork
+
 
         // when
         artworkService.autoSaveArtwork(memberContext, body)
@@ -100,6 +102,21 @@ internal class ArtworkServiceTest {
         // then
         verify { temporaryArtworkRepository.save(any()) }
         confirmVerified()
+    }
+    
+    @Test
+    fun `작품 등록시 태그는 중복이 제거되어야 한다`() {
+        // given
+        val body = CreateArtworkRq(
+            title = "제목쓰",
+            content = "콘텐츠",
+            artworkType = ArtworkType.NOVEL,
+            tags = listOf<String>("yes", "no", "no")
+        )
+
+        val setTag = body.tags.toSet()
+        // then
+        Assertions.assertEquals(setTag, setOf<String>("yes", "no"))
     }
 
 }
