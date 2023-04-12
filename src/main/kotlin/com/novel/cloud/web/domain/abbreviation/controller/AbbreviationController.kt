@@ -21,30 +21,37 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 
-@Tag(name="단축어")
+@Tag(name = "단축어")
 @RestController
 class AbbreviationController(
     private val abbreviationService: AbbreviationService,
-    private val findAbbreviationService: FindAbbreviationService
+    private val findAbbreviationService: FindAbbreviationService,
 ) {
+
     @Operation(summary = "단축어 생성")
     @PostMapping(ApiPath.SHORTCUT)
-    fun createAbbreviation(@AuthenticationPrincipal memberContext: MemberContext,
-                        @Validated @RequestBody rq: CreateAbbreviationRq) {
+    fun createAbbreviation(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestBody rq: CreateAbbreviationRq,
+    ) {
         abbreviationService.createAbbreviation(memberContext, rq)
     }
 
     @Operation(summary = "단축어 삭제")
     @DeleteMapping(ApiPath.SHORTCUT)
-    fun deleteAbbreviation(@AuthenticationPrincipal memberContext: MemberContext,
-                      @Validated @RequestBody rq: DeleteAbbreviationRq) {
+    fun deleteAbbreviation(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestBody rq: DeleteAbbreviationRq,
+    ) {
         abbreviationService.deleteAbbreviation(memberContext, rq)
     }
 
     @Operation(summary = "단축어 순서변경")
     @PutMapping(ApiPath.SHORTCUT_SEQUENCE)
-    fun updateAbbreviationSequence(@AuthenticationPrincipal memberContext: MemberContext,
-                 @Validated @RequestBody rq: UpdateAbbreviationSequenceRq) {
+    fun updateAbbreviationSequence(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestBody rq: UpdateAbbreviationSequenceRq,
+    ) {
         abbreviationService.updateAbbreviationSequence(memberContext, rq)
     }
 

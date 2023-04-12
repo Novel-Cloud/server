@@ -9,14 +9,14 @@ import com.novel.cloud.web.endpoint.ListResponse
 import com.novel.cloud.web.exception.NotFoundAbbreviationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.reflect.Member
 
 @Service
 @Transactional(readOnly = true)
-class FindAbbreviationService (
+class FindAbbreviationService(
     private val abbreviationRepository: AbbreviationRepository,
-    private val findMemberService: FindMemberService
+    private val findMemberService: FindMemberService,
 ) {
+
     fun findByIdOrElseThrow(abbreviationId: Long): Abbreviation {
         return abbreviationRepository.findById(abbreviationId)
             .orElseThrow { NotFoundAbbreviationException() }
@@ -31,8 +31,12 @@ class FindAbbreviationService (
         return abbreviationRepository.findSequenceAbbreviation(memberId)
     }
 
+    /**
+     * 내 단축어 불러오기
+     */
     fun findAbbreviationSelf(memberContext: MemberContext): ListResponse<FindSequenceAbbreviationRs> {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+
         val abbreviationList = findSequenceAbbreviation(member.id)
         val findSequenceAbbreviationRsList = abbreviationList.map { abbreviation ->
             FindSequenceAbbreviationRs.create(abbreviation)

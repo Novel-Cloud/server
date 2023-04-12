@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 class FindBookmarkService (
     private val bookmarkRepository: BookmarkRepository
 ) {
+
     fun findByMemberAndArtworkOrElseNull(member: Member, artwork: Artwork): Bookmark? {
         return bookmarkRepository.findByMemberAndArtwork(member, artwork)
             .orElse(null)
