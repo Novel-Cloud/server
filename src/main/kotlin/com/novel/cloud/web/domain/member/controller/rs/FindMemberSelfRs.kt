@@ -28,7 +28,7 @@ data class FindMemberSelfRs(
             return artworks?.map { artwork ->
                 val bookmarkYn = getBookmarkYn(artwork, myBookmarkedArtworkIdSet)
                 FindArtworkRs.create(artwork, bookmarkYn)
-            }?.toList()
+            }?.reversed()?.toList()
         }
 
         private fun getBookmarkYn(artwork: Artwork, myBookmarkedArtworkIdSet: Set<Long?>): Boolean {

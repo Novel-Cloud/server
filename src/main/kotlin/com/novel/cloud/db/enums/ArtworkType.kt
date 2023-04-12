@@ -5,4 +5,5 @@ enum class ArtworkType(
 ) {
     NOVEL("소설"),
     ILLUSTRATION("일러스트"),
+    MANGA("망가")
 }

@@ -1,6 +1,6 @@
 package com.novel.cloud.db.enums
 
-enum class AttachFileType (
+enum class AttachFileType(
     val type: String,
 ) {
     THUMBNAIL("썸네일"),

@@ -24,6 +24,7 @@ data class FindArtworkRs (
         fun create(artwork: Artwork, bookmarkYn: Boolean): FindArtworkRs {
             val writer = getWriter(artwork.writer)
             val tags = getTags(artwork.tags)
+            val attachFiles = getAttachFiles(artwork.attachFiles)
             return FindArtworkRs(
                 artworkId = artwork.id,
                 title = artwork.title,
@@ -32,13 +33,14 @@ data class FindArtworkRs (
                 likeYn = bookmarkYn,
                 tags = tags,
                 thumbnail = artwork.thumbnail,
-                attachFiles = getAttachFiles(artwork.attachFiles)
+                attachFiles = attachFiles
             )
         }
 
         private fun getWriter(member: Member): MemberDto {
             return MemberDto.create(member)
         }
+
         private fun getTags(tags: Set<Tag>): List<TagDto> {
             return tags.map {tag ->
                 TagDto.create(tag)
@@ -50,7 +52,6 @@ data class FindArtworkRs (
                 AttachFileDto.create(attachFile)
             }.toList()
         }
-
 
     }
 

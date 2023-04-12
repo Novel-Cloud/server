@@ -1,9 +1,5 @@
 package com.novel.cloud.web.utils
 
-import com.novel.cloud.db.entity.artwork.QArtwork
-import com.novel.cloud.web.domain.enums.ArtworkSortType
-import com.querydsl.core.types.Order
-import com.querydsl.core.types.OrderSpecifier
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -21,7 +17,7 @@ object DateUtils {
         return Date(date.time + millisecond)
     }
 
-    fun formatedNow(): String {
+    fun formattedNow(): String {
         val today = Date()
         val pattern = "yyyy/MM/dd HH:mm:ss"
         val formatter = SimpleDateFormat(pattern)

@@ -12,11 +12,11 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
 @Entity
-class Abbreviation (
+class Abbreviation(
     content: String,
     sequence: Int,
     writer: Member,
-): BaseTimeEntity() {
+) : BaseTimeEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
