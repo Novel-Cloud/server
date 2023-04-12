@@ -14,6 +14,9 @@ class SearchArtworkFilterRq (
 
     val artworkType: ArtworkType? = null,
 
-    val sortType: ArtworkSortType? = null
+    val sortType: ArtworkSortType? = null,
+
+    @field:NotNull
+    val tags: List<String> = listOf()
 
 )

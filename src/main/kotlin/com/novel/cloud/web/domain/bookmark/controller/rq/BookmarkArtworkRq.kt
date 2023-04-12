@@ -5,6 +5,6 @@ import javax.validation.constraints.NotNull
 data class BookmarkArtworkRq (
 
     @field:NotNull
-    val artworkId: Long
+    val artworkId: Long,
 
 )

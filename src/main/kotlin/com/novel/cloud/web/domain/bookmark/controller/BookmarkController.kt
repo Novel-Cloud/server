@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "좋아요")
 @RestController
-class BookmarkController (
-    private val bookmarkService: BookmarkService
+class BookmarkController(
+    private val bookmarkService: BookmarkService,
 ) {
 
     @Operation(summary = "작품 좋아요 (토글)")
     @PostMapping(ApiPath.TOGGLE_LIKE)
-    fun toggleArtworkBookmark(@AuthenticationPrincipal memberContext: MemberContext,
-                      @Validated @RequestBody rq: BookmarkArtworkRq
+    fun toggleArtworkBookmark(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestBody rq: BookmarkArtworkRq,
     ) {
         bookmarkService.toggleArtworkBookmark(memberContext, rq)
     }
-
 
 }

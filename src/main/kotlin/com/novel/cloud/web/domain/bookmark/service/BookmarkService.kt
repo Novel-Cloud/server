@@ -17,16 +17,24 @@ class BookmarkService (
     private val findBookmarkService: FindBookmarkService,
     private val bookmarkRepository: BookmarkRepository
 ) {
+
+    /**
+     * 좋아요 토글
+     */
     fun toggleArtworkBookmark(memberContext: MemberContext, rq: BookmarkArtworkRq) {
         val artworkId = rq.artworkId
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val artwork = findArtworkService.findByIdOrElseThrow(artworkId)
 
-        val bookmark: Bookmark? = findBookmarkService.findByMemberAndArtworkOrElseNull(member, artwork)
+        val bookmark = findBookmarkService.findByMemberAndArtworkOrElseNull(member, artwork)
+
+        // [1] 좋아요를 누른 경우 삭제
         bookmark?.let {
             bookmarkRepository.delete(bookmark)
             return
         }
+
+        // [2] 좋아요를 누르지 않은 경우
         val newBookmark = Bookmark(
             member = member,
             artwork = artwork
