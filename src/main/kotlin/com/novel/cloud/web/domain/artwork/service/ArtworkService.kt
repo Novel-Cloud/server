@@ -2,7 +2,6 @@ package com.novel.cloud.web.domain.artwork.service
 
 import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.artwork.TemporaryArtwork
-import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
@@ -11,7 +10,6 @@ import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.domain.tag.service.ArtworkTagService
-import com.novel.cloud.web.exception.DoNotHavePermissionToAutoSaveArtwork
 import com.novel.cloud.web.utils.DateUtils
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

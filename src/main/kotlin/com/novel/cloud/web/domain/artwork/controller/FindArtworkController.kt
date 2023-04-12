@@ -58,15 +58,4 @@ class FindArtworkController (
         return findArtworkService.searchArtworkByFilter(memberContext, pagination, filter)
     }
 
-    @Operation(summary = "해시태그 검색")
-    @GetMapping(ApiPath.SEARCH_TAG)
-    fun searchArtworkByTag(@AuthenticationPrincipal memberContext: MemberContext?,
-                           @RequestParam(value = "page", required = true) page: Int,
-                           @RequestParam(value = "size", required = true) size: Int,
-                           @RequestParam(value="tags[]") tags: List<String>
-    ): PagedResponse<FindArtworkRs> {
-        val pagination = Pagination(page, size)
-        return findArtworkService.searchArtworkByTag(memberContext, pagination, tags)
-    }
-
 }

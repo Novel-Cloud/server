@@ -76,19 +76,6 @@ class FindArtworkService(
     }
 
     /**
-     * 작품 해시 태그 검색
-     */
-    fun searchArtworkByTag(
-        memberContext: MemberContext?,
-        pagination: Pagination,
-        tags: List<String>,
-    ): PagedResponse<FindArtworkRs> {
-        val pageRequest = pagination.toPageRequest()
-        val artworkList = artworkRepository.findArtworkListByTag(pageRequest, tags)
-        return getFindArtworkPagedResponseList(memberContext, artworkList, pagination)
-    }
-
-    /**
      * 작품 필터 검색
      */
     fun searchArtworkByFilter(
