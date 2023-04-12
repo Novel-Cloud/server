@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "태그")
 @RestController
-class ArtworkTagController (
-    val findArtworkTagService: FindArtworkTagService
-){
+class ArtworkTagController(
+    val findArtworkTagService: FindArtworkTagService,
+) {
 
     @Operation(summary = "인기 있는 해시태그 불러오기")
     @GetMapping(ApiPath.TAG)
