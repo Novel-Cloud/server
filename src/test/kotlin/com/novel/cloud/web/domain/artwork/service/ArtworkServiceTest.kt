@@ -34,7 +34,7 @@ internal class ArtworkServiceTest {
     @BeforeEach
     fun setUp() {
         memberContext = MemberContext(
-            email="min050410@gmail.com",
+            email="example@gmail.com",
             registrationId="google"
         )
 
@@ -87,14 +87,9 @@ internal class ArtworkServiceTest {
             content = "난 멋쟁이"
         )
 
-        val temporaryArtwork = TemporaryArtwork(
-            content = body.content,
-            writer = member
-        )
-
         every { findMemberService.findLoginMemberOrElseThrow(memberContext) }.returns(member)
         every { temporaryArtworkRepository.findByWriter(member) }.returns( null )
-
+        every { temporaryArtworkRepository.save(any()) }.returns( mockk() )
 
         // when
         artworkService.autoSaveArtwork(memberContext, body)
@@ -115,7 +110,7 @@ internal class ArtworkServiceTest {
         )
 
         val setTag = body.tags.toSet()
-        // then
+        // when & then
         Assertions.assertEquals(setTag, setOf<String>("yes", "no"))
     }
 

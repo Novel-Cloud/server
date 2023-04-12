@@ -1,16 +1,13 @@
 package com.novel.cloud.db.entity.attach_file
 
+import com.novel.cloud.db.entity.BaseEntity
 import com.novel.cloud.db.entity.artwork.Artwork
-import com.novel.cloud.db.entity.common.BaseTimeEntity
 import com.novel.cloud.db.enums.AttachFileType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
@@ -22,11 +19,7 @@ class AttachFile (
     fileSize: Long,
     artwork: Artwork,
     attachFileType: AttachFileType
-): BaseTimeEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null;
+): BaseEntity() {
 
     @Column(length = 200, nullable = false)
     var fileName: String = fileName
@@ -42,19 +35,19 @@ class AttachFile (
 
     @Column(nullable = false)
     var fileSize: Long = fileSize
-        protected set;
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var artwork: Artwork = artwork
-        protected set;
+        protected set
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    var attachFileType: AttachFileType = attachFileType;
+    var attachFileType: AttachFileType = attachFileType
 
     init {
-        artwork.addAttachFile(this);
+        artwork.addAttachFile(this)
     }
 
 }

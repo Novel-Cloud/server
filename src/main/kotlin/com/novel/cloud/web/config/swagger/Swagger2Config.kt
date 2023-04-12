@@ -20,7 +20,7 @@ class Swagger2Config {
         return GroupedOpenApi.builder()
             .group("v1-documentation")
             .pathsToMatch("/api/**")
-            .addOpenApiCustomiser(openApiCustomiser())
+            .addOpenApiCustomiser(openApiCustomizer())
             .build()
     }
 
@@ -48,7 +48,7 @@ class Swagger2Config {
     }
 
     @Bean
-    fun openApiCustomiser(): OpenApiCustomiser? {
+    fun openApiCustomizer(): OpenApiCustomiser? {
         return OpenApiCustomiser {
             it.addSecurityItem(getSecurityItem())
             it.addServersItem(getServersItem())

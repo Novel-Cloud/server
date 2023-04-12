@@ -7,6 +7,5 @@ import org.springframework.data.domain.Pageable
 
 interface ArtworkRepositoryCustom {
     fun findArtworkList(pageable: Pageable): Page<Artwork>
-    fun findArtworkListByTag(pageable: Pageable, tags: List<String>): Page<Artwork>
     fun findArtworkListByFilter(pageable: Pageable, filter: SearchArtworkFilterRq): Page<Artwork>
 }

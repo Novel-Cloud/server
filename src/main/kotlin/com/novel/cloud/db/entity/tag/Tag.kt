@@ -1,6 +1,5 @@
 package com.novel.cloud.db.entity.tag
 
-import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.member.Member
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -20,7 +19,7 @@ import javax.persistence.UniqueConstraint
         columnNames = ["`content`"]
     )]
 )
-class Tag (
+class Tag(
     content: String,
     writer: Member,
 ) {
@@ -35,7 +34,7 @@ class Tag (
 
     @Column(nullable = false)
     var usageCount: Long = 0
-        protected set;
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
