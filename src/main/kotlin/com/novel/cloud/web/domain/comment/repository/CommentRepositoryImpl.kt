@@ -5,9 +5,9 @@ import com.novel.cloud.db.entity.comment.Comment
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.novel.cloud.db.entity.comment.QComment.comment
 
-class CommentRepositoryImpl (
-    private val jpaQueryFactory: JPAQueryFactory
-): CommentRepositoryCustom {
+class CommentRepositoryImpl(
+    private val jpaQueryFactory: JPAQueryFactory,
+) : CommentRepositoryCustom {
 
     override fun findParentCommentByArtwork(artwork: Artwork): List<Comment> {
         return jpaQueryFactory

@@ -20,6 +20,7 @@ data class FindCommentRs(
         fun create(comment: Comment, member: Member?): FindCommentRs {
             val content = getContent(comment)
             val formattedDate = DateUtils.formatDateComment(comment.createdDate)
+            val writer = getWriter(comment.writer)
             val writerId = comment.writer.id
             val editAndDeletable = getEditAndDeletable(writerId, member)
             val parentId = getParentId(comment)
@@ -32,7 +33,7 @@ data class FindCommentRs(
                 editable = editAndDeletable,
                 deletable = editAndDeletable,
                 parentId = parentId,
-                writer = getWriter(comment.writer),
+                writer = writer,
                 replyList = replyList
             )
         }
@@ -44,11 +45,10 @@ data class FindCommentRs(
             return comment.content
         }
 
-        private fun getEditAndDeletable(writerId: Long?, member: Member?): Boolean? {
-            member?.let {
-                return member.id?.equals(writerId)
-            }
-            return false
+        private fun getEditAndDeletable(writerId: Long?, member: Member?): Boolean {
+            return member?.let {
+                member.id?.equals(writerId)
+            } ?: false
         }
 
         private fun getWriter(member: Member): MemberDto {
@@ -57,10 +57,9 @@ data class FindCommentRs(
 
         private fun getParentId(comment: Comment): Long? {
             val parent = comment.parent
-            parent?.let {
-                return parent.id
+            return parent?.let {
+                parent.id
             }
-            return null
         }
 
         private fun getReplyList(
@@ -69,10 +68,10 @@ data class FindCommentRs(
         ): List<FindCommentRs> {
             val children = comment.children
             return children.map { child ->
-                    create(
-                        child,
-                        member
-                    )
+                create(
+                    child,
+                    member
+                )
             }.toList()
         }
 
