@@ -1,13 +1,10 @@
 package com.novel.cloud.db.entity.abbreviation
 
-import com.novel.cloud.db.entity.common.BaseTimeEntity
+import com.novel.cloud.db.entity.BaseEntity
 import com.novel.cloud.db.entity.member.Member
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
@@ -16,11 +13,7 @@ class Abbreviation(
     content: String,
     sequence: Int,
     writer: Member,
-) : BaseTimeEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+) : BaseEntity() {
 
     @Column(nullable = false, length = 100)
     var content: String = content

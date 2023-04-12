@@ -10,11 +10,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.OneToMany
-import javax.persistence.Table
-
 
 @Entity
-@Table(name = "`member`")
 class Member (
     email: String,
     nickname: String,
@@ -38,11 +35,11 @@ class Member (
         protected set
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
-    protected val mutableArtworks: MutableList<Artwork> = mutableListOf();
+    protected val mutableArtworks: MutableList<Artwork> = mutableListOf()
     val artworks: List<Artwork> get() = mutableArtworks.toList()
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "writer")
-    protected val mutableAbbreviation: MutableList<Abbreviation> = mutableListOf();
+    protected val mutableAbbreviation: MutableList<Abbreviation> = mutableListOf()
     val abbreviations: List<Abbreviation> get() = mutableAbbreviation.toList()
 
     fun writeArtwork(artwork: Artwork) {

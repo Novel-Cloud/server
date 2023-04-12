@@ -4,7 +4,7 @@ import javax.persistence.AttributeConverter
 import javax.persistence.Converter
 
 @Converter
-class BooleanToYNConverter: AttributeConverter<Boolean, String> {
+class BooleanToYNConverter : AttributeConverter<Boolean, String> {
 
     override fun convertToDatabaseColumn(attribute: Boolean): String {
         if (attribute) return "Y"

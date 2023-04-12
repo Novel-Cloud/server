@@ -1,13 +1,10 @@
 package com.novel.cloud.db.entity.artwork
 
-import com.novel.cloud.db.entity.common.BaseTimeEntity
+import com.novel.cloud.db.entity.BaseEntity
 import com.novel.cloud.db.entity.member.Member
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
@@ -15,20 +12,16 @@ import javax.persistence.ManyToOne
 class TemporaryArtwork(
     content: String,
     writer: Member,
-): BaseTimeEntity() {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null;
+) : BaseEntity() {
 
     @Column(nullable = false, length = 10000)
     var content: String = content
-        protected set;
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var writer: Member = writer
-        protected set;
+        protected set
 
 
     fun updateContent(content: String) {
