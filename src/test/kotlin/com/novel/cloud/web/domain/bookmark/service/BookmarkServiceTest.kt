@@ -85,5 +85,38 @@ class BookmarkServiceTest {
         confirmVerified()
     }
 
+    @Test
+    fun `좋아요를 누르지 않았다면 좋아요를 생성한다`() {
+        // given
+        val body = BookmarkArtworkRq(
+            artworkId = 1
+        )
+
+        val artwork = Artwork(
+            title = "타이틀",
+            content = "내용",
+            writer = member,
+            artworkType = ArtworkType.NOVEL,
+            tags = setOf()
+        )
+
+        val bookmark = Bookmark(
+            member = member,
+            artwork = artwork
+        )
+
+        every { findMemberService.findLoginMemberOrElseThrow(memberContext) }.returns( member )
+        every { findArtworkService.findByIdOrElseThrow(1) }.returns( artwork )
+        every { findBookmarkService.findByMemberAndArtworkOrElseNull(member, artwork) }.returns( null )
+        every { bookmarkRepository.save(any()) }.returns(mockk())
+
+        // when
+        bookmarkService.toggleArtworkBookmark(memberContext, body)
+
+        // then
+        verify { bookmarkRepository.save(any()) }
+        confirmVerified()
+    }
+
 
 }

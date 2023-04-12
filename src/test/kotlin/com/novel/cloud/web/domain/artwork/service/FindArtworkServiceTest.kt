@@ -37,7 +37,7 @@ class FindArtworkServiceTest {
     @BeforeEach
     fun setUp() {
         memberContext = MemberContext(
-            email="min050410@gmail.com",
+            email="example@gmail.com",
             registrationId="google"
         )
 
