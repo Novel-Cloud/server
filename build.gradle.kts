@@ -11,7 +11,7 @@ plugins {
 
 group = "com.novel.cloud"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	compileOnly {
@@ -73,6 +73,10 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	// spring with redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<Test> {
