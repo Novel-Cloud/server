@@ -17,6 +17,7 @@ class CustomOauth2SuccessHandler(
     private val memberRepository: MemberRepository,
     private val findMemberService: FindMemberService
 ): AuthenticationSuccessHandler {
+
     @Throws(IOException::class, ServletException::class)
     override fun onAuthenticationSuccess(
         request: HttpServletRequest?,

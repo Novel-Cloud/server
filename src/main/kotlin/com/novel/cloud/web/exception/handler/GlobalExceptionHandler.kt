@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
     @ExceptionHandler(GeneralHttpException::class)
     fun generalHttpExceptionHandler(e: GeneralHttpException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
@@ -50,4 +51,5 @@ class GlobalExceptionHandler {
         )
         return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
+
 }
