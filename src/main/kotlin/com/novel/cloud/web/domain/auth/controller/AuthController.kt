@@ -1,14 +1,14 @@
 package com.novel.cloud.web.domain.auth.controller
 
-import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.auth.controller.rq.OAuthRq
+import com.novel.cloud.web.domain.auth.controller.rq.RefreshAccessTokenRq
+import com.novel.cloud.web.domain.auth.controller.rs.AccessTokenRs
 import com.novel.cloud.web.domain.auth.service.AuthService
 import com.novel.cloud.web.domain.auth.service.OAuth2Service
 import com.novel.cloud.web.domain.dto.JwtTokenDto
 import com.novel.cloud.web.path.ApiPath
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,10 +27,10 @@ class AuthController(
         return oAuth2Service.loginOAuth2(rq)
     }
 
-    @Operation(summary = "토큰 재발급")
+    @Operation(summary = "엑세스 토큰 재발급")
     @PostMapping(ApiPath.REFRESH_TOKEN)
-    fun refreshToken(@AuthenticationPrincipal memberContext: MemberContext?): JwtTokenDto? {
-        return authService.refreshToken(memberContext)
+    fun refreshToken(@Validated @RequestBody rq: RefreshAccessTokenRq): AccessTokenRs {
+        return authService.refreshAccessToken(rq)
     }
 
 }

@@ -16,6 +16,11 @@ class FindMemberService(
     private val findBookmarkService: FindBookmarkService
 ) {
 
+    fun findById(id: Long): Member? {
+        return memberRepository.findById(id)
+            .orElse(null)
+    }
+
     fun findByEmailOrElseNull(email: String): Member? {
         return memberRepository.findByEmail(email)
             .orElse(null)
