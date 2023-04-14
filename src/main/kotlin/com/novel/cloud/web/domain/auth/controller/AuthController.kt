@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AuthController(
     private val oAuth2Service: OAuth2Service,
-    private val authService: AuthService
+    private val authService: AuthService,
 ) {
 
     @Operation(summary = "OAuth 로그인")

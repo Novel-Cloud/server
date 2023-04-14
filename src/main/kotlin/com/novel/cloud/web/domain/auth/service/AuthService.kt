@@ -16,12 +16,16 @@ class AuthService(
     private val jwtTokenFactory: JwtTokenFactory,
     private val refreshTokenRepository: RefreshTokenRepository,
 ) {
+
+    /**
+     * 토큰 재발급
+     */
     fun refreshAccessToken(rq: RefreshAccessTokenRq): AccessTokenRs {
         val refreshToken = refreshTokenRepository.findByRefreshToken(rq.refreshToken)
             ?: throw NotFoundRefreshTokenException()
         val member = findMemberService.findById(refreshToken.memberId)
             ?: throw NotFoundMemberException()
-        return jwtTokenFactory.refreshAccessToken(member)
+        return jwtTokenFactory.generateAccessToken(member)
     }
 
 }
