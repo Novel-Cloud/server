@@ -1,7 +1,6 @@
 package com.novel.cloud.web.config.security.jwt
 
 import com.novel.cloud.web.config.security.jwt.JwtProperty.JWT_EXCEPTION
-import com.novel.cloud.web.config.security.jwt.JwtProperty.TOKEN_KEY
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
@@ -20,15 +19,19 @@ import javax.servlet.http.HttpServletResponse
 @Component
 @RequiredArgsConstructor
 class JwtOncePerRequestFilter(
-    private val jwtProvider: JwtProvider
-): OncePerRequestFilter() {
+    private val jwtProvider: JwtProvider,
+    private val jwtSecretProperty: JwtSecretProperty,
+) : OncePerRequestFilter() {
+
+    val HEADER = jwtSecretProperty.header
+
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
-        val token = request.getHeader(TOKEN_KEY)
+        val token = request.getHeader(HEADER)
         try {
             authenticate(token)
         } catch (e: ExpiredJwtException) {
@@ -47,7 +50,7 @@ class JwtOncePerRequestFilter(
 
     private fun authenticate(token: String?) {
         token?.let {
-            val auth = jwtProvider.authenticate(it);
+            val auth = jwtProvider.authenticate(it)
             SecurityContextHolder.getContext().authentication = auth
         }
     }
