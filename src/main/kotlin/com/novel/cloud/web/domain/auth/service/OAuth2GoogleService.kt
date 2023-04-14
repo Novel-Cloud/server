@@ -8,12 +8,12 @@ import com.novel.cloud.web.domain.auth.constants.AuthConstants.AUTHORIZATION_COD
 import com.novel.cloud.web.domain.auth.constants.AuthConstants.GOOGLE_AUTH_URL
 import com.novel.cloud.web.domain.auth.constants.AuthConstants.GOOGLE_PROFILE_URL
 import com.novel.cloud.web.domain.dto.JwtTokenDto
+import com.novel.cloud.web.domain.member.service.MemberService
 import com.novel.cloud.web.exception.AuthenticationException
 import com.novel.cloud.web.exception.HttpRequestFailedException
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import org.json.simple.parser.ParseException
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -28,18 +28,14 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class OAuth2GoogleService(
+    googleOAuthConfigProperties: GoogleOAuthConfigProperties,
     private val jwtTokenFactory: JwtTokenFactory,
-    private val oAuth2LoginService: OAuth2LoginService
+    private val memberService: MemberService,
 ) {
 
-    @Value("\${spring.security.oauth2.client.registration.google.client-id}")
-    private val googleClientId: String? = null
-
-    @Value("\${spring.security.oauth2.client.registration.google.client-secret}")
-    private val googleClientSecret: String? = null
-
-    @Value("\${spring.security.oauth2.client.registration.google.redirect-uri}")
-    private val googleRedirectUri: String? = null
+    private val CLIENT_ID = googleOAuthConfigProperties.clientId
+    private val CLIENT_SECRET = googleOAuthConfigProperties.clientSecret
+    private val REDIRECT_URL = googleOAuthConfigProperties.redirectUri
 
     fun getToken(code: String): JwtTokenDto {
         val googleAuthToken = getGoogleAuthToken(code)
@@ -53,9 +49,9 @@ class OAuth2GoogleService(
             setBearerAuth(token)
         }
         val httpEntity = HttpEntity<LinkedMultiValueMap<String, String>>(headers)
-        val attributes = getResponse(httpEntity, GOOGLE_PROFILE_URL, HttpMethod.GET) as Map<String, Any>
+        val attributes = getResponse(httpEntity, GOOGLE_PROFILE_URL, HttpMethod.GET).toMap()
         val oAuthAttributes = OAuthAttributes.create("google", attributes)
-        return oAuth2LoginService.saveOrUpdate(oAuthAttributes)
+        return memberService.saveOrUpdateMemberByOAuth(oAuthAttributes)
     }
 
     private fun getGoogleAuthToken(code: String): String {
@@ -64,9 +60,9 @@ class OAuth2GoogleService(
         }
         val params = LinkedMultiValueMap<String, String>().apply {
             add(AuthConstants.GRANT_TYPE, AUTHORIZATION_CODE)
-            add(AuthConstants.CLIENT_ID, googleClientId)
-            add(AuthConstants.CLIENT_SECRET, googleClientSecret)
-            add(AuthConstants.REDIRECT_URI, googleRedirectUri)
+            add(AuthConstants.CLIENT_ID, CLIENT_ID)
+            add(AuthConstants.CLIENT_SECRET, CLIENT_SECRET)
+            add(AuthConstants.REDIRECT_URI, REDIRECT_URL)
             add(AuthConstants.CODE, code)
         }
         val httpEntity = HttpEntity(params, headers)
@@ -74,24 +70,25 @@ class OAuth2GoogleService(
         return jsonObject[AuthConstants.ACCESS_TOKEN] as String
     }
 
-    private fun getResponse(httpEntity: HttpEntity<LinkedMultiValueMap<String, String>>,
-                            googleAuthUrl: String,
-                            httpMethod: HttpMethod): JSONObject {
+    private fun getResponse(
+        httpEntity: HttpEntity<LinkedMultiValueMap<String, String>>,
+        googleAuthUrl: String,
+        httpMethod: HttpMethod,
+    ): JSONObject {
+        val restTemplate = RestTemplate()
+        val jsonParser = JSONParser()
         return try {
-            val restTemplate = RestTemplate()
-            val jsonParser = JSONParser()
             val response: ResponseEntity<String> = restTemplate.exchange(
                 googleAuthUrl,
                 httpMethod,
                 httpEntity,
                 String::class.java
             )
-            val body: String? = response.body;
-            jsonParser.parse(body) as JSONObject
-        } catch (e: ParseException) {
-            throw AuthenticationException()
+            jsonParser.parse(response.body) as JSONObject
         } catch (e: HttpClientErrorException) {
             throw HttpRequestFailedException(e.statusCode, e.responseBodyAsString)
+        } catch (e: ParseException) {
+            throw AuthenticationException()
         }
     }
 
