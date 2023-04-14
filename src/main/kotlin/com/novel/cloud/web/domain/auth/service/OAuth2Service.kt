@@ -12,11 +12,12 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class OAuth2Service(
-    private val oAuth2GoogleService: OAuth2GoogleService
+    private val oAuth2GoogleService: OAuth2GoogleService,
 ) {
 
     fun loginOAuth2(rq: OAuthRq): JwtTokenDto {
         val code = rq.code
+
         try {
             return oAuth2GoogleService.getToken(code)
         } catch (e: HttpClientErrorException) {

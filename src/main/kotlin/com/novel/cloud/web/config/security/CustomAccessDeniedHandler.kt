@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 class CustomAccessDeniedHandler: AccessDeniedHandler {
+
     @Throws(IOException::class)
     override fun handle(
         request: HttpServletRequest,
