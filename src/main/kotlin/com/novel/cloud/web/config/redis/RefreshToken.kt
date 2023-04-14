@@ -9,9 +9,11 @@ import org.springframework.data.redis.core.index.Indexed
 private const val REFRESH_TOKEN_TIME_TO_LIVE: Long = -1L
 
 @RedisHash(value = "refreshToken", timeToLive = REFRESH_TOKEN_TIME_TO_LIVE)
-class RedisRefreshToken (
+class RefreshToken (
+
     @Id
     @Indexed
     val refreshToken: String,
     val memberId: Long,
+
 )
