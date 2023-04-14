@@ -4,31 +4,29 @@ import com.novel.cloud.db.entity.artwork.Artwork
 import com.novel.cloud.db.entity.member.Member
 import com.novel.cloud.web.domain.artwork.controller.rs.FindArtworkRs
 
-data class FindMemberSelfRs(
+data class FindMemberRs(
     val memberId: Long? = null,
     val nickname: String? = null,
     val picture: String? = null,
-    val email: String? = null,
-    val artworks: List<FindArtworkRs>? = null
-){
+    val artworks: List<FindArtworkRs>? = null,
+) {
     companion object {
 
-        fun create(member: Member?, myBookmarkedArtworkIdSet: Set<Long?>): FindMemberSelfRs {
-            val artworks = getArtworks(member?.artworks, myBookmarkedArtworkIdSet)
-            return FindMemberSelfRs(
+        fun create(member: Member?, myBookmarkedArtworkIdSet: Set<Long?>): FindMemberRs {
+            val artworks = getArtworks(member, myBookmarkedArtworkIdSet)
+            return FindMemberRs(
                 memberId = member?.id,
                 nickname = member?.nickname,
                 picture = member?.picture,
-                email = member?.email,
                 artworks = artworks
             )
         }
 
-        private fun getArtworks(artworks: List<Artwork>?, myBookmarkedArtworkIdSet: Set<Long?>): List<FindArtworkRs>? {
-            return artworks?.map { artwork ->
+        private fun getArtworks(member: Member?, myBookmarkedArtworkIdSet: Set<Long?>): List<FindArtworkRs> {
+            return member?.artworks?.map { artwork ->
                 val bookmarkYn = getBookmarkYn(artwork, myBookmarkedArtworkIdSet)
                 FindArtworkRs.create(artwork, bookmarkYn)
-            }?.reversed()?.toList()
+            }?.reversed() ?: emptyList()
         }
 
         private fun getBookmarkYn(artwork: Artwork, myBookmarkedArtworkIdSet: Set<Long?>): Boolean {
