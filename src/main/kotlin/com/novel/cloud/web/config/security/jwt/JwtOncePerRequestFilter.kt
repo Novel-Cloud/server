@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse
 @RequiredArgsConstructor
 class JwtOncePerRequestFilter(
     private val jwtProvider: JwtProvider,
-    private val jwtSecretProperty: JwtSecretProperty,
+    jwtSecretProperty: JwtSecretProperty,
 ) : OncePerRequestFilter() {
 
     val HEADER = jwtSecretProperty.header
@@ -50,7 +50,7 @@ class JwtOncePerRequestFilter(
 
     private fun authenticate(token: String?) {
         token?.let {
-            val auth = jwtProvider.authenticate(it)
+            val auth = jwtProvider.getAuthentication(it)
             SecurityContextHolder.getContext().authentication = auth
         }
     }
