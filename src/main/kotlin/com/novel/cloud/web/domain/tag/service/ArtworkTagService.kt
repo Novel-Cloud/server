@@ -16,7 +16,7 @@ class ArtworkTagService(
     /**
      * 태그 생성
      */
-    fun createTags(member: Member, tags: Set<String>): Set<Tag> {
+    fun createTags(member: Member, tags: List<String>): List<Tag> {
         return tags.map { content ->
             // 없으면 태그 생성
             val tag = findArtworkTagService.findByContentOrElseNull(content) ?: Tag(
@@ -26,7 +26,7 @@ class ArtworkTagService(
             artworkTagRepository.save(tag)
             tag.updateUsageCount()
             tag
-        }.toSet()
+        }.toList()
     }
 
 }

@@ -56,7 +56,7 @@ data class FindArtworkDetailRs (
             return artwork.bookmarks.size
         }
 
-        private fun getTags(tags: Set<Tag>): List<TagDto> {
+        private fun getTags(tags: List<Tag>): List<TagDto> {
             return tags.map {tag ->
                 TagDto.create(tag)
             }.toList()

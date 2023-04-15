@@ -31,7 +31,7 @@ class ArtworkService(
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
 
         // [1] 태그 중복 제거 후 저장
-        val tagContents = rq.tags.toSet()
+        val tagContents = rq.tags.distinct()
         val tags = artworkTagService.createTags(member, tagContents)
 
         val artwork = Artwork(

@@ -25,7 +25,7 @@ class Artwork(
     content: String,
     writer: Member,
     artworkType: ArtworkType,
-    tags: Set<Tag>,
+    tags: List<Tag>,
 ) : BaseEntity() {
 
     @Column(nullable = false)
@@ -55,8 +55,8 @@ class Artwork(
         joinColumns = [JoinColumn(name = "artwork_id")],
         inverseJoinColumns = [JoinColumn(name = "tag_id")],
     )
-    protected val mutableTags: MutableSet<Tag> = tags.toMutableSet()
-    val tags: Set<Tag> get() = mutableTags.toSet()
+    protected val mutableTags: MutableList<Tag> = tags.toMutableList()
+    val tags: List<Tag> get() = mutableTags.toList()
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -78,10 +78,6 @@ class Artwork(
 
     init {
         writer.writeArtwork(this)
-    }
-
-    fun addTag(tag: Tag) {
-        mutableTags.add(tag)
     }
 
     fun updateThumbnail(thumbnail: String) {
