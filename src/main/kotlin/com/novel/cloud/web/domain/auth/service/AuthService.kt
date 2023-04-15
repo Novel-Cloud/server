@@ -1,24 +1,31 @@
 package com.novel.cloud.web.domain.auth.service
 
-import com.novel.cloud.db.entity.member.Member
-import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.config.security.jwt.JwtTokenFactory
-import com.novel.cloud.web.domain.dto.JwtTokenDto
+import com.novel.cloud.web.domain.auth.controller.rq.RefreshAccessTokenRq
+import com.novel.cloud.web.domain.auth.controller.rs.AccessTokenRs
+import com.novel.cloud.web.domain.auth.repository.RefreshTokenRepository
 import com.novel.cloud.web.domain.member.service.FindMemberService
-import net.bytebuddy.asm.MemberSubstitution
+import com.novel.cloud.web.exception.NotFoundMemberException
+import com.novel.cloud.web.exception.NotFoundRefreshTokenException
 import org.springframework.stereotype.Service
+
 
 @Service
 class AuthService(
     private val findMemberService: FindMemberService,
-    private val jwtTokenFactory: JwtTokenFactory
+    private val jwtTokenFactory: JwtTokenFactory,
+    private val refreshTokenRepository: RefreshTokenRepository,
 ) {
 
-    fun refreshToken(memberContext: MemberContext?): JwtTokenDto? {
-        val member = memberContext?.let {
-            findMemberService.findLoginMember(it)
-        } ?: return null
-        return jwtTokenFactory.generateJwtToken(member);
+    /**
+     * 토큰 재발급
+     */
+    fun refreshAccessToken(rq: RefreshAccessTokenRq): AccessTokenRs {
+        val refreshToken = refreshTokenRepository.findByRefreshToken(rq.refreshToken)
+            ?: throw NotFoundRefreshTokenException()
+        val member = findMemberService.findById(refreshToken.memberId)
+            ?: throw NotFoundMemberException()
+        return jwtTokenFactory.generateAccessToken(member)
     }
 
 }

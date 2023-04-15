@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse
 
 
 @Component
-class CustomAccessDeniedHandler: AccessDeniedHandler {
+class CustomAccessDeniedHandler : AccessDeniedHandler {
+
     @Throws(IOException::class)
     override fun handle(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        accessDeniedException: AccessDeniedException
+        accessDeniedException: AccessDeniedException,
     ) {}
 
 }

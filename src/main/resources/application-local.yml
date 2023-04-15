@@ -24,7 +24,7 @@ spring:
     jwt:
       header: ${novel.spring.jwt.header}
       secret: ${novel.spring.jwt.secret}
-      token-validity-in-seconds: ${novel.spring.jwt.token-validity-in-seconds}
+      access-token-validity-in-seconds: ${novel.spring.jwt.access-token-validity-in-seconds}
       refresh-token-validity-in-seconds: ${novel.spring.jwt.refresh-token-validity-in-seconds}
 
 #  profiles:

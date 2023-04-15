@@ -2,15 +2,16 @@ package com.novel.cloud.web.config.security.detail
 import com.novel.cloud.db.entity.member.Member
 
 data class OAuthAttributes(
-    val attributes: Map<String, Any>,
+    val attributes: Map<*, *>,
     val name: String,
     val email: String,
     val picture: String
 ) {
     companion object {
+
         fun create(
             registrationId: String,
-            attributes: Map<String, Any>
+            attributes: Map<*, *>
         ): OAuthAttributes {
             return OAuthAttributes(
                 name = attributes["name"] as String,

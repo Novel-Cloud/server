@@ -2,7 +2,7 @@ package com.novel.cloud.web.domain.tag.controller.rs
 
 import com.novel.cloud.db.entity.tag.Tag
 
-data class FindPopularTagRs (
+data class FindPopularTagRs(
     val tagId: Long? = null,
     val content: String? = null,
     val usageCount: Long? = null,

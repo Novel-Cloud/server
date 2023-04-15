@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "이미지")
 @RestController
 class FileController(
-    private val fileService: FileService
+    private val fileService: FileService,
 ) {
 
     @Operation(summary = "작품 이미지 보기")

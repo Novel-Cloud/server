@@ -20,9 +20,12 @@ class CommentService(
     private val findMemberService: FindMemberService,
     private val findArtworkService: FindArtworkService,
     private val findCommentService: FindCommentService,
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
 ) {
 
+    /**
+     * 댓글 생성
+     */
     fun createComment(memberContext: MemberContext, rq: CreateCommentRq) {
         val artworkId: Long = rq.artworkId
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
@@ -44,10 +47,9 @@ class CommentService(
     }
 
     private fun getCommentParent(parentId: Long?): Comment? {
-        parentId?.let {
-            return findCommentService.findByIdOrElseThrow(parentId)
+        return parentId?.let {
+            findCommentService.findByIdOrElseThrow(parentId)
         }
-        return null
     }
 
     private fun validationCheck(parent: Comment?, artworkId: Long) {
@@ -60,6 +62,9 @@ class CommentService(
         }
     }
 
+    /**
+     * 댓글 삭제
+     */
     fun deleteComment(memberContext: MemberContext, rq: DeleteCommentRq) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val comment = findCommentService.findByIdOrElseThrow(rq.commentId)
@@ -68,14 +73,9 @@ class CommentService(
         comment.updateDeleted(true)
     }
 
-    private fun commentPermissionCheck(member: Member, comment: Comment) {
-        val writerId: Long? = comment.writer.id
-        val memberId: Long? = member.id
-        if (writerId != memberId) {
-            throw DoNotHavePermissionToDeleteOrUpdateCommentException()
-        }
-    }
-
+    /**
+     * 댓글 수정
+     */
     fun updateComment(memberContext: MemberContext, rq: UpdateCommentRq) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val comment = findCommentService.findByIdOrElseThrow(rq.commentId)
@@ -83,6 +83,14 @@ class CommentService(
 
         commentPermissionCheck(member, comment)
         comment.updateContent(content)
+    }
+
+    private fun commentPermissionCheck(member: Member, comment: Comment) {
+        val writerId: Long? = comment.writer.id
+        val memberId: Long? = member.id
+        if (writerId != memberId) {
+            throw DoNotHavePermissionToDeleteOrUpdateCommentException()
+        }
     }
 
 }

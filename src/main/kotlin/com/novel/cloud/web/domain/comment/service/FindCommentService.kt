@@ -17,14 +17,17 @@ import org.springframework.transaction.annotation.Transactional
 class FindCommentService(
     private val commentRepository: CommentRepository,
     private val findMemberService: FindMemberService,
-    private val findArtworkService: FindArtworkService
+    private val findArtworkService: FindArtworkService,
 ) {
 
     fun findByIdOrElseThrow(parentId: Long): Comment {
         return commentRepository.findById(parentId)
-            .orElseThrow{ NotFoundCommentException() }
+            .orElseThrow { NotFoundCommentException() }
     }
 
+    /**
+     * 대댓글까지 조회
+     */
     fun findCommentByArtworkId(memberContext: MemberContext?, artworkId: Long): ListResponse<FindCommentRs> {
         val member = memberContext?.let {
             findMemberService.findLoginMemberOrElseThrow(memberContext)
@@ -43,7 +46,6 @@ class FindCommentService(
         return ListResponse(
             list = findCommentRsList
         )
-
 
     }
 

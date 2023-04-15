@@ -18,7 +18,7 @@ object ApiPath {
 
     const val LOGIN_OAUTH2 = "/api/oauth"
 
-    const val REFRESH_TOKEN = "/api/oauth/token"
+    const val REFRESH_TOKEN = "/api/oauth/refresh"
 
     // 작품
     const val ARTWORK = "/api/artwork"
@@ -58,13 +58,11 @@ object ApiPath {
     const val TOGGLE_LIKE = "/api/like"
 
     // 검색
-
     const val SEARCH = "/api/search"
 
     const val SEARCH_TAG = "/api/search/tag"
 
     // 태그
-
     const val TAG = "/api/tag"
 
 

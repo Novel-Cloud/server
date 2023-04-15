@@ -10,15 +10,18 @@ import org.springframework.stereotype.Component
 
 @Component
 class JwtProvider(
-    private val jwtTokenFactory: JwtTokenFactory
+    private val jwtTokenFactory: JwtTokenFactory,
 ) {
+
     @Throws(AuthenticationException::class)
-    fun authenticate(token: String): Authentication {
+    fun getAuthentication(token: String): Authentication {
         val claims = jwtTokenFactory.parseClaims(token)
-        val email = claims.get(MEMBER_EMAIL, String::class.java)
-        // TODO::일단 보류 나중에 다른 OAuth 서비스 추가되면 사용
+        val memberEmail = claims.get(MEMBER_EMAIL, String::class.java)
+
+        // 다른 OAuth 서비스 추가되면 사용
         // val registrationId: String = claims.get(REGISTRATION_ID, String::class.java)
-        val memberContext = MemberContext.create(email)
+
+        val memberContext = MemberContext.create(memberEmail)
         return UsernamePasswordAuthenticationToken(memberContext, null, null)
     }
 

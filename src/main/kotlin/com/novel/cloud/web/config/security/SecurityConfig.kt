@@ -2,7 +2,6 @@ package com.novel.cloud.web.config.security
 
 import com.novel.cloud.web.config.security.jwt.JwtOncePerRequestFilter
 import com.novel.cloud.web.path.ApiPath
-import com.novel.cloud.web.security.CustomOauth2SuccessHandler
 import com.novel.cloud.web.security.CustomOauth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,7 +19,6 @@ class SecurityConfig(
     private val jwtOncePerRequestFilter: JwtOncePerRequestFilter,
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
     private val customAccessDeniedHandler: CustomAccessDeniedHandler,
-    private val customOauth2SuccessHandler: CustomOauth2SuccessHandler,
     private val customOauth2UserService: CustomOauth2UserService
 ) {
 
@@ -39,6 +37,7 @@ class SecurityConfig(
             antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
             antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
             antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
+            antMatchers(ApiPath.REFRESH_TOKEN).permitAll()
             antMatchers(ApiPath.VIEW_ARTWORK).permitAll() // 조회
             antMatchers(ApiPath.ARTWORK_DETAIL).permitAll()
             antMatchers(ApiPath.TAG).permitAll()
@@ -53,7 +52,6 @@ class SecurityConfig(
             .authenticationEntryPoint(customAuthenticationEntryPoint)
             .accessDeniedHandler(customAccessDeniedHandler)
         oauth2Login().apply {
-            successHandler(customOauth2SuccessHandler)
             userInfoEndpoint().userService(customOauth2UserService)
         }
         return build()

@@ -1,6 +1,8 @@
 package com.novel.cloud.web.domain.dto
 
 data class JwtTokenDto(
-    val token: String,
-    val validity: String,
+    val accessToken: String,
+    val refreshToken: String,
+    val accessTokenValidity: String,
+    val refreshTokenValidity: String
 )
