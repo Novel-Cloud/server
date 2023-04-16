@@ -80,7 +80,7 @@ class FindArtworkServiceTest {
             content = "콘텐스",
             writer = member,
             artworkType = ArtworkType.NOVEL,
-            tags = setOf<Tag>(Tag("tag1", member))
+            tags = listOf<Tag>(Tag("tag1", member))
         )
 
         val bookmark = Bookmark(
