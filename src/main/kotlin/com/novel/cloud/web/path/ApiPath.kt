@@ -38,8 +38,6 @@ object ApiPath {
 
     const val FILE_UPLOAD = "/api/file/upload"
 
-    const val FILE_SECURITY = "/api/file/**"
-
     const val VIEW_ARTWORK_IMG = "/api/file/artwork/{fileUidName}"
 
     const val VIEW_PROFILE_IMG = "/api/file/profile/{fileUidName}"
