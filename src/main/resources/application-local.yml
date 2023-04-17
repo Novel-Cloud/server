@@ -1,3 +1,18 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: ${novel.cloud.aws.credentials.accessKey}
+      secretKey: ${novel.cloud.aws.credentials.secretKey}
+    s3:
+      bucket: ${novel.cloud.aws.s3.bucket}
+      dir: ${novel.cloud.aws.s3.prod}
+    region:
+      static:
+        ap-northeast-2
+    stack:
+      auto:
+        false
+
 spring:
   config:
     activate:
@@ -37,3 +52,10 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
