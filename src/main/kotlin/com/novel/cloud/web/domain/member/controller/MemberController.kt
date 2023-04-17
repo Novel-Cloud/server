@@ -6,6 +6,7 @@ import com.novel.cloud.web.domain.member.controller.rs.FindMemberRs
 import com.novel.cloud.web.domain.member.service.FindMemberService
 import com.novel.cloud.web.domain.member.service.MemberService
 import com.novel.cloud.web.path.ApiPath
+import com.novel.cloud.web.utils.FileValidateUtils
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -55,6 +56,7 @@ class MemberController(
         @AuthenticationPrincipal memberContext: MemberContext,
         @RequestPart(value = "profile") profile: MultipartFile,
     ) {
+        FileValidateUtils.supportedFileValidationCheck(profile)
         return memberService.updateMemberPicture(memberContext, profile)
     }
 

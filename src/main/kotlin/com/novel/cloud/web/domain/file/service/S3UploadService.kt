@@ -24,6 +24,9 @@ class S3UploadService(
     @Value("\${cloud.aws.s3.dir}")
     lateinit var dir: String
 
+    /**
+     * s3 업로드
+     */
     @Throws(IOException::class)
     fun upload(file: MultipartFile): String {
         val fileName = UUID.randomUUID().toString() + "-" + file.originalFilename
