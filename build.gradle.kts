@@ -77,6 +77,9 @@ dependencies {
 	// spring with redis
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	// aws
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 }
 
 tasks.withType<Test> {
