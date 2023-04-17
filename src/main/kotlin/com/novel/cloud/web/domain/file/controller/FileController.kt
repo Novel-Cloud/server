@@ -1,31 +1,24 @@
 package com.novel.cloud.web.domain.file.controller
 
-import com.novel.cloud.web.domain.file.service.FileService
+import com.novel.cloud.web.domain.file.service.S3UploadService
 import com.novel.cloud.web.path.ApiPath
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.core.io.ByteArrayResource
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @Tag(name = "이미지")
 @RestController
 class FileController(
-    private val fileService: FileService,
+    private val s3UploadService: S3UploadService
 ) {
 
-    @Operation(summary = "작품 이미지 보기")
-    @GetMapping(ApiPath.VIEW_ARTWORK_IMG)
-    fun findArtworkImage(@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
-        return fileService.findArtworkImage(fileUidName)
-    }
-
-    @Operation(summary = "프로필 이미지 보기")
-    @GetMapping(ApiPath.VIEW_PROFILE_IMG)
-    fun findProfileImage(@PathVariable fileUidName: String): ResponseEntity<ByteArrayResource> {
-        return fileService.findProfileImage(fileUidName)
+    @Operation(summary = "에디터 이미지 업로드")
+    @PostMapping(ApiPath.FILE_UPLOAD)
+    fun editorImageUpload(@RequestParam("image") file: MultipartFile): String {
+        return s3UploadService.upload(file)
     }
 
 }
