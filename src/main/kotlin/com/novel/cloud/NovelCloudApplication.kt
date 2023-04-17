@@ -9,7 +9,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 @EnableConfigurationProperties(
     JwtSecretProperty::class,
-    GoogleOAuthConfigProperties::class
+    GoogleOAuthConfigProperties::class,
 )
 class NovelCloudApplication
 
