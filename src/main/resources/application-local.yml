@@ -5,7 +5,7 @@ cloud:
       secretKey: ${novel.cloud.aws.credentials.secretKey}
     s3:
       bucket: ${novel.cloud.aws.s3.bucket}
-      dir: ${novel.cloud.aws.s3.prod}
+      dir: ${novel.cloud.aws.s3.dir}
     region:
       static:
         ap-northeast-2
