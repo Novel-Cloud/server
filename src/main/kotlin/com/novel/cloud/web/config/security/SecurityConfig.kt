@@ -44,7 +44,6 @@ class SecurityConfig(
             antMatchers(ApiPath.VIEW_COMMENT).permitAll()
             antMatchers(ApiPath.MEMBER_OTHER).permitAll()
             antMatchers(ApiPath.SEARCH + "/**").permitAll() // 검색
-            antMatchers(ApiPath.FILE_SECURITY).permitAll() // 파일
             anyRequest().authenticated()
         }
         addFilterBefore(jwtOncePerRequestFilter, UsernamePasswordAuthenticationFilter::class.java)

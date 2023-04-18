@@ -36,7 +36,7 @@ object ApiPath {
     // 파일
     const val FILE = "/api/file"
 
-    const val FILE_SECURITY = "/api/file/**"
+    const val FILE_UPLOAD = "/api/file/upload"
 
     const val VIEW_ARTWORK_IMG = "/api/file/artwork/{fileUidName}"
 

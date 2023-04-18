@@ -64,7 +64,7 @@ class BookmarkServiceTest {
             content = "내용",
             writer = member,
             artworkType = ArtworkType.NOVEL,
-            tags = setOf()
+            tags = listOf()
         )
 
         val bookmark = Bookmark(
@@ -97,7 +97,7 @@ class BookmarkServiceTest {
             content = "내용",
             writer = member,
             artworkType = ArtworkType.NOVEL,
-            tags = setOf()
+            tags = listOf()
         )
 
         val bookmark = Bookmark(
