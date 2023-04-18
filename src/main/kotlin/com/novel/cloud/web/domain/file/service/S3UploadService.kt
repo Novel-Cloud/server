@@ -24,6 +24,9 @@ class S3UploadService(
     @Value("\${cloud.aws.s3.dir}")
     lateinit var dir: String
 
+    @Value("\${novel.cloud.aws.cloudFront.distributionDomain}")
+    lateinit var cloudfrontDomain: String
+
     /**
      * s3 업로드
      */
@@ -42,7 +45,14 @@ class S3UploadService(
         s3Client.putObject(PutObjectRequest(bucket, dir + fileName, byteArrayIs, objMeta)
             .withCannedAcl(CannedAccessControlList.PublicRead))
 
-        return s3Client.getUrl(bucket, dir + fileName).toString()
+        val path = s3Client.getUrl(bucket, dir + fileName).path
+        return urlToCloudFrontDomain(path)
     }
+
+    fun urlToCloudFrontDomain(path: String): String {
+        return cloudfrontDomain + path
+    }
+
+
 
 }

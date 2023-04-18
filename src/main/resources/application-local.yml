@@ -6,6 +6,8 @@ cloud:
     s3:
       bucket: ${novel.cloud.aws.s3.bucket}
       dir: ${novel.cloud.aws.s3.dir}
+    cloudFront:
+      distributionDomain: ${novel.cloud.aws.cloudFront.distributionDomain}
     region:
       static:
         ap-northeast-2

@@ -37,6 +37,7 @@ class MemberService(
     fun updateMemberPicture(memberContext: MemberContext, profile: MultipartFile) {
         val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
         val uploadedFileUrl = s3UploadService.upload(profile)
+
         member.updatePicture(uploadedFileUrl)
     }
 
