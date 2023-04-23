@@ -29,7 +29,7 @@ object ApiPath {
 
     const val VIEW_ARTWORK = "/api/artwork/view"
 
-    const val VIEW_UPDATE = "/api/artwork/view/update"
+    const val ARTWORK_UPDATE = "/api/artwork/update"
 
     const val ARTWORK_DETAIL = "/api/artwork/detail/{artworkId}"
 

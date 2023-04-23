@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.artwork.controller
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkViewRq
 import com.novel.cloud.web.domain.artwork.service.ArtworkService
 import com.novel.cloud.web.domain.file.service.FileService
@@ -45,6 +46,19 @@ class ArtworkController(
     ) {
         FileValidateUtils.supportedFileValidationCheck(files)
         val artwork = artworkService.submitArtwork(memberContext, rq)
+        fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
+    }
+
+    @Operation(summary = "작품 수정")
+    @PostMapping(ApiPath.ARTWORK_UPDATE)
+    fun updateArtwork(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestPart(value = "rq") rq: UpdateArtworkRq,
+        @RequestPart(value = "thumbnail") thumbnail: MultipartFile,
+        @RequestPart(value = "files") files: List<MultipartFile>,
+    ) {
+        FileValidateUtils.supportedFileValidationCheck(files)
+        val artwork = artworkService.updateArtwork(memberContext, rq)
         fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
     }
 
