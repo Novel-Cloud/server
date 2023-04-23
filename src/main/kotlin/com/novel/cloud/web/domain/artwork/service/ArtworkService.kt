@@ -5,6 +5,7 @@ import com.novel.cloud.db.entity.artwork.TemporaryArtwork
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkViewRq
 import com.novel.cloud.web.domain.artwork.repository.ArtworkRepository
 import com.novel.cloud.web.domain.artwork.repository.TemporaryArtworkRepository
@@ -46,6 +47,30 @@ class ArtworkService(
         artworkRepository.save(artwork)
         return artwork
     }
+
+    /**
+     * 작품 수정
+     */
+    fun updateArtwork(memberContext: MemberContext, rq: UpdateArtworkRq): Artwork {
+        val member = findMemberService.findLoginMemberOrElseThrow(memberContext)
+        val artwork = findArtworkService.findByIdOrElseThrow(rq.artworkId)
+
+        val tagContents = rq.tags.distinct()
+        val beforeTags = artwork.tags
+
+        val tags = artworkTagService.createTags(member, tagContents)
+
+        artwork.update(
+            title = rq.title,
+            content = rq.content,
+            artworkType = rq.artworkType,
+            tags = tags
+        )
+
+        artworkTagService.removeTags(member, beforeTags)
+        return artwork
+    }
+
 
     /**
      * 작품 조회수 증가

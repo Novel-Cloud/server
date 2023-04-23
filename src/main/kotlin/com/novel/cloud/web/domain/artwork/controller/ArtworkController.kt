@@ -59,7 +59,7 @@ class ArtworkController(
     ) {
         FileValidateUtils.supportedFileValidationCheck(files)
         val artwork = artworkService.updateArtwork(memberContext, rq)
-        fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
+        fileService.updateArtworkImage(memberContext, artwork, thumbnail, files)
     }
 
     @Operation(summary = "조회수 증가")
