@@ -87,9 +87,15 @@ class FileService(
         thumbnail: MultipartFile,
         multipartFiles: List<MultipartFile>
     ) {
-        artwork.removeAttachFiles()
+        deleteArtworkImages(artwork.attachFiles)
         uploadThumbnail(artwork, thumbnail)
         uploadImageFiles(artwork, multipartFiles)
+    }
+
+    private fun deleteArtworkImages(attachFiles: List<AttachFile>) {
+        attachFiles.map { attachFile ->
+            fileRepository.delete(attachFile)
+        }
     }
 
 }

@@ -81,6 +81,14 @@ class Artwork(
         writer.writeArtwork(this)
     }
 
+    fun update(title: String, content: String, artworkType: ArtworkType, tags: List<Tag>) {
+        this.title = title
+        this.content = content
+        this.artworkType = artworkType
+        this.mutableTags.removeAll(this.tags)
+        this.mutableTags.addAll(tags)
+    }
+
     fun updateThumbnail(thumbnail: String) {
         this.thumbnail = thumbnail
     }
@@ -99,14 +107,6 @@ class Artwork(
 
     fun addBookmark(bookmark: Bookmark) {
         mutableBookmarks.add(bookmark)
-    }
-
-    fun update(title: String, content: String, artworkType: ArtworkType, tags: List<Tag>) {
-        this.title = title
-        this.content = content
-        this.artworkType = artworkType
-        this.mutableTags.removeAll(this.tags)
-        this.mutableTags.addAll(tags)
     }
 
     fun removeAttachFiles() {
