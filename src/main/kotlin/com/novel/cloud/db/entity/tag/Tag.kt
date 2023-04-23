@@ -41,8 +41,12 @@ class Tag(
     var writer: Member = writer
         protected set
 
-    fun updateUsageCount() {
+    fun plusUsageCount() {
         usageCount++
+    }
+
+    fun minusUsageCount() {
+        usageCount--
     }
 
 }
