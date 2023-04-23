@@ -43,6 +43,7 @@ class Artwork(
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var artworkType: ArtworkType = artworkType
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
@@ -98,6 +99,18 @@ class Artwork(
 
     fun addBookmark(bookmark: Bookmark) {
         mutableBookmarks.add(bookmark)
+    }
+
+    fun update(title: String, content: String, artworkType: ArtworkType, tags: List<Tag>) {
+        this.title = title
+        this.content = content
+        this.artworkType = artworkType
+        this.mutableTags.removeAll(this.tags)
+        this.mutableTags.addAll(tags)
+    }
+
+    fun removeAttachFiles() {
+        mutableAttachFiles.removeAll(attachFiles)
     }
 
 }

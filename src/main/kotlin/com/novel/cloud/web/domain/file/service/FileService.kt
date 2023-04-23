@@ -78,4 +78,18 @@ class FileService(
         }
     }
 
+    /**
+     * 이미지 업데이트
+     */
+    fun updateArtworkImage(
+        memberContext: MemberContext,
+        artwork: Artwork,
+        thumbnail: MultipartFile,
+        multipartFiles: List<MultipartFile>
+    ) {
+        artwork.removeAttachFiles()
+        uploadThumbnail(artwork, thumbnail)
+        uploadImageFiles(artwork, multipartFiles)
+    }
+
 }
