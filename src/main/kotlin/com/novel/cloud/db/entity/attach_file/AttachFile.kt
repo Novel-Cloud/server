@@ -21,15 +21,15 @@ class AttachFile (
     attachFileType: AttachFileType
 ): BaseEntity() {
 
-    @Column(length = 200, nullable = false)
+    @Column(length = 400, nullable = false)
     var fileName: String = fileName
         protected set
 
-    @Column(length = 200, nullable = false)
+    @Column(length = 1000, nullable = false)
     var fileUidName: String = fileUidName
         protected set
 
-    @Column(length = 200, nullable = false)
+    @Column(length = 1000, nullable = false)
     var filePath: String = filePath
         protected set
 
