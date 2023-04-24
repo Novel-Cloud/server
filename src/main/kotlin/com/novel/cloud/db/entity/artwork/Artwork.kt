@@ -59,7 +59,7 @@ class Artwork(
     protected val mutableTags: MutableList<Tag> = tags.toMutableList()
     val tags: List<Tag> get() = mutableTags.toList()
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableComments: MutableList<Comment> = mutableListOf()
     val comments: List<Comment> get() = mutableComments.toList()
@@ -67,12 +67,12 @@ class Artwork(
     @Column(length = 200, nullable = true)
     var thumbnail: String? = null
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableAttachFiles: MutableList<AttachFile> = mutableListOf()
     val attachFiles: List<AttachFile> get() = mutableAttachFiles.toList()
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableBookmarks: MutableList<Bookmark> = mutableListOf()
     val bookmarks: List<Bookmark> get() = mutableBookmarks.toList()
@@ -107,10 +107,6 @@ class Artwork(
 
     fun addBookmark(bookmark: Bookmark) {
         mutableBookmarks.add(bookmark)
-    }
-
-    fun removeAttachFiles() {
-        mutableAttachFiles.removeAll(attachFiles)
     }
 
 }
