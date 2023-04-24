@@ -44,12 +44,17 @@ class ArtworkController(
     fun submitArtwork(
         @AuthenticationPrincipal memberContext: MemberContext,
         @Validated @RequestPart(value = "rq") rq: CreateArtworkRq,
-        @RequestPart(value = "thumbnail") thumbnail: MultipartFile,
-        @RequestPart(value = "files") files: List<MultipartFile>,
+        @RequestPart(value = "thumbnail", required = false) thumbnail: MultipartFile?,
+        @RequestPart(value = "files", required = false) files: List<MultipartFile>?,
     ) {
-        FileValidateUtils.imageValidationCheck(files)
         val artwork = artworkService.submitArtwork(memberContext, rq)
-        fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
+        // TODO::refactoring
+        thumbnail?.let {
+            files?.let {
+                FileValidateUtils.imageValidationCheck(files)
+                fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
+            }
+        }
     }
 
     @Operation(summary = "작품 수정")
