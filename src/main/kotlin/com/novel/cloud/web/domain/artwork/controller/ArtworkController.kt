@@ -3,6 +3,7 @@ package com.novel.cloud.web.domain.artwork.controller
 import com.novel.cloud.web.config.security.context.MemberContext
 import com.novel.cloud.web.domain.artwork.controller.rq.CreateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.AutoSaveTemporaryArtworkRq
+import com.novel.cloud.web.domain.artwork.controller.rq.DeleteArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkRq
 import com.novel.cloud.web.domain.artwork.controller.rq.UpdateArtworkViewRq
 import com.novel.cloud.web.domain.artwork.service.ArtworkService
@@ -13,7 +14,9 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
@@ -50,7 +53,7 @@ class ArtworkController(
     }
 
     @Operation(summary = "작품 수정")
-    @PostMapping(ApiPath.ARTWORK_UPDATE)
+    @PutMapping(ApiPath.ARTWORK_UPDATE)
     fun updateArtwork(
         @AuthenticationPrincipal memberContext: MemberContext,
         @Validated @RequestPart(value = "rq") rq: UpdateArtworkRq,
@@ -62,8 +65,17 @@ class ArtworkController(
         fileService.updateArtworkImage(memberContext, artwork, thumbnail, files)
     }
 
+    @Operation(summary = "작품 삭제")
+    @DeleteMapping(ApiPath.ARTWORK_DELETE)
+    fun deleteArtwork(
+        @AuthenticationPrincipal memberContext: MemberContext,
+        @Validated @RequestBody rq: DeleteArtworkRq
+    ) {
+        artworkService.deleteArtwork(memberContext, rq)
+    }
+
     @Operation(summary = "조회수 증가")
-    @PostMapping(ApiPath.VIEW_ARTWORK)
+    @PutMapping(ApiPath.VIEW_ARTWORK)
     fun updateArtworkView(@Validated @RequestBody rq: UpdateArtworkViewRq) {
         artworkService.updateArtworkView(rq)
     }
