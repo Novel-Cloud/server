@@ -32,7 +32,7 @@ class S3UploadService(
      */
     @Throws(IOException::class)
     fun upload(file: MultipartFile): String {
-        val fileName = UUID.randomUUID().toString() + "-" + file.originalFilename
+        val fileName = UUID.randomUUID().toString()
         val objMeta = ObjectMetadata()
 
         val bytes = IOUtils.toByteArray(file.inputStream)
@@ -42,8 +42,10 @@ class S3UploadService(
 
         val byteArrayIs = ByteArrayInputStream(bytes)
 
-        s3Client.putObject(PutObjectRequest(bucket, dir + fileName, byteArrayIs, objMeta)
-            .withCannedAcl(CannedAccessControlList.PublicRead))
+        s3Client.putObject(
+            PutObjectRequest(bucket, dir + fileName, byteArrayIs, objMeta)
+                .withCannedAcl(CannedAccessControlList.PublicRead)
+        )
 
         val path = s3Client.getUrl(bucket, dir + fileName).path
         return urlToCloudFrontDomain(path)
@@ -52,7 +54,6 @@ class S3UploadService(
     fun urlToCloudFrontDomain(path: String): String {
         return cloudfrontDomain + path
     }
-
 
 
 }
