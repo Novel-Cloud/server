@@ -30,11 +30,11 @@ class ArtworkTagService(
 
     fun removeTags(member: Member, beforeTags: List<Tag>) {
         beforeTags.map { tag ->
-            if (tag.usageCount > 1L) {
-                tag.minusUsageCount()
-            }
             if (tag.usageCount == 1L) {
                 artworkTagRepository.delete(tag)
+            }
+            if (tag.usageCount > 1L) {
+                tag.minusUsageCount()
             }
         }
     }
