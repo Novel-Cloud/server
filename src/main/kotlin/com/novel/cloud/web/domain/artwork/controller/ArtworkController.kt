@@ -47,7 +47,7 @@ class ArtworkController(
         @RequestPart(value = "thumbnail") thumbnail: MultipartFile,
         @RequestPart(value = "files") files: List<MultipartFile>,
     ) {
-        FileValidateUtils.supportedFileValidationCheck(files)
+        FileValidateUtils.imageValidationCheck(files)
         val artwork = artworkService.submitArtwork(memberContext, rq)
         fileService.uploadArtworkImage(memberContext, artwork, thumbnail, files)
     }
@@ -60,7 +60,7 @@ class ArtworkController(
         @RequestPart(value = "thumbnail") thumbnail: MultipartFile,
         @RequestPart(value = "files") files: List<MultipartFile>,
     ) {
-        FileValidateUtils.supportedFileValidationCheck(files)
+        FileValidateUtils.imageValidationCheck(files)
         val artwork = artworkService.updateArtwork(memberContext, rq)
         fileService.updateArtworkImage(memberContext, artwork, thumbnail, files)
     }

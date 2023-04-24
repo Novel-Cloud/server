@@ -21,7 +21,7 @@ class FileController(
     fun editorImageUpload(
         @RequestPart(value = "image") image: MultipartFile
     ): String {
-        FileValidateUtils.supportedFileValidationCheck(image)
+        FileValidateUtils.imageValidationCheck(image)
         return s3UploadService.upload(image)
     }
 
