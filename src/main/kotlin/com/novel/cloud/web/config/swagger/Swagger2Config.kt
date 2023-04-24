@@ -19,7 +19,7 @@ class Swagger2Config {
     fun publicApi(): GroupedOpenApi? {
         return GroupedOpenApi.builder()
             .group("v1-documentation")
-            .pathsToMatch("/api/**")
+            .pathsToMatch("/api/v1/**")
             .addOpenApiCustomiser(openApiCustomizer())
             .build()
     }

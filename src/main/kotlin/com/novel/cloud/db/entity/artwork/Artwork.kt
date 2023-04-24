@@ -43,6 +43,7 @@ class Artwork(
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var artworkType: ArtworkType = artworkType
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
@@ -58,7 +59,7 @@ class Artwork(
     protected val mutableTags: MutableList<Tag> = tags.toMutableList()
     val tags: List<Tag> get() = mutableTags.toList()
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableComments: MutableList<Comment> = mutableListOf()
     val comments: List<Comment> get() = mutableComments.toList()
@@ -66,18 +67,26 @@ class Artwork(
     @Column(length = 200, nullable = true)
     var thumbnail: String? = null
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableAttachFiles: MutableList<AttachFile> = mutableListOf()
     val attachFiles: List<AttachFile> get() = mutableAttachFiles.toList()
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     private val mutableBookmarks: MutableList<Bookmark> = mutableListOf()
     val bookmarks: List<Bookmark> get() = mutableBookmarks.toList()
 
     init {
         writer.writeArtwork(this)
+    }
+
+    fun update(title: String, content: String, artworkType: ArtworkType, tags: List<Tag>) {
+        this.title = title
+        this.content = content
+        this.artworkType = artworkType
+        this.mutableTags.removeAll(this.tags)
+        this.mutableTags.addAll(tags)
     }
 
     fun updateThumbnail(thumbnail: String) {

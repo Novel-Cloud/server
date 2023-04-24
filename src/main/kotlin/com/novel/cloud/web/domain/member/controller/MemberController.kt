@@ -56,7 +56,7 @@ class MemberController(
         @AuthenticationPrincipal memberContext: MemberContext,
         @RequestPart(value = "profile") profile: MultipartFile,
     ) {
-        FileValidateUtils.supportedFileValidationCheck(profile)
+        FileValidateUtils.profileImageValidationCheck(profile)
         return memberService.updateMemberPicture(memberContext, profile)
     }
 

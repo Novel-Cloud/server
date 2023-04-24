@@ -34,9 +34,9 @@ class SecurityConfig(
         }
         authorizeRequests().apply {
             antMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
-            antMatchers("/resources/**", "/").permitAll() // 에러 핸들러
-            antMatchers(ApiPath.ERROR_AUTH).permitAll() // 인증
-            antMatchers(ApiPath.LOGIN_OAUTH2).permitAll()
+            antMatchers("/resources/**", "/v1").permitAll()
+            antMatchers(ApiPath.ERROR_AUTH).permitAll() // 에러 핸들러
+            antMatchers(ApiPath.LOGIN_OAUTH2).permitAll() // 인증
             antMatchers(ApiPath.REFRESH_TOKEN).permitAll()
             antMatchers(ApiPath.VIEW_ARTWORK).permitAll() // 조회
             antMatchers(ApiPath.ARTWORK_DETAIL).permitAll()

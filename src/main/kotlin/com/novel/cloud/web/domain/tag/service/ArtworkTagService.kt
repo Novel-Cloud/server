@@ -18,15 +18,25 @@ class ArtworkTagService(
      */
     fun createTags(member: Member, tags: List<String>): List<Tag> {
         return tags.map { content ->
-            // 없으면 태그 생성
             val tag = findArtworkTagService.findByContentOrElseNull(content) ?: Tag(
                 content = content,
                 writer = member
             )
             artworkTagRepository.save(tag)
-            tag.updateUsageCount()
+            tag.plusUsageCount()
             tag
         }.toList()
+    }
+
+    fun removeTags(member: Member, beforeTags: List<Tag>) {
+        beforeTags.map { tag ->
+            if (tag.usageCount == 1L) {
+                artworkTagRepository.delete(tag)
+            }
+            if (tag.usageCount > 1L) {
+                tag.minusUsageCount()
+            }
+        }
     }
 
 }

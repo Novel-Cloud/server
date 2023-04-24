@@ -13,8 +13,8 @@ object DateUtils {
         return Date()
     }
 
-    fun addTime(date: Date, millisecond: Long): Date {
-        return Date(date.time + millisecond)
+    fun addTime(date: Date, second: Long): Date {
+        return Date(date.time + (second * 1000))
     }
 
     fun formattedNow(): String {
