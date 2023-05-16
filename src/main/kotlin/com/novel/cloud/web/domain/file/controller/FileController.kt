@@ -6,7 +6,7 @@ import com.novel.cloud.web.utils.FileValidateUtils
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
@@ -19,7 +19,7 @@ class FileController(
     @Operation(summary = "에디터 이미지 단일 업로드")
     @PostMapping(ApiPath.FILE_UPLOAD)
     fun editorImageUpload(
-        @RequestPart(value = "image") image: MultipartFile
+        @RequestParam(value = "image") image: MultipartFile
     ): String {
         FileValidateUtils.imageValidationCheck(image)
         return s3UploadService.upload(image)
