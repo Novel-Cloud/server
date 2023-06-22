@@ -44,16 +44,12 @@ spring:
       access-token-validity-in-seconds: ${novel.spring.jwt.access-token-validity-in-seconds}
       refresh-token-validity-in-seconds: ${novel.spring.jwt.refresh-token-validity-in-seconds}
 
-#  profiles:
-#    include: 'oauth'
+  #  profiles:
+  #    include: 'oauth'
 
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
 
 logging:
   level:
@@ -61,3 +57,9 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: ERROR
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: on
+      multiline: true
