@@ -14,9 +14,7 @@ object FileValidateUtils {
         if (multipartFile.size > 33554432) {
             throw FileException("이미지 파일의 크기가 32MB를 넘습니다.")
         }
-
-        val contentType = multipartFile.contentType
-        if (!isSupportedContentType(contentType)) {
+        if (!isSupportedContentType(multipartFile.contentType)) {
             throw FileException("PNG, JPG, GIF만 허용됩니다.")
         }
     }
@@ -44,8 +42,7 @@ object FileValidateUtils {
         if (profile.size > 5242880) {
             throw FileException("프로필 사진의 크기가 5MB를 넘습니다.")
         }
-        val contentType = profile.contentType
-        if (!isSupportedContentType(contentType)) {
+        if (!isSupportedContentType(profile.contentType)) {
             throw FileException("PNG, JPG, GIF만 허용됩니다.")
         }
     }
