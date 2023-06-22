@@ -80,6 +80,9 @@ dependencies {
 
 	// aws
 	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
+	// p6spy
+	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 }
 
 tasks.withType<Test> {
