@@ -13,8 +13,10 @@
 - Test: junit, mockk
 
 ## 서버 아키텍쳐
+<img width="1178" alt="image" src="https://github.com/Novel-Cloud/server/assets/45661217/c11680ff-c559-4bda-97e5-8cca005eeef0">
 
-추가예정
+## AWS 아키텍쳐
+<img width="577" alt="image" src="https://github.com/Novel-Cloud/server/assets/45661217/0b3f6758-79b1-4df2-8890-18c27771894c">
 
 ## 프로젝트 실행 방법
 ### MySQL 및 스키마 설정
