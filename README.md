@@ -33,3 +33,8 @@ Backend API Server (this repository).
 ## ERD
 
 ![image](https://user-images.githubusercontent.com/45661217/231745662-370ec0d7-c1aa-4f02-b475-2b699b8be8c0.png)
+
+
+## 추가
+추가로 프로젝트에 관한 상세한 정보는   
+[https://github.com/Novel-Cloud](https://github.com/Novel-Cloud)에 있습니다.
